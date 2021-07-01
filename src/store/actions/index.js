@@ -5,7 +5,7 @@ import {
   CREATE_NOTE,
   UPDATE_NOTE,
   DELETE_NOTE,
-} from './index.js';
+} from './types.js';
 
 export const fetchNotes = () => ({ type: FETCH_NOTES_INIT });
 
