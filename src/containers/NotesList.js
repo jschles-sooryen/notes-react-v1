@@ -10,8 +10,6 @@ const NotesList = () => {
     dispatch(fetchNotes());
   }, []);
 
-  console.log('notes test', notes);
-
   return (
     <div>Notes List</div>
   );

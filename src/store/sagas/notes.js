@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { put } from 'redux-saga/effects';
 import { fetchNotesSuccess } from '../actions';
 

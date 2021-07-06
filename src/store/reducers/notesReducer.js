@@ -1,4 +1,4 @@
-import { FETCH_NOTES_SUCCESS } from "../actions/types";
+import { FETCH_NOTES_SUCCESS } from '../actions/types';
 
 const initialState = [];
 
