@@ -9,6 +9,7 @@
       "react/jsx-filename-extension": "off",
       "react/prop-types": [1, { "ignore": ["classes", "children"] }],
       "react/jsx-uses-react": "off",
-      "react/react-in-jsx-scope": "off"
+      "react/react-in-jsx-scope": "off",
+      "no-console": "off"
    }
 }

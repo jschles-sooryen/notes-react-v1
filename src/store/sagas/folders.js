@@ -1,10 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 import { put } from 'redux-saga/effects';
-import { fetchFoldersSuccess } from '../actions';
+import { fetchFoldersSuccess, fetchFoldersFail } from '../actions';
+
+const domain = process.env.REACT_APP_API_SERVER;
 
 export function* fetchFoldersSaga() {
-  yield put(fetchFoldersSuccess({
-    id: 1,
-    title: 'Folder 1',
-  }));
+  try {
+    const response = yield fetch(`${domain}/api/folders`);
+    const data = yield response.json();
+    console.log('data', data);
+    yield put(fetchFoldersSuccess(data.data));
+  } catch (e) {
+    yield put(fetchFoldersFail());
+  }
 }

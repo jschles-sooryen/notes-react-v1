@@ -1,10 +1,12 @@
 // Create express app
 const express = require('express');
 const md5 = require('md5');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('./database.js');
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -36,20 +38,20 @@ app.get('/', (req, res) => {
 //   });
 // });
 
-// app.get('/api/users', (req, res, next) => {
-//   const sql = 'select * from user';
-//   const params = [];
-//   db.all(sql, params, (err, rows) => {
-//     if (err) {
-//       res.status(400).json({ error: err.message });
-//       return;
-//     }
-//     res.json({
-//       message: 'success',
-//       data: rows,
-//     });
-//   });
-// });
+app.get('/api/folders', (req, res) => {
+  const sql = 'select * from folders';
+  const params = [];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data: rows,
+    });
+  });
+});
 
 // app.post('/api/user/', (req, res, next) => {
 //   const errors = [];
