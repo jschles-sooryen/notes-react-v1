@@ -8,6 +8,7 @@ import {
   CREATE_NOTE,
   UPDATE_NOTE,
   DELETE_NOTE,
+  LOADING,
 } from './types';
 
 export const fetchFolders = () => ({ type: FETCH_FOLDERS_INIT });
@@ -27,3 +28,5 @@ export const createNote = (note) => ({ type: CREATE_NOTE, payload: note });
 export const updateNote = (note) => ({ type: UPDATE_NOTE, payload: note });
 
 export const deleteNote = (id) => ({ type: DELETE_NOTE, payload: id });
+
+export const loading = () => ({ type: LOADING });
