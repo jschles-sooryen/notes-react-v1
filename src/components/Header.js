@@ -3,7 +3,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
   root: {
-    margin: '0 auto',
     borderBottom: `1px solid ${theme.palette.primary.main}`,
   },
   flexContainer: {

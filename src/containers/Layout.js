@@ -1,13 +1,18 @@
 import withStyles from '@material-ui/core/styles/withStyles';
 import Header from '../components/Header';
 
-const styles = (theme) => ({
+const styles = () => ({
   root: {
     margin: '0 auto',
     maxWidth: 1440,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
   },
   contentRoot: {
-    padding: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%',
   },
 });
 
