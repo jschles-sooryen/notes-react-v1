@@ -1,5 +1,5 @@
 import withStyles from '@material-ui/core/styles/withStyles';
-import Header from './Header';
+import Header from '../components/Header';
 
 const styles = (theme) => ({
   root: {
