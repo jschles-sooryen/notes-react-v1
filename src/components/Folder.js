@@ -1,3 +1,4 @@
+import { IconButton } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { MoreHorizRounded } from '@material-ui/icons';
 
@@ -8,13 +9,17 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
     cursor: 'pointer',
     padding: theme.spacing(2),
-    minHeight: 60,
-    '& > svg': {
+    minHeight: 66,
+    '& > button': {
       display: 'none',
     },
-    '&:hover > svg': {
+    '&:hover > button': {
       display: 'block',
     },
+  },
+  more: {
+    border: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: '100%',
   },
 });
 
@@ -24,7 +29,9 @@ const Folder = (props) => {
   return (
     <div className={classes.root}>
       <div>{name}</div>
-      <MoreHorizRounded />
+      <IconButton size="small" aria-label="More">
+        <MoreHorizRounded />
+      </IconButton>
     </div>
   );
 };
