@@ -1,7 +1,7 @@
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core/styles';
 import Header from '../components/Header';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   root: {
     margin: '0 auto',
     maxWidth: 1440,
@@ -14,10 +14,11 @@ const styles = () => ({
     alignItems: 'center',
     height: '100%',
   },
-});
+}));
 
 const Layout = (props) => {
-  const { classes, children } = props;
+  const classes = useStyles();
+  const { children } = props;
   return (
     <div className={classes.root}>
       <Header />
@@ -28,4 +29,4 @@ const Layout = (props) => {
   );
 };
 
-export default withStyles(styles)(Layout);
+export default Layout;

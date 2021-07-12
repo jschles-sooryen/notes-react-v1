@@ -1,17 +1,17 @@
 import { CircularProgress } from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   root: {
     margin: '0 auto',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+}));
 
-const LoadingIndicator = (props) => {
-  const { classes } = props;
+const LoadingIndicator = () => {
+  const classes = useStyles();
   return (
     <div className={classes.root}>
       <CircularProgress />
@@ -19,4 +19,4 @@ const LoadingIndicator = (props) => {
   );
 };
 
-export default withStyles(styles)(LoadingIndicator);
+export default LoadingIndicator;

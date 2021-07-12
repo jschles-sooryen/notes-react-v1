@@ -1,8 +1,8 @@
 import { IconButton } from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded } from '@material-ui/icons';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -21,10 +21,11 @@ const styles = (theme) => ({
     border: `1px solid ${theme.palette.primary.main}`,
     borderRadius: '100%',
   },
-});
+}));
 
 const Folder = (props) => {
-  const { classes, name } = props;
+  const classes = useStyles();
+  const { name } = props;
 
   return (
     <div className={classes.root}>
@@ -36,4 +37,4 @@ const Folder = (props) => {
   );
 };
 
-export default withStyles(styles)(Folder);
+export default Folder;

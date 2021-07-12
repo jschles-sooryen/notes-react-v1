@@ -2,19 +2,23 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core/styles';
 import Folder from '../components/Folder';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { fetchFolders } from '../store/actions';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     borderRight: `1px solid ${theme.palette.primary.main}`,
     height: '100%',
     width: 200,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   new: {
     padding: theme.spacing(2),
+    cursor: 'pointer',
   },
   button: {
     '&:hover': {
@@ -27,10 +31,10 @@ const styles = (theme) => ({
     justifyContent: 'start',
     textTransform: 'none',
   },
-});
+}));
 
-const FoldersList = (props) => {
-  const { classes } = props;
+const FoldersList = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { folders, loading } = useSelector((state) => state);
 
@@ -63,4 +67,4 @@ const FoldersList = (props) => {
   );
 };
 
-export default withStyles(styles)(FoldersList);
+export default FoldersList;

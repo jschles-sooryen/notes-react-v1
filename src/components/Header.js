@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     borderBottom: `1px solid ${theme.palette.primary.main}`,
   },
@@ -24,10 +24,10 @@ const styles = (theme) => ({
       marginRight: theme.spacing(1),
     },
   },
-});
+}));
 
-const Header = (props) => {
-  const { classes } = props;
+const Header = () => {
+  const classes = useStyles();
   return (
     <div className={classes.root}>
       <div className={classes.flexContainer}>
@@ -42,4 +42,4 @@ const Header = (props) => {
   );
 };
 
-export default withStyles(styles)(Header);
+export default Header;
