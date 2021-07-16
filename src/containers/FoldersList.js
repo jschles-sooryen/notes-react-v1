@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Folder from '../components/Folder';
+import NewFolder from '../components/NewFolder';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { fetchFolders } from '../store/actions';
 
@@ -37,10 +38,15 @@ const FoldersList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { folders, loading } = useSelector((state) => state);
+  const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchFolders());
   }, []);
+
+  const handleOnCreate = (data) => {
+
+  };
 
   if (loading) {
     return <LoadingIndicator />;
@@ -49,7 +55,10 @@ const FoldersList = () => {
   return (
     <div className={classes.root}>
       <div>
-        {folders.map((folder) => <Folder id={folder.id} name={folder.name} />)}
+        {folders.map((folder) => <Folder key={folder.id} id={folder.id} name={folder.name} />)}
+        {isNewFolderOpen && (
+          <NewFolder onCreate={handleOnCreate} onCancel={() => setIsNewFolderOpen(false)} />
+        )}
       </div>
       <div className={classes.new}>
         <Button
@@ -59,6 +68,7 @@ const FoldersList = () => {
             text: classes.text,
           }}
           startIcon={<AddCircle />}
+          onClick={() => setIsNewFolderOpen(true)}
         >
           New Folder
         </Button>
