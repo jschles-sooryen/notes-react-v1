@@ -38,6 +38,7 @@ const FoldersList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { folders, loading } = useSelector((state) => state);
+  const foldersList = folders.folders;
   const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const FoldersList = () => {
   return (
     <div className={classes.root}>
       <div>
-        {folders.map((folder) => <Folder key={folder.id} id={folder.id} name={folder.name} />)}
+        {foldersList.map((folder) => <Folder key={folder.id} id={folder.id} name={folder.name} />)}
         {isNewFolderOpen && (
           <NewFolder onCreate={handleOnCreate} onCancel={() => setIsNewFolderOpen(false)} />
         )}
