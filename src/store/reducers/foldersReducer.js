@@ -1,4 +1,4 @@
-import { CREATE_FOLDER_SUCCESS, FETCH_FOLDERS_SUCCESS } from '../actions/types';
+import { CREATE_FOLDER_SUCCESS, FETCH_FOLDERS_SUCCESS, SET_SELECTED_FOLDER } from '../actions/types';
 
 const initialState = {
   folders: [],
@@ -14,6 +14,8 @@ function foldersReducer(state = initialState, action) {
         folders: state.concat(action.payload),
         selected: state.folders[state.folders.length - 1].id + 1,
       };
+    case SET_SELECTED_FOLDER:
+      return { ...state, selected: action.payload };
     default:
       return state;
   }

@@ -1,8 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded } from '@material-ui/icons';
+import { setSelectedFolder } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,11 +38,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Folder = ({ name, id }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const selectedFolder = useSelector((state) => state.folders.selected);
+
+  const handleOnClick = () => {
+    dispatch(setSelectedFolder(id));
+  };
+
   return (
     <div
       className={clsx(classes.root, { [classes.selected]: id === selectedFolder })}
-      onClick={() => {}}
+      onClick={handleOnClick}
     >
       <div className={classes.info}>
         <div>{name}</div>

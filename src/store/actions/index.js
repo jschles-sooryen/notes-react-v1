@@ -11,6 +11,7 @@ import {
   LOADING,
   CREATE_FOLDER_SUCCESS,
   CREATE_FOLDER_FAIL,
+  SET_SELECTED_FOLDER,
 } from './types';
 
 export const fetchFolders = () => ({ type: FETCH_FOLDERS_INIT });
@@ -18,6 +19,8 @@ export const fetchFolders = () => ({ type: FETCH_FOLDERS_INIT });
 export const fetchFoldersSuccess = (payload) => ({ type: FETCH_FOLDERS_SUCCESS, payload });
 
 export const fetchFoldersFail = () => ({ type: FETCH_FOLDERS_FAIL });
+
+export const setSelectedFolder = (id) => ({ type: SET_SELECTED_FOLDER, payload: id });
 
 export const createFolder = (name) => ({ type: CREATE_FOLDER_INIT, payload: name });
 
