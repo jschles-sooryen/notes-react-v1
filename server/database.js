@@ -29,7 +29,6 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
     `,
     (error) => {
       if (error) {
-        console.error('Tables already created ', error);
         // Table already created
       } else {
         // Table just created, creating some rows

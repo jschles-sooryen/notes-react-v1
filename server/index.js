@@ -53,37 +53,24 @@ app.get('/api/folders', (req, res) => {
   });
 });
 
-// app.post('/api/user/', (req, res, next) => {
-//   const errors = [];
-//   if (!req.body.password) {
-//     errors.push('No password specified');
-//   }
-//   if (!req.body.email) {
-//     errors.push('No email specified');
-//   }
-//   if (errors.length) {
-//     res.status(400).json({ error: errors.join(',') });
-//     return;
-//   }
-//   const data = {
-//     name: req.body.name,
-//     email: req.body.email,
-//     password: md5(req.body.password),
-//   };
-//   const sql = 'INSERT INTO user (name, email, password) VALUES (?,?,?)';
-//   const params = [data.name, data.email, data.password];
-//   db.run(sql, params, function (err, result) {
-//     if (err) {
-//       res.status(400).json({ error: err.message });
-//       return;
-//     }
-//     res.json({
-//       message: 'success',
-//       data,
-//       id: this.lastID,
-//     });
-//   });
-// });
+app.post('/api/folders', (req, res) => {
+  const data = {
+    name: req.body.name,
+  };
+  const sql = 'INSERT INTO folders (name) VALUES (?)';
+  const params = [data.name];
+  db.run(sql, params, (err, result) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data,
+      id: this.lastID,
+    });
+  });
+});
 
 // app.patch('/api/user/:id', (req, res, next) => {
 //   const data = {

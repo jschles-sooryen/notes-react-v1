@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Folder from '../components/Folder';
 import NewFolder from '../components/NewFolder';
 import LoadingIndicator from '../components/LoadingIndicator';
-import { fetchFolders } from '../store/actions';
+import { fetchFolders, createFolder } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +45,8 @@ const FoldersList = () => {
   }, []);
 
   const handleOnCreate = (data) => {
-
+    dispatch(createFolder(data));
+    setIsNewFolderOpen(false);
   };
 
   if (loading) {
