@@ -5,7 +5,7 @@ import { string, number } from 'prop-types';
 import { IconButton, Button, Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded, Edit, Delete } from '@material-ui/icons';
-import { setSelectedFolder } from '../store/actions';
+import { setSelectedFolder, deleteFolderInit } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    '& > div:first-child': {
+    '& > button:first-child': {
       marginBottom: theme.spacing(2),
     },
   },
@@ -81,6 +81,10 @@ const Folder = ({ name, id }) => {
 
   const handleIconClick = () => {
     setIsOptionsOpen(!isOptionsOpen);
+  };
+
+  const handleDeleteClick = () => {
+    dispatch(deleteFolderInit(id));
   };
 
   return (
@@ -121,6 +125,7 @@ const Folder = ({ name, id }) => {
               text: classes.text,
             }}
             startIcon={<Delete />}
+            onClick={handleDeleteClick}
           >
             Delete
           </Button>

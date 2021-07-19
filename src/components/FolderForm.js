@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewFolder = ({ onCreate, onCancel }) => {
+const FolderForm = ({ onCreate, onCancel }) => {
   const classes = useStyles();
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -55,9 +55,9 @@ const NewFolder = ({ onCreate, onCancel }) => {
   );
 };
 
-NewFolder.propTypes = {
-  onCreate: func.isRequired,
+FolderForm.propTypes = {
+  onCreate: func,
   onCancel: func.isRequired,
 };
 
-export default NewFolder;
+export default FolderForm;

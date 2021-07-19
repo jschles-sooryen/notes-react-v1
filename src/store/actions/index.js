@@ -4,7 +4,6 @@ import {
   FETCH_FOLDERS_FAIL,
   CREATE_FOLDER_INIT,
   UPDATE_FOLDER,
-  DELETE_FOLDER,
   CREATE_NOTE,
   UPDATE_NOTE,
   DELETE_NOTE,
@@ -12,6 +11,9 @@ import {
   CREATE_FOLDER_SUCCESS,
   CREATE_FOLDER_FAIL,
   SET_SELECTED_FOLDER,
+  DELETE_FOLDER_INIT,
+  DELETE_FOLDER_SUCCESS,
+  DELETE_FOLDER_FAIL,
 } from './types';
 
 export const fetchFolders = () => ({ type: FETCH_FOLDERS_INIT });
@@ -30,7 +32,11 @@ export const createFolderFail = () => ({ type: CREATE_FOLDER_FAIL });
 
 export const updateFolder = (folder) => ({ type: UPDATE_FOLDER, payload: folder });
 
-export const deleteFolder = (id) => ({ type: DELETE_FOLDER, payload: id });
+export const deleteFolderInit = (id) => ({ type: DELETE_FOLDER_INIT, payload: id });
+
+export const deleteFolderSuccess = (id) => ({ type: DELETE_FOLDER_SUCCESS, payload: id });
+
+export const deleteFolderFail = (id) => ({ type: DELETE_FOLDER_FAIL, payload: id });
 
 export const createNote = (note) => ({ type: CREATE_NOTE, payload: note });
 

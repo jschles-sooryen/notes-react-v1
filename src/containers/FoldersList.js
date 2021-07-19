@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Folder from '../components/Folder';
-import NewFolder from '../components/NewFolder';
+import FolderForm from '../components/FolderForm';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { fetchFolders, createFolder } from '../store/actions';
 
@@ -59,7 +59,7 @@ const FoldersList = () => {
       <div>
         {foldersList.map((folder) => <Folder key={folder.id} id={folder.id} name={folder.name} />)}
         {isNewFolderOpen && (
-          <NewFolder onCreate={handleOnCreate} onCancel={() => setIsNewFolderOpen(false)} />
+          <FolderForm onCreate={handleOnCreate} onCancel={() => setIsNewFolderOpen(false)} />
         )}
       </div>
       <div className={classes.new}>

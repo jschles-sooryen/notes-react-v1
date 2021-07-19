@@ -99,19 +99,31 @@ app.post('/api/folders', (req, res) => {
 //   );
 // });
 
-// app.delete('/api/user/:id', (req, res, next) => {
-//   db.run(
-//     'DELETE FROM user WHERE id = ?',
-//     req.params.id,
-//     function (err, result) {
-//       if (err) {
-//         res.status(400).json({ error: res.message });
-//         return;
-//       }
-//       res.json({ message: 'deleted', changes: this.changes });
-//     },
-//   );
-// });
+app.delete('/api/folders/:id', (req, res) => {
+  db.run(
+    'DELETE FROM folders WHERE id = ?',
+    req.params.id,
+    (err) => {
+      if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+
+      db.run(
+        'DELETE FROM notes WHERE folder_id = ?',
+        req.params.id,
+        (e) => {
+          if (e) {
+            res.status(400).json({ error: res.message });
+            return;
+          }
+
+          res.json({ message: 'deleted', changes: this.changes });
+        },
+      );
+    },
+  );
+});
 
 // Default response for any other request
 app.use((req, res) => {
