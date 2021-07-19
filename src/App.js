@@ -1,20 +1,32 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Layout from './containers/Layout';
+import { makeStyles } from '@material-ui/core/styles';
+import Header from './components/Header';
 import FoldersList from './containers/FoldersList';
 
-function App() {
+const useStyles = makeStyles(() => ({
+  root: {
+    margin: '0 auto',
+    maxWidth: 1440,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+  },
+  contentRoot: {
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%',
+  },
+}));
+
+const App = () => {
+  const classes = useStyles();
   return (
-    <Router>
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={FoldersList} />
-          <Route exact path="/create">
-            Create Note
-          </Route>
-        </Switch>
-      </Layout>
-    </Router>
+    <div className={classes.root}>
+      <Header />
+      <div className={classes.contentRoot}>
+        <FoldersList />
+      </div>
+    </div>
   );
-}
+};
 
 export default App;

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -9,9 +8,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     maxWidth: 1440,
     justifyContent: 'space-between',
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: theme.spacing(1),
     '& h1': {
-      fontSize: 22,
+      fontSize: 16,
     },
   },
   linkContainer: {
@@ -32,11 +31,6 @@ const Header = () => {
     <div className={classes.root}>
       <div className={classes.flexContainer}>
         <h1>React Notes App V1</h1>
-
-        <div className={classes.linkContainer}>
-          <Link to="/">All Notes</Link>
-          <Link to="/create">Create Note</Link>
-        </div>
       </div>
     </div>
   );
