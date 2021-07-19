@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
+import { string, number } from 'prop-types';
 import { IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded } from '@material-ui/icons';
@@ -62,6 +63,11 @@ const Folder = ({ name, id }) => {
       </div>
     </div>
   );
+};
+
+Folder.propTypes = {
+  name: string.isRequired,
+  id: number.isRequired,
 };
 
 export default Folder;

@@ -1,4 +1,5 @@
 import { useForm, Controller } from 'react-hook-form';
+import { func } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TextInput from './TextInput';
 
@@ -52,6 +53,11 @@ const NewFolder = ({ onCreate, onCancel }) => {
       />
     </div>
   );
+};
+
+NewFolder.propTypes = {
+  onCreate: func.isRequired,
+  onCancel: func.isRequired,
 };
 
 export default NewFolder;
