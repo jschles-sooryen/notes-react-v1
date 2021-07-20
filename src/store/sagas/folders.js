@@ -4,6 +4,8 @@ import {
   createFolderFail,
   fetchFoldersSuccess,
   fetchFoldersFail,
+  updateFolderSuccess,
+  updateFolderFail,
   deleteFolderSuccess,
   deleteFolderFail,
   loading,
@@ -40,6 +42,27 @@ export function* createFolderSaga(action) {
   } catch (e) {
     yield put(loading());
     yield put(createFolderFail());
+  }
+}
+
+export function* updateFolderSaga(action) {
+  yield console.log('action', action);
+  const { name, id } = action.payload;
+  yield put(loading());
+  try {
+    const response = yield fetch(`${domain}/api/folders/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name }),
+    });
+    const data = yield response.json();
+    yield put(updateFolderSuccess({ ...data.data, id }));
+    yield put(loading());
+  } catch (e) {
+    yield put(loading());
+    yield put(updateFolderFail());
   }
 }
 

@@ -1,5 +1,9 @@
 import {
-  CREATE_FOLDER_SUCCESS, FETCH_FOLDERS_SUCCESS, SET_SELECTED_FOLDER, DELETE_FOLDER_SUCCESS,
+  CREATE_FOLDER_SUCCESS,
+  FETCH_FOLDERS_SUCCESS,
+  UPDATE_FOLDER_SUCCESS,
+  SET_SELECTED_FOLDER,
+  DELETE_FOLDER_SUCCESS,
 } from '../actions/types';
 
 const initialState = {
@@ -15,6 +19,16 @@ function foldersReducer(state = initialState, action) {
       return {
         folders: state.folders.concat(action.payload),
         selected: state.folders[state.folders.length - 1].id + 1,
+      };
+    case UPDATE_FOLDER_SUCCESS:
+      return {
+        ...state,
+        folders: state.folders.map((folder) => {
+          if (action.payload.id === folder.id) {
+            return { ...folder, name: action.payload.name };
+          }
+          return folder;
+        }),
       };
     case DELETE_FOLDER_SUCCESS:
       return { ...state, folders: state.folders.filter((folder) => folder.id !== action.payload) };

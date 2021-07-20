@@ -3,7 +3,9 @@ import {
   FETCH_FOLDERS_INIT,
   FETCH_FOLDERS_FAIL,
   CREATE_FOLDER_INIT,
-  UPDATE_FOLDER,
+  UPDATE_FOLDER_INIT,
+  UPDATE_FOLDER_SUCCESS,
+  UPDATE_FOLDER_FAIL,
   CREATE_NOTE,
   UPDATE_NOTE,
   DELETE_NOTE,
@@ -30,7 +32,11 @@ export const createFolderSuccess = (data) => ({ type: CREATE_FOLDER_SUCCESS, pay
 
 export const createFolderFail = () => ({ type: CREATE_FOLDER_FAIL });
 
-export const updateFolder = (folder) => ({ type: UPDATE_FOLDER, payload: folder });
+export const updateFolderInit = (folder) => ({ type: UPDATE_FOLDER_INIT, payload: folder });
+
+export const updateFolderSuccess = (data) => ({ type: UPDATE_FOLDER_SUCCESS, payload: data });
+
+export const updateFolderFail = () => ({ type: UPDATE_FOLDER_FAIL });
 
 export const deleteFolderInit = (id) => ({ type: DELETE_FOLDER_INIT, payload: id });
 

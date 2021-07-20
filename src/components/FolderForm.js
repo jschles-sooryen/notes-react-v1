@@ -1,26 +1,33 @@
 import { useForm, Controller } from 'react-hook-form';
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TextInput from './TextInput';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
+    backgroundColor: theme.palette.secondary.main,
   },
 }));
 
-const FolderForm = ({ onCreate, onCancel }) => {
+const FolderForm = ({
+  name, onCreate, onUpdate, onCancel,
+}) => {
   const classes = useStyles();
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      name: 'New Folder',
+      name: name || 'New Folder',
     },
   });
 
   const onSubmit = (data) => {
     if (data.name.trim()) {
       // Make API call
-      onCreate(data);
+      if (name) {
+        onUpdate(data);
+      } else {
+        onCreate(data);
+      }
     } else {
       // unmount component
       onCancel();
@@ -56,7 +63,9 @@ const FolderForm = ({ onCreate, onCancel }) => {
 };
 
 FolderForm.propTypes = {
+  name: string,
   onCreate: func,
+  onUpdate: func,
   onCancel: func.isRequired,
 };
 

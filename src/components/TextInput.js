@@ -4,6 +4,12 @@ import { TextField } from '@material-ui/core';
 const useStyles = makeStyles(() => ({
   root: {
     fontSize: 16,
+    color: '#fff',
+  },
+  underline: {
+    '&:before, &:after': {
+      borderBottom: '1px solid #fff !important',
+    },
   },
 }));
 
@@ -14,7 +20,7 @@ const TextInput = (props) => {
     <TextField
       {...props}
       InputProps={{
-        classes: { root: classes.root },
+        classes: { root: classes.root, underline: classes.underline, focused: classes.underline },
       }}
     />
   );

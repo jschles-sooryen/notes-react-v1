@@ -5,7 +5,8 @@ import { string, number } from 'prop-types';
 import { IconButton, Button, Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded, Edit, Delete } from '@material-ui/icons';
-import { setSelectedFolder, deleteFolderInit } from '../store/actions';
+import FolderForm from './FolderForm';
+import { setSelectedFolder, updateFolderInit, deleteFolderInit } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,6 +69,7 @@ const Folder = ({ name, id }) => {
   const dispatch = useDispatch();
   const selectedFolder = useSelector((state) => state.folders.selected);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
 
   useEffect(() => {
     if (selectedFolder !== id && isOptionsOpen) {
@@ -83,6 +85,17 @@ const Folder = ({ name, id }) => {
     setIsOptionsOpen(!isOptionsOpen);
   };
 
+  const handleRenameClick = () => {
+    setIsOptionsOpen(false);
+    setIsRenaming(true);
+  };
+
+  const handleOnUpdate = (data) => {
+    setIsRenaming(false);
+    const newFolder = { ...data, id };
+    dispatch(updateFolderInit(newFolder));
+  };
+
   const handleDeleteClick = () => {
     dispatch(deleteFolderInit(id));
   };
@@ -92,20 +105,28 @@ const Folder = ({ name, id }) => {
       className={clsx(classes.root, { [classes.selected]: id === selectedFolder })}
       onClick={handleOnClick}
     >
-      <div className={classes.info}>
-        <div>{name}</div>
-        <IconButton
-          size="small"
-          aria-label="More"
-          onClick={handleIconClick}
-        >
-          <MoreHorizRounded
-            classes={{
-              root: clsx({ [classes.selected]: id === selectedFolder }),
-            }}
-          />
-        </IconButton>
-      </div>
+      {isRenaming ? (
+        <FolderForm
+          name={name}
+          onUpdate={handleOnUpdate}
+          onCancel={() => setIsRenaming(false)}
+        />
+      ) : (
+        <div className={classes.info}>
+          <div>{name}</div>
+          <IconButton
+            size="small"
+            aria-label="More"
+            onClick={handleIconClick}
+          >
+            <MoreHorizRounded
+              classes={{
+                root: clsx({ [classes.selected]: id === selectedFolder }),
+              }}
+            />
+          </IconButton>
+        </div>
+      )}
       <Collapse in={isOptionsOpen}>
         <div className={classes.options}>
           <Button
@@ -115,6 +136,7 @@ const Folder = ({ name, id }) => {
               text: classes.text,
             }}
             startIcon={<Edit />}
+            onClick={handleRenameClick}
           >
             Rename
           </Button>

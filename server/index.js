@@ -72,32 +72,28 @@ app.post('/api/folders', (req, res) => {
   });
 });
 
-// app.patch('/api/user/:id', (req, res, next) => {
-//   const data = {
-//     name: req.body.name,
-//     email: req.body.email,
-//     password: req.body.password ? md5(req.body.password) : null,
-//   };
-//   db.run(
-//     `UPDATE user set
-//          name = COALESCE(?,name),
-//          email = COALESCE(?,email),
-//          password = COALESCE(?,password)
-//          WHERE id = ?`,
-//     [data.name, data.email, data.password, req.params.id],
-//     function (err, result) {
-//       if (err) {
-//         res.status(400).json({ error: res.message });
-//         return;
-//       }
-//       res.json({
-//         message: 'success',
-//         data,
-//         changes: this.changes,
-//       });
-//     },
-//   );
-// });
+app.patch('/api/folders/:id', (req, res) => {
+  const data = {
+    name: req.body.name,
+  };
+  db.run(
+    `UPDATE folders SET
+         name = COALESCE(?,name)
+         WHERE id = ?`,
+    [data.name, req.params.id],
+    (err) => {
+      if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data,
+        changes: this.changes,
+      });
+    },
+  );
+});
 
 app.delete('/api/folders/:id', (req, res) => {
   db.run(
