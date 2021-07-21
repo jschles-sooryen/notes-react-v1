@@ -1,42 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-const sqlite3 = require('sqlite3').verbose();
-const md5 = require('md5');
+const mysql = require('mysql');
 
-const DBSOURCE = 'db.sqlite';
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: 'react_notes',
+});
 
-const db = new sqlite3.Database(DBSOURCE, (err) => {
+db.connect((err) => {
   if (err) {
-    // Cannot open database
-    console.error(err.message);
+    console.log('Error connecting to Database: \n', err);
     throw err;
-  } else {
-    console.log('Connected to the SQLite database.');
-
-    db.run(`
-      CREATE TABLE folders (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name text
-      );
-      CREATE TABLE notes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name text,
-        description text,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        folder_id INTEGER,
-        FOREIGN_KEY(folder_id) REFERENCES folders(id)
-      );
-    `,
-    (error) => {
-      if (error) {
-        // Table already created
-      } else {
-        // Table just created, creating some rows
-        const insert = 'INSERT INTO folders (name) VALUES (?)';
-        db.run(insert, ['Notes']);
-      }
-    });
   }
+  console.log('Database Connected!');
 });
 
 module.exports = db;

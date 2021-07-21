@@ -1,9 +1,10 @@
 // Create express app
 const express = require('express');
-const md5 = require('md5');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const db = require('./database.js');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+const db = require('./database');
 
 const app = express();
 app.use(cors());
@@ -41,14 +42,14 @@ app.get('/', (req, res) => {
 app.get('/api/folders', (req, res) => {
   const sql = 'select * from folders';
   const params = [];
-  db.all(sql, params, (err, rows) => {
+  db.query(sql, params, (err, results) => {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
     }
     res.json({
       message: 'success',
-      data: rows,
+      data: results,
     });
   });
 });
@@ -59,7 +60,7 @@ app.post('/api/folders', (req, res) => {
   };
   const sql = 'INSERT INTO folders (name) VALUES (?)';
   const params = [data.name];
-  db.run(sql, params, (err, result) => {
+  db.query(sql, params, (err) => {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
@@ -76,7 +77,7 @@ app.patch('/api/folders/:id', (req, res) => {
   const data = {
     name: req.body.name,
   };
-  db.run(
+  db.query(
     `UPDATE folders SET
          name = COALESCE(?,name)
          WHERE id = ?`,
@@ -96,7 +97,7 @@ app.patch('/api/folders/:id', (req, res) => {
 });
 
 app.delete('/api/folders/:id', (req, res) => {
-  db.run(
+  db.query(
     'DELETE FROM folders WHERE id = ?',
     req.params.id,
     (err) => {
@@ -105,7 +106,7 @@ app.delete('/api/folders/:id', (req, res) => {
         return;
       }
 
-      db.run(
+      db.query(
         'DELETE FROM notes WHERE folder_id = ?',
         req.params.id,
         (e) => {
