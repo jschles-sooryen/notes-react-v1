@@ -1,3 +1,4 @@
+// Folders
 export const FETCH_FOLDERS_INIT = 'FETCH_FOLDERS_INIT';
 export const FETCH_FOLDERS_SUCCESS = 'FETCH_FOLDERS_SUCCESS';
 export const FETCH_FOLDERS_FAIL = 'FETCH_FOLDERS_FAIL';
@@ -12,7 +13,13 @@ export const DELETE_FOLDER_INIT = 'DELETE_FOLDER_INIT';
 export const DELETE_FOLDER_SUCCESS = 'DELETE_FOLDER_SUCCESS';
 export const DELETE_FOLDER_FAIL = 'DELETE_FOLDER_FAIL';
 export const SET_SELECTED_FOLDER = 'SET_SELECTED_FOLDER';
+
+// Notes
 export const CREATE_NOTE = 'CREATE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
+
+export const SET_LAYOUT = 'SET_LAYOUT';
+
+// Loading state
 export const LOADING = 'LOADING';

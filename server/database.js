@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 const mysql = require('mysql');
 
 const db = mysql.createConnection({

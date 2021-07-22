@@ -9,6 +9,7 @@ import {
   CREATE_NOTE,
   UPDATE_NOTE,
   DELETE_NOTE,
+  SET_LAYOUT,
   LOADING,
   CREATE_FOLDER_SUCCESS,
   CREATE_FOLDER_FAIL,
@@ -49,5 +50,7 @@ export const createNote = (note) => ({ type: CREATE_NOTE, payload: note });
 export const updateNote = (note) => ({ type: UPDATE_NOTE, payload: note });
 
 export const deleteNote = (id) => ({ type: DELETE_NOTE, payload: id });
+
+export const setLayout = (layout) => ({ type: SET_LAYOUT, payload: layout });
 
 export const loading = () => ({ type: LOADING });

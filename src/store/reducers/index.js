@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import foldersReducer from './foldersReducer';
 import loadingReducer from './loadingReducer';
+import layoutReducer from './layoutReducer';
 
 const rootReducer = combineReducers({
   folders: foldersReducer,
   loading: loadingReducer,
+  layout: layoutReducer,
 });
 
 export default rootReducer;
