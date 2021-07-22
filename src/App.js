@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import FoldersList from './containers/FoldersList';
@@ -15,15 +17,36 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     height: '100%',
   },
+  docked: {
+    height: '100%',
+  },
+  paper: {
+    position: 'relative',
+  },
 }));
 
 const App = () => {
   const classes = useStyles();
+  const [showFolders, setShowFolders] = useState(true);
+
   return (
     <div className={classes.root}>
-      <Header />
+      <Header
+        onToggleFolders={() => setShowFolders(!showFolders)}
+        showFolders={showFolders}
+      />
       <div className={classes.contentRoot}>
-        <FoldersList />
+        <Drawer
+          open={showFolders}
+          variant="persistent"
+          anchor="left"
+          classes={{
+            docked: classes.docked,
+            paper: classes.paper,
+          }}
+        >
+          <FoldersList />
+        </Drawer>
       </div>
     </div>
   );
