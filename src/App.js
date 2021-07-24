@@ -3,6 +3,7 @@ import { Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import FoldersList from './containers/FoldersList';
+import NotesList from './containers/NotesList';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -47,6 +48,7 @@ const App = () => {
         >
           <FoldersList />
         </Drawer>
+        <NotesList />
       </div>
     </div>
   );
