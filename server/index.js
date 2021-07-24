@@ -122,6 +122,20 @@ app.delete('/api/folders/:id', (req, res) => {
   );
 });
 
+app.get('/api/folders/:id/notes', (req, res) => {
+  const sql = 'SELECT * FROM notes WHERE folder_id = ?';
+  db.query(sql, req.params.id, (err, results) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data: results,
+    });
+  });
+});
+
 // Default response for any other request
 app.use((req, res) => {
   res.status(404);
