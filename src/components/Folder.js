@@ -6,7 +6,9 @@ import { IconButton, Button, Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded, Edit, Delete } from '@material-ui/icons';
 import FolderForm from './FolderForm';
-import { setSelectedFolder, updateFolderInit, deleteFolderInit } from '../store/actions';
+import {
+  setSelectedFolder, updateFolderInit, deleteFolderInit, fetchNotesInit,
+} from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,6 +81,7 @@ const Folder = ({ name, id }) => {
 
   const handleOnClick = () => {
     dispatch(setSelectedFolder(id));
+    dispatch(fetchNotesInit(id));
   };
 
   const handleIconClick = () => {

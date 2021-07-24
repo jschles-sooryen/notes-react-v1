@@ -1,9 +1,17 @@
 import { all, takeEvery } from 'redux-saga/effects';
 import {
-  fetchFoldersSaga, createFolderSaga, updateFolderSaga, deleteFolderSaga,
+  fetchFoldersSaga,
+  createFolderSaga,
+  updateFolderSaga,
+  deleteFolderSaga,
 } from './folders';
+import { fetchNotesSaga } from './notes';
 import {
-  FETCH_FOLDERS_INIT, CREATE_FOLDER_INIT, UPDATE_FOLDER_INIT, DELETE_FOLDER_INIT,
+  FETCH_FOLDERS_INIT,
+  CREATE_FOLDER_INIT,
+  UPDATE_FOLDER_INIT,
+  DELETE_FOLDER_INIT,
+  FETCH_NOTES_INIT,
 } from '../actions/types';
 
 function* watchFolders() {
@@ -13,6 +21,10 @@ function* watchFolders() {
   yield takeEvery(DELETE_FOLDER_INIT, deleteFolderSaga);
 }
 
+function* watchNotes() {
+  yield takeEvery(FETCH_NOTES_INIT, fetchNotesSaga);
+}
+
 export default function* rootSaga() {
-  yield all([watchFolders()]);
+  yield all([watchFolders(), watchNotes()]);
 }

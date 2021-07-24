@@ -10,7 +10,7 @@ const initialState = {
 function notesReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_NOTES_SUCCESS:
-      return { notes: action.payload, selected: state.selected || action.payload[0].id };
+      return { notes: action.payload, selected: state.selected || action.payload?.[0].id || null };
     default:
       return state;
   }
