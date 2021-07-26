@@ -5,7 +5,7 @@ import { AddCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Folder from '../components/Folder';
 import FolderForm from '../components/FolderForm';
-import LoadingIndicator from '../components/LoadingIndicator';
+// import LoadingIndicator from '../components/LoadingIndicator';
 import { fetchFolders, createFolder, setSelectedFolder } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +56,7 @@ const FoldersList = () => {
   };
 
   if (loading) {
-    return <LoadingIndicator />;
+    // return <LoadingIndicator />;
   }
 
   return (
