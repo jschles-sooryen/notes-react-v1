@@ -20,6 +20,7 @@ import {
   DELETE_FOLDER_INIT,
   DELETE_FOLDER_SUCCESS,
   DELETE_FOLDER_FAIL,
+  SET_SELECTED_NOTE,
 } from './types';
 
 export const fetchFolders = () => ({ type: FETCH_FOLDERS_INIT });
@@ -27,6 +28,7 @@ export const fetchFoldersSuccess = (payload) => ({ type: FETCH_FOLDERS_SUCCESS, 
 export const fetchFoldersFail = () => ({ type: FETCH_FOLDERS_FAIL });
 
 export const setSelectedFolder = (id) => ({ type: SET_SELECTED_FOLDER, payload: id });
+export const setSelectedNote = (id) => ({ type: SET_SELECTED_NOTE, payload: id });
 
 export const createFolder = (name) => ({ type: CREATE_FOLDER_INIT, payload: name });
 export const createFolderSuccess = (data) => ({ type: CREATE_FOLDER_SUCCESS, payload: data });
