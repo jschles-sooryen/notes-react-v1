@@ -45,6 +45,9 @@ const App = () => {
             docked: classes.docked,
             paper: classes.paper,
           }}
+          SlideProps={{
+            unmountOnExit: true,
+          }}
         >
           <FoldersList />
         </Drawer>
