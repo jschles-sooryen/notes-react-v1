@@ -3,7 +3,9 @@ import clsx from 'clsx';
 import { func, bool } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, ButtonGroup } from '@material-ui/core';
-import { Reorder, Apps, VerticalSplit } from '@material-ui/icons';
+import {
+  Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
+} from '@material-ui/icons';
 import { setLayout } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -90,6 +92,53 @@ const Header = ({ onToggleFolders, showFolders }) => {
               }}
             >
               <VerticalSplit />
+            </Button>
+          </ButtonGroup>
+
+          {/* TODO: Show all attachments in folder */}
+          <ButtonGroup
+            classes={{
+              root: classes.buttonGroupRoot,
+            }}
+          >
+            <Button
+              onClick={() => {}}
+              classes={{
+                root: clsx(classes.button, { [classes.selectedButton]: false }),
+              }}
+            >
+              <AttachFile />
+            </Button>
+          </ButtonGroup>
+
+          {/* TODO: Delete selected folder or selected note */}
+          <ButtonGroup
+            classes={{
+              root: classes.buttonGroupRoot,
+            }}
+          >
+            <Button
+              onClick={() => {}}
+              classes={{
+                root: classes.button,
+              }}
+            >
+              <Delete />
+            </Button>
+          </ButtonGroup>
+
+          <ButtonGroup
+            classes={{
+              root: classes.buttonGroupRoot,
+            }}
+          >
+            <Button
+              onClick={() => {}}
+              classes={{
+                root: clsx(classes.button, { [classes.selectedButton]: false }),
+              }}
+            >
+              <Create />
             </Button>
           </ButtonGroup>
         </div>

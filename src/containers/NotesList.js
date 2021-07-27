@@ -1,4 +1,4 @@
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Note from '../components/Note';
 
@@ -25,17 +25,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NotesList = () => {
-  // const notes = useSelector((state) => state.notes.notes);
+  const notes = useSelector((state) => state.notes.notes);
   // const layout = useSelector((state) => state.layout);
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {/* {notes.map((note) => <div>{note.name}</div>)} */}
-      <Note
-        name="New Note"
-        description="This is a test note description"
-        id={1}
-      />
+      {notes.map((note) => (
+        <Note
+          id={note.id}
+          name={note.name}
+          description={note.description}
+        />
+      ))}
     </div>
   );
 };
