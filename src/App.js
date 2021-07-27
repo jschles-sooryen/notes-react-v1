@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import FoldersList from './containers/FoldersList';
 import NotesList from './containers/NotesList';
+import NoteDetail from './components/NoteDetail';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -29,6 +31,8 @@ const useStyles = makeStyles(() => ({
 const App = () => {
   const classes = useStyles();
   const [showFolders, setShowFolders] = useState(true);
+  const { isCreatingNote, selected } = useSelector((state) => state.notes);
+  const showNoteDetail = isCreatingNote || Boolean(selected);
 
   return (
     <div className={classes.root}>
@@ -52,6 +56,9 @@ const App = () => {
           <FoldersList />
         </Drawer>
         <NotesList />
+        {showNoteDetail && (
+          <NoteDetail isNew={isCreatingNote} />
+        )}
       </div>
     </div>
   );
