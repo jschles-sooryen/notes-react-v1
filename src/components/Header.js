@@ -6,7 +6,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import {
   Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
 } from '@material-ui/icons';
-import { setLayout } from '../store/actions';
+import { setLayout, toggleCreateNote } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.main,
       color: '#fff',
     },
-    // border: '1px solid rgba(0, 0, 0, 0.23)',
   },
   selectedButton: {
     color: '#fff',
@@ -46,9 +45,16 @@ const Header = ({ onToggleFolders, showFolders }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const layout = useSelector((state) => state.layout);
+  const isCreatingNote = useSelector((state) => state.notes.isCreatingNote);
 
   const handleLayoutClick = (e, type) => {
     dispatch(setLayout(type));
+  };
+
+  const handleCreateNoteClick = () => {
+    if (!isCreatingNote) {
+      dispatch(toggleCreateNote());
+    }
   };
 
   return (
@@ -133,9 +139,9 @@ const Header = ({ onToggleFolders, showFolders }) => {
             }}
           >
             <Button
-              onClick={() => {}}
+              onClick={handleCreateNoteClick}
               classes={{
-                root: clsx(classes.button, { [classes.selectedButton]: false }),
+                root: clsx(classes.button, { [classes.selectedButton]: isCreatingNote }),
               }}
             >
               <Create />

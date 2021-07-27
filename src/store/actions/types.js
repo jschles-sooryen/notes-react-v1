@@ -22,6 +22,7 @@ export const CREATE_NOTE = 'CREATE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const SET_SELECTED_NOTE = 'SET_SELECTED_NOTE';
+export const TOGGLE_CREATE_NOTE = 'TOGGLE_CREATE_NOTE';
 
 export const SET_LAYOUT = 'SET_LAYOUT';
 
