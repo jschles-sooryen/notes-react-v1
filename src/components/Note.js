@@ -1,7 +1,10 @@
 // import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
-import { string, number } from 'prop-types';
+import {
+  string, number, bool, instanceOf,
+} from 'prop-types';
+import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { format } from 'date-fns';
 import { setSelectedNote } from '../store/actions';
@@ -26,15 +29,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Note = ({ name, description, id }) => {
+const Note = ({
+  name, description, id, isPlaceholder, updatedAt,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const selectedNote = useSelector((state) => state.notes.selected);
-  const lastUpdated = format(new Date(), 'MM/dd/yyyy');
+
+  let date = updatedAt ? new Date(updatedAt) : new Date();
+  let dateFormat = 'MM/dd/yyyy';
+
+  if (date.getDate() === new Date().getDate()) {
+    dateFormat = 'h:mm a';
+  }
+
+  if (date.getDate() === new Date().getDate() - 1) {
+    date = 'Yesterday';
+  } else {
+    date = format(date, dateFormat);
+  }
+
   const descriptionText = description || 'No additional text';
 
   const handleOnClick = () => {
-    dispatch(setSelectedNote(id));
+    if (!isPlaceholder) {
+      dispatch(setSelectedNote(id));
+    }
   };
 
   return (
@@ -45,11 +65,12 @@ const Note = ({ name, description, id }) => {
       <div className={classes.info}>
         <div>{name}</div>
         <div>
-          {lastUpdated}
+          {date}
           &nbsp;
           <span>{descriptionText}</span>
         </div>
       </div>
+      <Divider variant="middle" />
     </div>
   );
 };
@@ -57,7 +78,9 @@ const Note = ({ name, description, id }) => {
 Note.propTypes = {
   name: string.isRequired,
   description: string,
-  id: number.isRequired,
+  id: number,
+  isPlaceholder: bool,
+  updatedAt: instanceOf(Date),
 };
 
 export default Note;

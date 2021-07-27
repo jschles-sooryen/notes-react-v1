@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Note from '../components/Note';
 
@@ -25,11 +26,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NotesList = () => {
-  const notes = useSelector((state) => state.notes.notes);
+  const { notes, isCreatingNote } = useSelector((state) => state.notes);
   // const layout = useSelector((state) => state.layout);
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Collapse in={isCreatingNote}>
+        <Note
+          name="New Folder"
+          isPlaceholder
+        />
+      </Collapse>
+      {/* TODO: Sort by most recently created/updated */}
       {notes.map((note) => (
         <Note
           id={note.id}
