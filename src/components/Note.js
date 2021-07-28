@@ -6,7 +6,7 @@ import {
 } from 'prop-types';
 import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { format } from 'date-fns';
+import { formatDate } from '../util/helpers';
 import { setSelectedNote } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,18 +36,7 @@ const Note = ({
   const dispatch = useDispatch();
   const selectedNote = useSelector((state) => state.notes.selected);
 
-  let date = updatedAt ? new Date(updatedAt) : new Date();
-  let dateFormat = 'MM/dd/yyyy';
-
-  if (date.getDate() === new Date().getDate()) {
-    dateFormat = 'h:mm a';
-  }
-
-  if (date.getDate() === new Date().getDate() - 1) {
-    date = 'Yesterday';
-  } else {
-    date = format(date, dateFormat);
-  }
+  const date = formatDate(updatedAt);
 
   const descriptionText = description || 'No additional text';
 
