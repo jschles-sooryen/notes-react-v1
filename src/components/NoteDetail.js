@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { toggleCreateNote } from '../store/actions';
+import { toggleCreateNote, createNoteInit } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,8 +34,13 @@ const NoteDetail = ({ isNew }) => {
   const handleOnBlur = () => {
     const formValues = getValues();
 
-    if (isNew && !formValues.description.trim()) {
-      dispatch(toggleCreateNote());
+    if (isNew) {
+      if (!formValues.description.trim()) {
+        dispatch(toggleCreateNote());
+      } else {
+        const name = formValues.description.split('\n')[0];
+        dispatch(createNoteInit({ name, description: formValues.description }));
+      }
     }
   };
 

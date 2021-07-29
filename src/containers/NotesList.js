@@ -1,7 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Note from '../components/Note';
+import { fetchNotesInit } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   button: {
     '&:hover': {
@@ -26,9 +28,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NotesList = () => {
+  const dispatch = useDispatch();
   const { notes, isCreatingNote } = useSelector((state) => state.notes);
+  const selectedFolder = useSelector((state) => state.folders.selected);
   // const layout = useSelector((state) => state.layout);
   const classes = useStyles();
+
+  useEffect(() => {
+    if (typeof selectedFolder === 'number') {
+      dispatch(fetchNotesInit(selectedFolder));
+    }
+  }, [selectedFolder]);
+
   return (
     <div className={classes.root}>
       <Collapse in={isCreatingNote}>

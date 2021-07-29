@@ -9,7 +9,9 @@ import {
   FETCH_NOTES_INIT,
   FETCH_NOTES_SUCCESS,
   FETCH_NOTES_FAIL,
-  CREATE_NOTE,
+  CREATE_NOTE_INIT,
+  CREATE_NOTE_SUCCESS,
+  CREATE_NOTE_FAIL,
   UPDATE_NOTE,
   DELETE_NOTE,
   SET_LAYOUT,
@@ -48,7 +50,10 @@ export const fetchNotesInit = (id) => ({ type: FETCH_NOTES_INIT, payload: id });
 export const fetchNotesSuccess = (payload) => ({ type: FETCH_NOTES_SUCCESS, payload });
 export const fetchNotesFail = () => ({ type: FETCH_NOTES_FAIL });
 
-export const createNote = (note) => ({ type: CREATE_NOTE, payload: note });
+export const createNoteInit = (note) => ({ type: CREATE_NOTE_INIT, payload: note });
+export const createNoteSuccess = (data) => ({ type: CREATE_NOTE_SUCCESS, payload: data });
+export const createNoteFail = () => ({ type: CREATE_NOTE_FAIL });
+
 export const updateNote = (note) => ({ type: UPDATE_NOTE, payload: note });
 export const deleteNote = (id) => ({ type: DELETE_NOTE, payload: id });
 

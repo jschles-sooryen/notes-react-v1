@@ -136,6 +136,29 @@ app.get('/api/folders/:id/notes', (req, res) => {
   });
 });
 
+app.post('/api/folders/:id/notes', (req, res) => {
+  const data = {
+    name: req.body.name,
+    description: req.body.description,
+  };
+  const sql = `
+    INSERT INTO notes (name, description, folder_id)
+    VALUES (?,?,?)
+  `;
+  const params = [data.name, data.description, req.params.id];
+  db.query(sql, params, (err, results) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data: { ...data, id: results.insertId },
+      id: this.lastID,
+    });
+  });
+});
+
 // Default response for any other request
 app.use((req, res) => {
   res.status(404);

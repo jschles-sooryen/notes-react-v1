@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { string, number } from 'prop-types';
-import { IconButton, Button, Collapse } from '@material-ui/core';
+import {
+  IconButton, Button, Collapse, Divider,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded, Edit, Delete } from '@material-ui/icons';
 import FolderForm from './FolderForm';
@@ -42,8 +44,6 @@ const useStyles = makeStyles((theme) => ({
   options: {
     padding: theme.spacing(2),
     minHeight: 66,
-    borderTop: `1px solid ${theme.palette.primary.main}`,
-    borderBottom: `1px solid ${theme.palette.primary.main}`,
     backgroundColor: '#fff',
     color: theme.palette.primary.main,
     display: 'flex',
@@ -156,6 +156,7 @@ const Folder = ({ name, id }) => {
           </Button>
         </div>
       </Collapse>
+      <Divider />
     </div>
   );
 };
