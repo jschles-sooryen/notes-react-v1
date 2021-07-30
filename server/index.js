@@ -159,6 +159,30 @@ app.post('/api/folders/:id/notes', (req, res) => {
   });
 });
 
+app.patch('/api/folders/:id/notes/:noteId', (req, res) => {
+  const data = {
+    name: req.body.name,
+    description: req.body.description,
+  };
+  const sql = `
+    UPDATE notes
+    SET name = COALESCE(?,name), description = COALESCE(?,description), updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `;
+  const params = [data.name, data.description, req.params.noteId];
+  db.query(sql, params, (err) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data,
+      id: this.lastID,
+    });
+  });
+});
+
 // Default response for any other request
 app.use((req, res) => {
   res.status(404);

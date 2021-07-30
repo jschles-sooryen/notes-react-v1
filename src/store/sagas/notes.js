@@ -5,6 +5,8 @@ import {
   fetchNotesFail,
   createNoteSuccess,
   createNoteFail,
+  updateNoteSuccess,
+  updateNoteFail,
   loading,
 } from '../actions';
 
@@ -12,6 +14,10 @@ const domain = process.env.REACT_APP_API_SERVER;
 
 function* getFolderId() {
   return yield select((state) => state.folders.selected);
+}
+
+function* getNoteId() {
+  return yield select((state) => state.notes.selected);
 }
 
 export function* fetchNotesSaga(action) {
@@ -47,5 +53,29 @@ export function* createNoteSaga(action) {
   } catch (e) {
     yield put(loading());
     yield put(createNoteFail());
+  }
+}
+
+export function* updateNoteSaga(action) {
+  const folderId = yield getFolderId();
+  const noteId = yield getNoteId();
+  yield put(loading());
+  try {
+    const response = yield fetch(`${domain}/api/folders/${folderId}/notes/${noteId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: action.payload.name,
+        description: action.payload.description,
+      }),
+    });
+    const data = yield response.json();
+    yield put(updateNoteSuccess({ ...data.data, id: noteId }));
+    yield put(loading());
+  } catch (e) {
+    yield put(loading());
+    yield put(updateNoteFail());
   }
 }

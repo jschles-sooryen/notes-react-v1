@@ -4,7 +4,7 @@ import { bool } from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { toggleCreateNote, createNoteInit } from '../store/actions';
+import { toggleCreateNote, createNoteInit, updateNoteInit } from '../store/actions';
 import { formatDate } from '../util/helpers';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,14 +48,17 @@ const NoteDetail = ({ isNew }) => {
 
   const handleOnBlur = () => {
     const formValues = getValues();
+    const name = formValues.description.split('\n')[0];
+    const noteInfo = { name, description: formValues.description };
 
     if (isNew) {
       if (!formValues.description.trim()) {
         dispatch(toggleCreateNote());
       } else {
-        const name = formValues.description.split('\n')[0];
-        dispatch(createNoteInit({ name, description: formValues.description }));
+        dispatch(createNoteInit(noteInfo));
       }
+    } else {
+      dispatch(updateNoteInit(noteInfo));
     }
   };
 

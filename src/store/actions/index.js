@@ -12,7 +12,9 @@ import {
   CREATE_NOTE_INIT,
   CREATE_NOTE_SUCCESS,
   CREATE_NOTE_FAIL,
-  UPDATE_NOTE,
+  UPDATE_NOTE_INIT,
+  UPDATE_NOTE_SUCCESS,
+  UPDATE_NOTE_FAIL,
   DELETE_NOTE,
   SET_LAYOUT,
   LOADING,
@@ -54,7 +56,10 @@ export const createNoteInit = (note) => ({ type: CREATE_NOTE_INIT, payload: note
 export const createNoteSuccess = (data) => ({ type: CREATE_NOTE_SUCCESS, payload: data });
 export const createNoteFail = () => ({ type: CREATE_NOTE_FAIL });
 
-export const updateNote = (note) => ({ type: UPDATE_NOTE, payload: note });
+export const updateNoteInit = (note) => ({ type: UPDATE_NOTE_INIT, payload: note });
+export const updateNoteSuccess = (data) => ({ type: UPDATE_NOTE_SUCCESS, payload: data });
+export const updateNoteFail = () => ({ type: UPDATE_NOTE_FAIL });
+
 export const deleteNote = (id) => ({ type: DELETE_NOTE, payload: id });
 
 export const setLayout = (layout) => ({ type: SET_LAYOUT, payload: layout });

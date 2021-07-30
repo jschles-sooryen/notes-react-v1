@@ -3,6 +3,7 @@ import {
   SET_SELECTED_NOTE,
   TOGGLE_CREATE_NOTE,
   CREATE_NOTE_SUCCESS,
+  UPDATE_NOTE_SUCCESS,
 } from '../actions/types';
 
 const initialState = {
@@ -25,6 +26,16 @@ function notesReducer(state = initialState, action) {
         notes: [action.payload, ...state.notes],
         selected: action.payload.id,
         isCreatingNote: false,
+      };
+    case UPDATE_NOTE_SUCCESS:
+      return {
+        ...state,
+        notes: state.notes.map((note) => {
+          if (action.payload.id === note.id) {
+            return action.payload;
+          }
+          return note;
+        }),
       };
     case SET_SELECTED_NOTE:
       return { ...state, selected: action.payload };

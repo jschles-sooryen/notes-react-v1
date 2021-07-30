@@ -51,6 +51,7 @@ const NotesList = () => {
       {/* TODO: Sort by most recently created/updated */}
       {notes.map((note) => (
         <Note
+          key={note.id}
           id={note.id}
           name={note.name}
           description={note.description}
