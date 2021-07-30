@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { bool } from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
@@ -33,11 +34,17 @@ const NoteDetail = ({ isNew }) => {
   const description = selectedNote?.description;
   const updatedAt = selectedNote?.updated_at;
   const classes = useStyles();
-  const { control, getValues } = useForm({
+  const { control, getValues, reset } = useForm({
     defaultValues: {
       description: isNew ? '' : description,
     },
   });
+
+  useEffect(() => {
+    if (selectedNote) {
+      reset({ description });
+    }
+  }, [selectedNote, description]);
 
   const handleOnBlur = () => {
     const formValues = getValues();
