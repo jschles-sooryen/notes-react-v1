@@ -17,7 +17,7 @@ function notesReducer(state = initialState, action) {
       return {
         ...state,
         notes: action.payload,
-        selected: state.selected || action.payload?.[0].id || null,
+        selected: state.selected || action.payload?.[0]?.id || null,
       };
     case CREATE_NOTE_SUCCESS:
       return {

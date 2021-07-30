@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MoreHorizRounded, Edit, Delete } from '@material-ui/icons';
 import FolderForm from './FolderForm';
 import {
-  setSelectedFolder, updateFolderInit, deleteFolderInit, fetchNotesInit,
+  setSelectedFolder, updateFolderInit, deleteFolderInit, fetchNotesInit, setSelectedNote,
 } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -81,6 +81,7 @@ const Folder = ({ name, id }) => {
 
   const handleOnClick = () => {
     dispatch(setSelectedFolder(id));
+    dispatch(setSelectedNote(null));
     dispatch(fetchNotesInit(id));
   };
 

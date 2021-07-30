@@ -1,8 +1,13 @@
 /* eslint-disable import/prefer-default-export */
 import { format } from 'date-fns';
 
-export const formatDate = (date) => {
+export const formatDate = (date, isDetail = false) => {
   const dateObj = date ? new Date(date) : new Date();
+
+  if (isDetail) {
+    return format(dateObj, "MMMM do yyyy 'at' h:mm a");
+  }
+
   let dateFormat = 'MM/dd/yyyy';
   let formattedDate;
 

@@ -1,8 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { bool } from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { toggleCreateNote, createNoteInit } from '../store/actions';
+import { formatDate } from '../util/helpers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,13 +19,19 @@ const useStyles = makeStyles((theme) => ({
   outline: {
     border: 'none',
   },
+  lastUpdated: {
+    textAlign: 'center',
+    margin: 0,
+    fontSize: 14,
+  },
 }));
 
 const NoteDetail = ({ isNew }) => {
   const dispatch = useDispatch();
   const { notes, selected } = useSelector((state) => state.notes);
-  const description = notes[selected]?.description;
-  const updatedAt = notes[selected]?.updated_at;
+  const selectedNote = notes.find((note) => note.id === selected);
+  const description = selectedNote?.description;
+  const updatedAt = selectedNote?.updated_at;
   const classes = useStyles();
   const { control, getValues } = useForm({
     defaultValues: {
@@ -46,13 +54,17 @@ const NoteDetail = ({ isNew }) => {
 
   return (
     <div className={classes.root}>
+      <p className={classes.lastUpdated}>
+        {formatDate(updatedAt, true)}
+      </p>
       <Controller
         control={control}
         name="description"
         render={({ field }) => (
           <TextField
             {...field}
-            autoFocus
+            inputRef={field.ref}
+            autoFocus={isNew}
             multiline
             onBlur={handleOnBlur}
             variant="outlined"
@@ -68,6 +80,10 @@ const NoteDetail = ({ isNew }) => {
       />
     </div>
   );
+};
+
+NoteDetail.propTypes = {
+  isNew: bool,
 };
 
 export default NoteDetail;

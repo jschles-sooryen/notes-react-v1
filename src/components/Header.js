@@ -6,7 +6,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import {
   Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
 } from '@material-ui/icons';
-import { setLayout, toggleCreateNote } from '../store/actions';
+import { setLayout, toggleCreateNote, setSelectedNote } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +54,7 @@ const Header = ({ onToggleFolders, showFolders }) => {
   const handleCreateNoteClick = () => {
     if (!isCreatingNote) {
       dispatch(toggleCreateNote());
+      dispatch(setSelectedNote(null));
     }
   };
 

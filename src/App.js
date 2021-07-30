@@ -32,7 +32,6 @@ const App = () => {
   const classes = useStyles();
   const [showFolders, setShowFolders] = useState(true);
   const { isCreatingNote, selected } = useSelector((state) => state.notes);
-  const showNoteDetail = isCreatingNote || Boolean(selected);
 
   return (
     <div className={classes.root}>
@@ -56,8 +55,11 @@ const App = () => {
           <FoldersList />
         </Drawer>
         <NotesList />
-        {showNoteDetail && (
+        {isCreatingNote && (
           <NoteDetail isNew={isCreatingNote} />
+        )}
+        {Boolean(selected) && (
+          <NoteDetail isNew={false} />
         )}
       </div>
     </div>
