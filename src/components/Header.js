@@ -6,7 +6,9 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import {
   Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
 } from '@material-ui/icons';
-import { setLayout, toggleCreateNote, setSelectedNote } from '../store/actions';
+import {
+  setLayout, toggleCreateNote, setSelectedNote, deleteFolderInit,
+} from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +48,8 @@ const Header = ({ onToggleFolders, showFolders }) => {
   const classes = useStyles();
   const layout = useSelector((state) => state.layout);
   const isCreatingNote = useSelector((state) => state.notes.isCreatingNote);
+  const selectedNote = useSelector((state) => state.notes.selected);
+  const selectedFolder = useSelector((state) => state.folders.selected);
 
   const handleLayoutClick = (e, type) => {
     dispatch(setLayout(type));
@@ -55,6 +59,23 @@ const Header = ({ onToggleFolders, showFolders }) => {
     if (!isCreatingNote) {
       dispatch(toggleCreateNote());
       dispatch(setSelectedNote(null));
+    }
+  };
+
+  const handleDeleteClick = () => {
+    console.log('selectedNote', selectedNote);
+    console.log('selectedFolder', selectedFolder);
+    if (isCreatingNote) {
+      dispatch(toggleCreateNote());
+      dispatch(setSelectedNote(null));
+      return;
+    }
+
+    if (selectedNote !== null) {
+      console.log('delete note', selectedNote);
+    } else if (selectedFolder !== null) {
+      console.log('delete folder', selectedFolder);
+      dispatch(deleteFolderInit(selectedFolder));
     }
   };
 
@@ -125,7 +146,7 @@ const Header = ({ onToggleFolders, showFolders }) => {
             }}
           >
             <Button
-              onClick={() => {}}
+              onClick={handleDeleteClick}
               classes={{
                 root: classes.button,
               }}
