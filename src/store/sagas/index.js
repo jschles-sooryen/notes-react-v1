@@ -5,7 +5,9 @@ import {
   updateFolderSaga,
   deleteFolderSaga,
 } from './folders';
-import { fetchNotesSaga, createNoteSaga, updateNoteSaga } from './notes';
+import {
+  fetchNotesSaga, createNoteSaga, updateNoteSaga, deleteNoteSaga,
+} from './notes';
 import {
   FETCH_FOLDERS_INIT,
   CREATE_FOLDER_INIT,
@@ -14,6 +16,7 @@ import {
   FETCH_NOTES_INIT,
   CREATE_NOTE_INIT,
   UPDATE_NOTE_INIT,
+  DELETE_NOTE_INIT,
 } from '../actions/types';
 
 function* watchFolders() {
@@ -27,6 +30,7 @@ function* watchNotes() {
   yield takeEvery(FETCH_NOTES_INIT, fetchNotesSaga);
   yield takeEvery(CREATE_NOTE_INIT, createNoteSaga);
   yield takeEvery(UPDATE_NOTE_INIT, updateNoteSaga);
+  yield takeEvery(DELETE_NOTE_INIT, deleteNoteSaga);
 }
 
 export default function* rootSaga() {

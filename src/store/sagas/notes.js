@@ -7,6 +7,8 @@ import {
   createNoteFail,
   updateNoteSuccess,
   updateNoteFail,
+  deleteNoteSuccess,
+  deleteNoteFail,
   loading,
 } from '../actions';
 
@@ -77,5 +79,25 @@ export function* updateNoteSaga(action) {
   } catch (e) {
     yield put(loading());
     yield put(updateNoteFail());
+  }
+}
+
+export function* deleteNoteSaga() {
+  const folderId = yield getFolderId();
+  const noteId = yield getNoteId();
+
+  yield put(loading());
+  try {
+    yield fetch(`${domain}/api/folders/${folderId}/notes/${noteId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    yield put(deleteNoteSuccess(noteId));
+    yield put(loading());
+  } catch (e) {
+    yield put(loading());
+    yield put(deleteNoteFail());
   }
 }

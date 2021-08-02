@@ -15,7 +15,9 @@ import {
   UPDATE_NOTE_INIT,
   UPDATE_NOTE_SUCCESS,
   UPDATE_NOTE_FAIL,
-  DELETE_NOTE,
+  DELETE_NOTE_INIT,
+  DELETE_NOTE_SUCCESS,
+  DELETE_NOTE_FAIL,
   SET_LAYOUT,
   LOADING,
   CREATE_FOLDER_SUCCESS,
@@ -60,7 +62,9 @@ export const updateNoteInit = (note) => ({ type: UPDATE_NOTE_INIT, payload: note
 export const updateNoteSuccess = (data) => ({ type: UPDATE_NOTE_SUCCESS, payload: data });
 export const updateNoteFail = () => ({ type: UPDATE_NOTE_FAIL });
 
-export const deleteNote = (id) => ({ type: DELETE_NOTE, payload: id });
+export const deleteNoteInit = () => ({ type: DELETE_NOTE_INIT });
+export const deleteNoteSuccess = (id) => ({ type: DELETE_NOTE_SUCCESS, payload: id });
+export const deleteNoteFail = () => ({ type: DELETE_NOTE_FAIL });
 
 export const setLayout = (layout) => ({ type: SET_LAYOUT, payload: layout });
 

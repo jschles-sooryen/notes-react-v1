@@ -7,7 +7,7 @@ import {
   Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
 } from '@material-ui/icons';
 import {
-  setLayout, toggleCreateNote, setSelectedNote, deleteFolderInit,
+  setLayout, toggleCreateNote, setSelectedNote, deleteFolderInit, deleteNoteInit,
 } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,18 +63,12 @@ const Header = ({ onToggleFolders, showFolders }) => {
   };
 
   const handleDeleteClick = () => {
-    console.log('selectedNote', selectedNote);
-    console.log('selectedFolder', selectedFolder);
     if (isCreatingNote) {
       dispatch(toggleCreateNote());
       dispatch(setSelectedNote(null));
-      return;
-    }
-
-    if (selectedNote !== null) {
-      console.log('delete note', selectedNote);
+    } else if (selectedNote !== null) {
+      dispatch(deleteNoteInit(selectedNote));
     } else if (selectedFolder !== null) {
-      console.log('delete folder', selectedFolder);
       dispatch(deleteFolderInit(selectedFolder));
     }
   };
