@@ -60,14 +60,14 @@ app.post('/api/folders', (req, res) => {
   };
   const sql = 'INSERT INTO folders (name) VALUES (?)';
   const params = [data.name];
-  db.query(sql, params, (err) => {
+  db.query(sql, params, (err, results) => {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
     }
     res.json({
       message: 'success',
-      data,
+      data: { ...data, id: results.insertId },
       id: this.lastID,
     });
   });
@@ -181,6 +181,21 @@ app.patch('/api/folders/:id/notes/:noteId', (req, res) => {
       id: this.lastID,
     });
   });
+});
+
+app.delete('/api/folders/:id/notes/:noteId', (req, res) => {
+  db.query(
+    'DELETE FROM notes WHERE id = ?',
+    req.params.noteId,
+    (err) => {
+      if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+
+      res.json({ message: 'deleted', changes: this.changes });
+    },
+  );
 });
 
 // Default response for any other request

@@ -164,7 +164,7 @@ const Folder = ({ name, id }) => {
 
 Folder.propTypes = {
   name: string.isRequired,
-  id: number,
+  id: number.isRequired,
 };
 
 export default Folder;
