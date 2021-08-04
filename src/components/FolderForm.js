@@ -45,7 +45,7 @@ const FolderForm = ({
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} role="form">
       <Controller
         control={control}
         name="name"

@@ -108,6 +108,7 @@ const Folder = ({ name, id }) => {
     <div
       className={clsx(classes.root, { [classes.selected]: id === selectedFolder })}
       onClick={handleOnClick}
+      data-testid={`folder-${id}`}
     >
       {isRenaming ? (
         <FolderForm
