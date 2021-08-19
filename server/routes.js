@@ -16,3 +16,5 @@ router.delete('/api/folders/:id/notes/:noteId', notesController.deleteNote);
 
 // Default response for any other request
 router.use((req, res) => res.status(404));
+
+module.exports = router;
