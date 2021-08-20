@@ -1,18 +1,17 @@
-const mysql = require('mysql2');
+const { Sequelize } = require('sequelize');
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: 'react_notes',
-});
+const sequelize = new Sequelize(
+  'react_notes',
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
+  },
+);
 
-db.connect((err) => {
-  if (err) {
-    console.log('Error connecting to Database: \n', err);
-    throw err;
-  }
-  console.log('Database Connected!');
-});
+sequelize.authenticate()
+  .then(() => console.log('DB Connection Authenticated'))
+  .catch((e) => console.error('DB Connection error: \n', e));
 
-module.exports = db;
+module.exports = sequelize;
