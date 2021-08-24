@@ -1,84 +1,58 @@
-const db = require('../database');
+const Folder = require('../models/Folder');
 
 const foldersController = {
-  getFolders: (req, res) => {
-    const sql = 'select * from folders';
-    const params = [];
-    db.query(sql, params, (err, results) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
+  getFolders: async (req, res) => {
+    try {
+      const results = await Folder.findAll();
       res.json({
         message: 'success',
         data: results,
       });
-    });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
-  createFolder: (req, res) => {
-    const data = {
-      name: req.body.name,
-    };
-    const sql = 'INSERT INTO folders (name) VALUES (?)';
-    const params = [data.name];
-    db.query(sql, params, (err, results) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
+  createFolder: async (req, res) => {
+    try {
+      const result = await Folder.create({ name: req.body.name });
       res.json({
         message: 'success',
-        data: { ...data, id: results.insertId },
-        id: this.lastID,
+        data: result.dataValues,
+        id: result.dataValues.id,
       });
-    });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
-  updateFolder: (req, res) => {
+  updateFolder: async (req, res) => {
     const data = {
       name: req.body.name,
     };
-    db.query(
-      `UPDATE folders SET
-           name = COALESCE(?,name)
-           WHERE id = ?`,
-      [data.name, req.params.id],
-      (err) => {
-        if (err) {
-          res.status(400).json({ error: res.message });
-          return;
-        }
-        res.json({
-          message: 'success',
-          data,
-          changes: this.changes,
-        });
-      },
-    );
+    try {
+      await Folder.update(data, {
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.json({
+        message: 'success',
+        data,
+      });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
-  deleteFolder: (req, res) => {
-    db.query(
-      'DELETE FROM folders WHERE id = ?',
-      req.params.id,
-      (err) => {
-        if (err) {
-          res.status(400).json({ error: res.message });
-          return;
-        }
-
-        db.query(
-          'DELETE FROM notes WHERE folder_id = ?',
-          req.params.id,
-          (e) => {
-            if (e) {
-              res.status(400).json({ error: res.message });
-              return;
-            }
-
-            res.json({ message: 'deleted', changes: this.changes });
-          },
-        );
-      },
-    );
+  deleteFolder: async (req, res) => {
+    try {
+      await Folder.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.json({ message: 'deleted', changes: this.changes });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
 };
 
