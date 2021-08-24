@@ -6,6 +6,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const db = require('./database');
 const routes = require('./routes');
+const Folder = require('./models/Folder');
 
 const app = express();
 app.use(cors());
@@ -24,13 +25,25 @@ const listen = () => {
   });
 };
 
-const startServer = () => {
+const initialDBSetup = async () => {
+  const folders = await Folder.findAll();
+
+  // Create default starting folder if no folders exist
+  if (!folders.length) {
+    await Folder.create({ name: 'New Folder' });
+  }
+};
+
+const startServer = async () => {
   console.log('Starting Server...');
-  db.sync({ force: true })
-    .then(() => {
-      console.log('Server successfully connected to DB.');
-      listen();
-    });
+  try {
+    await db.sync({ force: process.env.NODE_ENV !== 'production' });
+    await initialDBSetup();
+    console.log('Server successfully connected to DB.');
+    listen();
+  } catch (e) {
+    console.error('Error starting server: \n', e);
+  }
 };
 
 startServer();
