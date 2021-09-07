@@ -1,77 +1,70 @@
-const db = require('../database');
+const Note = require('../models/Note');
 
 const notesController = {
-  getNotes: (req, res) => {
-    const sql = 'SELECT * FROM notes WHERE folder_id = ?';
-    db.query(sql, req.params.id, (err, results) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
+  getNotes: async (req, res) => {
+    try {
+      const results = await Note.findAll({
+        where: {
+          folderId: req.params.id,
+        },
+      });
       res.json({
         message: 'success',
         data: results,
       });
-    });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
-  createNote: (req, res) => {
+  createNote: async (req, res) => {
     const data = {
       name: req.body.name,
       description: req.body.description,
+      folderId: req.params.id,
     };
-    const sql = `
-      INSERT INTO notes (name, description, folder_id)
-      VALUES (?,?,?)
-    `;
-    const params = [data.name, data.description, req.params.id];
-    db.query(sql, params, (err, results) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
+
+    try {
+      const result = await Note.create(data);
       res.json({
         message: 'success',
-        data: { ...data, id: results.insertId },
-        id: this.lastID,
+        data: result.dataValues,
+        id: result.dataValues.id,
       });
-    });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
-  updateNote: (req, res) => {
+  updateNote: async (req, res) => {
     const data = {
       name: req.body.name,
       description: req.body.description,
     };
-    const sql = `
-      UPDATE notes
-      SET name = COALESCE(?,name), description = COALESCE(?,description), updated_at = CURRENT_TIMESTAMP
-      WHERE id = ?
-    `;
-    const params = [data.name, data.description, req.params.noteId];
-    db.query(sql, params, (err) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
+
+    try {
+      await Note.update(data, {
+        where: {
+          id: req.params.noteId,
+        },
+      });
       res.json({
         message: 'success',
         data,
-        id: this.lastID,
       });
-    });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
-  deleteNote: (req, res) => {
-    db.query(
-      'DELETE FROM notes WHERE id = ?',
-      req.params.noteId,
-      (err) => {
-        if (err) {
-          res.status(400).json({ error: res.message });
-          return;
-        }
-
-        res.json({ message: 'deleted', changes: this.changes });
-      },
-    );
+  deleteNote: async (req, res) => {
+    try {
+      await Note.destroy({
+        where: {
+          id: req.params.noteId,
+        },
+      });
+      res.json({ message: 'deleted', changes: this.changes });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
   },
 };
 
