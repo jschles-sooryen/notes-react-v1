@@ -1,10 +1,10 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "env": {
       "browser": true,
       "node": true
   },
-  "extends": "airbnb",
+  "extends": ["airbnb", "airbnb-typescript", "plugin:@typescript-eslint/recommended"],
   "rules": {
       "react/jsx-filename-extension": "off",
       "react/prop-types": [1, { "ignore": ["classes", "children"] }],
@@ -16,6 +16,7 @@
       "new-cap": "off",
       "jsx-a11y/click-events-have-key-events": "off",
       "jsx-a11y/no-static-element-interactions": "off",
-      "no-unused-vars": "warn"
+      "no-unused-vars": "warn",
+      "max-len": "off"
    }
 }

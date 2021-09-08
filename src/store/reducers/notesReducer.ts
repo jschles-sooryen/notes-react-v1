@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux';
 import {
   FETCH_NOTES_SUCCESS,
   SET_SELECTED_NOTE,
@@ -6,6 +7,7 @@ import {
   UPDATE_NOTE_SUCCESS,
   DELETE_NOTE_SUCCESS,
 } from '../actions/types';
+import { Note, NotesState } from '../types';
 
 const initialState = {
   notes: [],
@@ -13,7 +15,7 @@ const initialState = {
   isCreatingNote: false,
 };
 
-function notesReducer(state = initialState, action) {
+function notesReducer(state: NotesState = initialState, action: AnyAction) {
   switch (action.type) {
     case FETCH_NOTES_SUCCESS:
       return {

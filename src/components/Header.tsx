@@ -1,6 +1,6 @@
+import { FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
-import { func, bool } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, ButtonGroup } from '@material-ui/core';
 import {
@@ -9,6 +9,7 @@ import {
 import {
   setLayout, toggleCreateNote, setSelectedNote, deleteFolderInit, deleteNoteInit,
 } from '../store/actions';
+import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,15 +44,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = ({ onToggleFolders, showFolders }) => {
+interface HeaderProps {
+  onToggleFolders: Function | any;
+  showFolders: boolean;
+}
+
+const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const layout = useSelector((state) => state.layout);
-  const isCreatingNote = useSelector((state) => state.notes.isCreatingNote);
-  const selectedNote = useSelector((state) => state.notes.selected);
-  const selectedFolder = useSelector((state) => state.folders.selected);
+  const layout = useSelector((state: RootState) => state.layout);
+  const isCreatingNote = useSelector((state: RootState) => state.notes.isCreatingNote);
+  const selectedNote = useSelector((state: RootState) => state.notes.selected);
+  const selectedFolder = useSelector((state: RootState) => state.folders.selected);
 
-  const handleLayoutClick = (e, type) => {
+  const handleLayoutClick = (_: any, type: string) => {
     dispatch(setLayout(type));
   };
 
@@ -67,7 +73,7 @@ const Header = ({ onToggleFolders, showFolders }) => {
       dispatch(toggleCreateNote());
       dispatch(setSelectedNote(null));
     } else if (selectedNote !== null) {
-      dispatch(deleteNoteInit(selectedNote));
+      dispatch(deleteNoteInit());
     } else if (selectedFolder !== null) {
       dispatch(deleteFolderInit(selectedFolder));
     }
@@ -167,11 +173,6 @@ const Header = ({ onToggleFolders, showFolders }) => {
       </div>
     </div>
   );
-};
-
-Header.propTypes = {
-  onToggleFolders: func.isRequired,
-  showFolders: bool.isRequired,
 };
 
 export default Header;

@@ -1,8 +1,9 @@
+import { AnyAction } from 'redux';
 import { LOADING } from '../actions/types';
 
 const initialState = false;
 
-function loadingReducer(state = initialState, action) {
+function loadingReducer(state: boolean = initialState, action: AnyAction) {
   switch (action.type) {
     case LOADING:
       return !state;

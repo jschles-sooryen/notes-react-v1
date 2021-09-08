@@ -31,7 +31,6 @@ const NotesList = () => {
   const dispatch = useDispatch();
   const { notes, isCreatingNote } = useSelector((state) => state.notes);
   const selectedFolder = useSelector((state) => state.folders.selected);
-  // const layout = useSelector((state) => state.layout);
   const classes = useStyles();
 
   useEffect(() => {

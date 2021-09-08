@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { bool } from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
+import { FC } from 'react';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { toggleCreateNote, createNoteInit, updateNoteInit } from '../store/actions';
 import { formatDate } from '../util/helpers';
+import { RootState, Note } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,10 +28,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NoteDetail = ({ isNew }) => {
+interface NoteDetailProps {
+  isNew: boolean;
+}
+
+const NoteDetail: FC<NoteDetailProps> = ({ isNew }: NoteDetailProps) => {
   const dispatch = useDispatch();
-  const { notes, selected } = useSelector((state) => state.notes);
-  const selectedNote = notes.find((note) => note.id === selected);
+  const { notes, selected } = useSelector((state: RootState) => state.notes);
+  const selectedNote = notes.find((note: Note) => note.id === selected);
   const description = selectedNote?.description;
   const updatedAt = selectedNote?.updated_at;
   const classes = useStyles();
@@ -48,11 +53,12 @@ const NoteDetail = ({ isNew }) => {
 
   const handleOnBlur = () => {
     const formValues = getValues();
-    const name = formValues.description.split('\n')[0];
-    const noteInfo = { name, description: formValues.description };
+    const description = formValues.description as string;
+    const name = description.split('\n')[0];
+    const noteInfo = { name, description };
 
     if (isNew) {
-      if (!formValues.description.trim()) {
+      if (!description.trim()) {
         dispatch(toggleCreateNote());
       } else {
         dispatch(createNoteInit(noteInfo));
@@ -90,10 +96,6 @@ const NoteDetail = ({ isNew }) => {
       />
     </div>
   );
-};
-
-NoteDetail.propTypes = {
-  isNew: bool,
 };
 
 export default NoteDetail;

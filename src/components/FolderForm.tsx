@@ -1,5 +1,5 @@
+import { FC } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { func, string } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TextInput from './TextInput';
 
@@ -10,9 +10,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FolderForm = ({
+interface FolderFormProps {
+  name?: string;
+  onCreate?: Function;
+  onUpdate?: Function;
+  onCancel: Function;
+}
+
+const FolderForm: FC<FolderFormProps> = ({
   name, onCreate, onUpdate, onCancel,
-}) => {
+}: FolderFormProps) => {
   const classes = useStyles();
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -20,12 +27,12 @@ const FolderForm = ({
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: { name: string }) => {
     if (data.name.trim()) {
       // Make API call
-      if (name) {
+      if (name && onUpdate) {
         onUpdate(data);
-      } else {
+      } else if (onCreate) {
         onCreate(data);
       }
     } else {
@@ -34,7 +41,7 @@ const FolderForm = ({
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent) => {
     if (e.keyCode === 13) {
       handleSubmit(onSubmit)();
     }
@@ -60,13 +67,6 @@ const FolderForm = ({
       />
     </div>
   );
-};
-
-FolderForm.propTypes = {
-  name: string,
-  onCreate: func,
-  onUpdate: func,
-  onCancel: func.isRequired,
 };
 
 export default FolderForm;

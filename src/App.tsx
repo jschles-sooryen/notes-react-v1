@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,6 +6,7 @@ import Header from './components/Header';
 import FoldersList from './containers/FoldersList';
 import NotesList from './containers/NotesList';
 import NoteDetail from './components/NoteDetail';
+import { RootState } from './store/types';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -28,10 +29,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const App = () => {
+const App: FC = () => {
   const classes = useStyles();
   const [showFolders, setShowFolders] = useState(true);
-  const { isCreatingNote, selected } = useSelector((state) => state.notes);
+  const { isCreatingNote, selected } = useSelector((state: RootState) => state.notes);
 
   return (
     <div className={classes.root}>

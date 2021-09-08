@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import { AnyAction } from 'redux';
 import { put, select } from 'redux-saga/effects';
 import {
   fetchNotesSuccess,
@@ -14,15 +15,15 @@ import {
 
 const domain = process.env.REACT_APP_API_SERVER;
 
-function* getFolderId() {
+function* getFolderId(): Generator<any, any, any> {
   return yield select((state) => state.folders.selected);
 }
 
-function* getNoteId() {
+function* getNoteId(): Generator<any, any, any> {
   return yield select((state) => state.notes.selected);
 }
 
-export function* fetchNotesSaga(action) {
+export function* fetchNotesSaga(action: AnyAction): Generator<any, any, any> {
   yield put(loading());
   try {
     const response = yield fetch(`${domain}/api/folders/${action.payload}/notes`);
@@ -35,7 +36,7 @@ export function* fetchNotesSaga(action) {
   }
 }
 
-export function* createNoteSaga(action) {
+export function* createNoteSaga(action: AnyAction): Generator<any, any, any> {
   const folderId = yield getFolderId();
   yield put(loading());
   try {
@@ -58,7 +59,7 @@ export function* createNoteSaga(action) {
   }
 }
 
-export function* updateNoteSaga(action) {
+export function* updateNoteSaga(action: AnyAction): Generator<any, any, any> {
   const folderId = yield getFolderId();
   const noteId = yield getNoteId();
   yield put(loading());
@@ -82,7 +83,7 @@ export function* updateNoteSaga(action) {
   }
 }
 
-export function* deleteNoteSaga() {
+export function* deleteNoteSaga(): Generator<any, any, any> {
   const folderId = yield getFolderId();
   const noteId = yield getNoteId();
 

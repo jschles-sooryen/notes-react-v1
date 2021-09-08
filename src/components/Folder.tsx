@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { string, number } from 'prop-types';
@@ -11,6 +11,7 @@ import FolderForm from './FolderForm';
 import {
   setSelectedFolder, updateFolderInit, deleteFolderInit, fetchNotesInit, setSelectedNote,
 } from '../store/actions';
+import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,10 +67,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Folder = ({ name, id }) => {
+interface FolderProps {
+  name: string;
+  id: number;
+}
+
+const Folder: FC<FolderProps> = ({ name, id }: FolderProps) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const selectedFolder = useSelector((state) => state.folders.selected);
+  const selectedFolder = useSelector((state: RootState) => state.folders.selected);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
 
@@ -77,7 +83,7 @@ const Folder = ({ name, id }) => {
     if (selectedFolder !== id && isOptionsOpen) {
       setIsOptionsOpen(false);
     }
-  }, [selectedFolder], isOptionsOpen);
+  }, [selectedFolder, isOptionsOpen]);
 
   const handleOnClick = () => {
     dispatch(setSelectedFolder(id));
@@ -94,7 +100,7 @@ const Folder = ({ name, id }) => {
     setIsRenaming(true);
   };
 
-  const handleOnUpdate = (data) => {
+  const handleOnUpdate = (data: { name: string, description: string }) => {
     setIsRenaming(false);
     const newFolder = { ...data, id };
     dispatch(updateFolderInit(newFolder));

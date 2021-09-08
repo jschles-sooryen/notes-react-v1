@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux';
 import { put } from 'redux-saga/effects';
 import {
   createFolderSuccess,
@@ -13,7 +14,7 @@ import {
 
 const domain = process.env.REACT_APP_API_SERVER;
 
-export function* fetchFoldersSaga() {
+export function* fetchFoldersSaga(): Generator<any, any, any> {
   yield put(loading());
   try {
     const response = yield fetch(`${domain}/api/folders`);
@@ -26,7 +27,7 @@ export function* fetchFoldersSaga() {
   }
 }
 
-export function* createFolderSaga(action) {
+export function* createFolderSaga(action: AnyAction): Generator<any, any, any> {
   yield put(loading());
   try {
     const response = yield fetch(`${domain}/api/folders`, {
@@ -45,8 +46,7 @@ export function* createFolderSaga(action) {
   }
 }
 
-export function* updateFolderSaga(action) {
-  yield console.log('action', action);
+export function* updateFolderSaga(action: AnyAction): Generator<any, any, any> {
   const { name, id } = action.payload;
   yield put(loading());
   try {
@@ -66,7 +66,7 @@ export function* updateFolderSaga(action) {
   }
 }
 
-export function* deleteFolderSaga(action) {
+export function* deleteFolderSaga(action: AnyAction): Generator<any, any, any> {
   yield put(loading());
   try {
     yield fetch(`${domain}/api/folders/${action.payload}`, {
