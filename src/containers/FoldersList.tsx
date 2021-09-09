@@ -7,6 +7,7 @@ import Folder from '../components/Folder';
 import FolderForm from '../components/FolderForm';
 // import LoadingIndicator from '../components/LoadingIndicator';
 import { fetchFolders, createFolder, setSelectedFolder } from '../store/actions';
+import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const FoldersList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { folders, loading } = useSelector((state) => state);
+  const { folders, loading } = useSelector((state: RootState) => state);
   const foldersList = folders.folders;
   const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
 
@@ -45,7 +46,7 @@ const FoldersList = () => {
     dispatch(fetchFolders());
   }, []);
 
-  const handleOnCreate = (data) => {
+  const handleOnCreate = (data: { name: string }) => {
     dispatch(createFolder(data));
     setIsNewFolderOpen(false);
   };

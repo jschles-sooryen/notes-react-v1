@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Note from '../components/Note';
 import { fetchNotesInit } from '../store/actions';
+import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,10 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NotesList = () => {
+const NotesList: FC = () => {
   const dispatch = useDispatch();
-  const { notes, isCreatingNote } = useSelector((state) => state.notes);
-  const selectedFolder = useSelector((state) => state.folders.selected);
+  const { notes, isCreatingNote } = useSelector((state: RootState) => state.notes);
+  const selectedFolder = useSelector((state: RootState) => state.folders.selected);
   const classes = useStyles();
 
   useEffect(() => {
