@@ -1,12 +1,23 @@
 // Create express app
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-const db = require('./database');
-const routes = require('./routes');
-const Folder = require('./models/Folder');
+// const express = require('express');
+// const cors = require('cors');
+// const bodyParser = require('body-parser');
+// const path = require('path');
+// require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+// const db = require('./database');
+// const routes = require('./routes');
+// const Folder = require('./models/Folder');
+
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import path from 'path';
+import dotenv from 'dotenv';
+import db from './database';
+import routes from './routes';
+import Folder from './Folder';
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 app.use(cors());
@@ -21,7 +32,7 @@ const HTTP_PORT = 8000;
 const listen = () => {
   app.listen(HTTP_PORT, () => {
     // eslint-disable-next-line no-console
-    console.log('Server running on port %PORT%'.replace('%PORT%', HTTP_PORT));
+    console.log(`Server running on port ${HTTP_PORT}`);
   });
 };
 

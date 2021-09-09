@@ -1,4 +1,5 @@
-const Folder = require('../models/Folder');
+// const Folder = require('../models/Folder');
+import Folder from '../models/Folder';
 
 const foldersController = {
   getFolders: async (req, res) => {
@@ -56,4 +57,4 @@ const foldersController = {
   },
 };
 
-module.exports = foldersController;
+export default foldersController;

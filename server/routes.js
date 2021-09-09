@@ -1,6 +1,9 @@
-const express = require('express');
-const notesController = require('./controllers/notesController');
-const foldersController = require('./controllers/foldersController');
+// const express = require('express');
+// const notesController = require('./controllers/notesController');
+// const foldersController = require('./controllers/foldersController');
+import express from 'express';
+import notesController from './controllers/notesController';
+import foldersController from './controllers/foldersController';
 
 const router = express.Router();
 
@@ -15,6 +18,6 @@ router.patch('/api/folders/:id/notes/:noteId', notesController.updateNote);
 router.delete('/api/folders/:id/notes/:noteId', notesController.deleteNote);
 
 // Default response for any other request
-router.use((req, res) => res.status(404));
+router.use((_, res) => res.status(404));
 
-module.exports = router;
+export default router;

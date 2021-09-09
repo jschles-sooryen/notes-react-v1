@@ -1,6 +1,9 @@
-const { DataTypes } = require('sequelize');
-const db = require('../database');
-const Note = require('./Note');
+// const { DataTypes } = require('sequelize');
+// const db = require('../database');
+// const Note = require('./Note');
+import { DataTypes } from 'sequelize/types';
+import db from '../database';
+import Note from './Note';
 
 const Folder = db.define('folders', {
   id: {
@@ -16,4 +19,4 @@ const Folder = db.define('folders', {
 
 Folder.hasMany(Note, { foreignKey: 'folderId' });
 
-module.exports = Folder;
+export default Folder;

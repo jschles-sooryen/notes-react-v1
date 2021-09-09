@@ -1,4 +1,5 @@
-const { Sequelize } = require('sequelize');
+// const { Sequelize } = require('sequelize');
+import { Sequelize } from "sequelize/types";
 
 const sequelize = new Sequelize(
   'react_notes',
@@ -14,4 +15,4 @@ sequelize.authenticate()
   .then(() => console.log('DB Connection Authenticated'))
   .catch((e) => console.error('DB Connection error: \n', e));
 
-module.exports = sequelize;
+export default sequelize;

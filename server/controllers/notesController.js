@@ -1,4 +1,5 @@
-const Note = require('../models/Note');
+// const Note = require('../models/Note');
+import Note from '../models/Note';
 
 const notesController = {
   getNotes: async (req, res) => {
@@ -68,4 +69,4 @@ const notesController = {
   },
 };
 
-module.exports = notesController;
+export default notesController;
