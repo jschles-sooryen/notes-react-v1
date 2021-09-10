@@ -1,4 +1,3 @@
-// const Note = require('../models/Note');
 import Note from '../models/Note';
 
 const notesController = {

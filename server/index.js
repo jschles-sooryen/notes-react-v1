@@ -1,23 +1,14 @@
-// Create express app
-// const express = require('express');
-// const cors = require('cors');
-// const bodyParser = require('body-parser');
-// const path = require('path');
-// require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-// const db = require('./database');
-// const routes = require('./routes');
-// const Folder = require('./models/Folder');
+import {} from 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
-import dotenv from 'dotenv';
 import db from './database';
 import routes from './routes';
 import Folder from './models/Folder';
-
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 app.use(cors());

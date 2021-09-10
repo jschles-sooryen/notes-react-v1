@@ -1,5 +1,3 @@
-// const { DataTypes } = require('sequelize');
-// const db = require('../database');
 import { DataTypes } from 'sequelize';
 import db from '../database';
 

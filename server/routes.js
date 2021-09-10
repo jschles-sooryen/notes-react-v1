@@ -1,6 +1,3 @@
-// const express = require('express');
-// const notesController = require('./controllers/notesController');
-// const foldersController = require('./controllers/foldersController');
 import express from 'express';
 import notesController from './controllers/notesController';
 import foldersController from './controllers/foldersController';

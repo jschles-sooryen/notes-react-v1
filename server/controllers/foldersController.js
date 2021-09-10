@@ -1,4 +1,3 @@
-// const Folder = require('../models/Folder');
 import Folder from '../models/Folder';
 
 const foldersController = {
