@@ -15,7 +15,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import db from './database';
 import routes from './routes';
-import Folder from './Folder';
+import Folder from './models/Folder';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 

@@ -1,6 +1,6 @@
 // const { DataTypes } = require('sequelize');
 // const db = require('../database');
-import { DataTypes } from 'sequelize/types';
+import { DataTypes } from 'sequelize';
 import db from '../database';
 
 const Note = db.define('notes', {

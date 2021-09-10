@@ -1,5 +1,5 @@
 // const { Sequelize } = require('sequelize');
-import { Sequelize } from "sequelize/types";
+import { Sequelize } from "sequelize";
 
 const sequelize = new Sequelize(
   'react_notes',
