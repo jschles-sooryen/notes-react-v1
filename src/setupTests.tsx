@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { FC, ReactElement } from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { rest } from 'msw';
@@ -9,9 +10,10 @@ import { ThemeProvider } from '@material-ui/styles';
 import store from './store';
 import theme from './styles/theme';
 
+
 const domain = process.env.REACT_APP_API_SERVER;
 
-const AllTheProviders = ({ children }) => (
+const AllTheProviders: FC = ({ children }) => (
   <ThemeProvider theme={theme}>
     <Provider store={store}>
       {children}
@@ -19,7 +21,7 @@ const AllTheProviders = ({ children }) => (
   </ThemeProvider>
 );
 
-const customRender = (ui, options) => render(ui, { wrapper: AllTheProviders, ...options });
+const customRender = (ui: ReactElement, options?: any) => render(ui, { wrapper: AllTheProviders, ...options });
 
 const server = setupServer(
   rest.get(`${domain}/api/folders`, (req, res, ctx) => (
