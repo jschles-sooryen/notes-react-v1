@@ -1,7 +1,8 @@
+import { Request, Response } from 'express';
 import Note from '../models/Note';
 
 const notesController = {
-  getNotes: async (req, res) => {
+  getNotes: async (req: Request, res: Response) => {
     try {
       const results = await Note.findAll({
         where: {
@@ -12,29 +13,29 @@ const notesController = {
         message: 'success',
         data: results,
       });
-    } catch (e) {
+    } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
   },
-  createNote: async (req, res) => {
+  createNote: async (req: Request, res: Response) => {
     const data = {
       name: req.body.name,
       description: req.body.description,
-      folderId: req.params.id,
+      folderId: parseInt(req.params.id),
     };
 
     try {
       const result = await Note.create(data);
       res.json({
         message: 'success',
-        data: result.dataValues,
-        id: result.dataValues.id,
+        data: result,
+        id: result.id,
       });
-    } catch (e) {
+    } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
   },
-  updateNote: async (req, res) => {
+  updateNote: async (req: Request, res: Response) => {
     const data = {
       name: req.body.name,
       description: req.body.description,
@@ -50,19 +51,19 @@ const notesController = {
         message: 'success',
         data,
       });
-    } catch (e) {
+    } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
   },
-  deleteNote: async (req, res) => {
+  deleteNote: async (req: Request, res: Response) => {
     try {
       await Note.destroy({
         where: {
           id: req.params.noteId,
         },
       });
-      res.json({ message: 'deleted', changes: this.changes });
-    } catch (e) {
+      res.json({ message: 'deleted' });
+    } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
   },

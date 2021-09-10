@@ -12,22 +12,29 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         include: [
           path.resolve(__dirname, 'server'),
         ],
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
+            presets: [
+              '@babel/preset-env', 
+              '@babel/preset-typescript'
+            ],
+            plugins: [
+              '@babel/plugin-transform-runtime',
+              '@babel/proposal-class-properties',
+              '@babel/proposal-object-rest-spread',
+            ],
           },
         },
       },
     ],
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.ts'],
   },
 };
