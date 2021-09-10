@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "server": "node --experimental-modules --es-module-specifier-resolution=node ./server/index.js",
+    "server": "webpack && node --experimental-modules --es-module-specifier-resolution=node ./dist/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --verbose --watchAll --silent",
     "eject": "react-scripts eject"
