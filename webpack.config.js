@@ -11,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|mjs)$/,
+        test: /\.js$/,
         include: [
           path.resolve(__dirname, 'server'),
         ],
@@ -20,6 +20,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-transform-runtime'],
           },
         },
       },
