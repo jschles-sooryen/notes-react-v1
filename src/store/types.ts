@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 interface BaseAttributes {
   id: number;
   name: string;

@@ -15,7 +15,7 @@ const initialState = {
   isCreatingNote: false,
 };
 
-function notesReducer(state: NotesState = initialState, action: AnyAction) {
+function notesReducer(state: NotesState = initialState, action: AnyAction): NotesState {
   switch (action.type) {
     case FETCH_NOTES_SUCCESS:
       return {

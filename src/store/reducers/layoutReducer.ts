@@ -4,7 +4,7 @@ import { LayoutState } from '../types';
 
 const initialState = 'column';
 
-function layoutReducer(state: LayoutState = initialState, action: AnyAction) {
+function layoutReducer(state: LayoutState = initialState, action: AnyAction): LayoutState {
   switch (action.type) {
     case SET_LAYOUT:
       return action.payload;

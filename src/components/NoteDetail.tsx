@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import { FC } from 'react';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { toggleCreateNote, createNoteInit, updateNoteInit } from '../store/actions';
@@ -53,12 +52,12 @@ const NoteDetail: FC<NoteDetailProps> = ({ isNew }: NoteDetailProps) => {
 
   const handleOnBlur = () => {
     const formValues = getValues();
-    const description = formValues.description as string;
-    const name = description.split('\n')[0];
-    const noteInfo = { name, description };
+    const enteredDescription = formValues.description! as string;
+    const name = enteredDescription.split('\n')[0];
+    const noteInfo = { name, description: enteredDescription };
 
     if (isNew) {
-      if (!description.trim()) {
+      if (!enteredDescription.trim()) {
         dispatch(toggleCreateNote());
       } else {
         dispatch(createNoteInit(noteInfo));

@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface HeaderProps {
-  onToggleFolders: Function | any;
+  onToggleFolders(): void;
   showFolders: boolean;
 }
 

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { StandardTextFieldProps, TextField, TextFieldProps } from '@material-ui/core';
+import { StandardTextFieldProps, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {

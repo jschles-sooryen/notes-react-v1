@@ -13,7 +13,7 @@ const initialState = {
   selected: null,
 };
 
-function foldersReducer(state: FoldersState = initialState, action: AnyAction) {
+function foldersReducer(state: FoldersState = initialState, action: AnyAction): FoldersState {
   switch (action.type) {
     case FETCH_FOLDERS_SUCCESS:
       return { folders: action.payload, selected: state.selected || action.payload[0].id };

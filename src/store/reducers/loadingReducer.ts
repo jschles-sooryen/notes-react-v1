@@ -3,7 +3,7 @@ import { LOADING } from '../actions/types';
 
 const initialState = false;
 
-function loadingReducer(state: boolean = initialState, action: AnyAction) {
+function loadingReducer(state: boolean = initialState, action: AnyAction): boolean {
   switch (action.type) {
     case LOADING:
       return !state;

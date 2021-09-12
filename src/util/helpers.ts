@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { format } from 'date-fns';
 
-export const formatDate = (date: Date | string | undefined, isDetail: boolean = false) => {
+export const formatDate = (date: Date | string | undefined, isDetail = false): string => {
   const dateObj = date ? new Date(date) : new Date();
 
   if (isDetail) {
