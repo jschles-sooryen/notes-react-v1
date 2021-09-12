@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FoldersList = () => {
+const FoldersList: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { folders, loading } = useSelector((state: RootState) => state);

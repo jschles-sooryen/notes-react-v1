@@ -90,6 +90,7 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
             }}
           >
             <Button
+              aria-label="column"
               onClick={(e) => handleLayoutClick(e, 'column')}
               classes={{
                 root: clsx(classes.button, { [classes.selectedButton]: layout === 'column' }),
@@ -99,6 +100,7 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
             </Button>
 
             <Button
+              aria-label="grid"
               onClick={(e) => handleLayoutClick(e, 'grid')}
               classes={{
                 root: clsx(classes.button, { [classes.selectedButton]: layout === 'grid' }),
@@ -114,6 +116,7 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
             }}
           >
             <Button
+              aria-label="toggle-folders"
               onClick={onToggleFolders}
               classes={{
                 root: clsx(classes.button, { [classes.selectedButton]: !showFolders }),
@@ -146,6 +149,7 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
             }}
           >
             <Button
+              aria-label="header-delete"
               onClick={handleDeleteClick}
               classes={{
                 root: classes.button,
@@ -161,6 +165,7 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
             }}
           >
             <Button
+              aria-label="create-note"
               onClick={handleCreateNoteClick}
               classes={{
                 root: clsx(classes.button, { [classes.selectedButton]: isCreatingNote }),
