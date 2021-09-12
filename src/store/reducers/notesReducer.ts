@@ -32,7 +32,7 @@ function notesReducer(state: NotesState = initialState, action: AnyAction): Note
     case UPDATE_NOTE_SUCCESS:
       return {
         ...state,
-        notes: state.notes.map((note) => {
+        notes: state.notes.map((note: Note) => {
           if (action.payload.id === note.id) {
             return action.payload;
           }
