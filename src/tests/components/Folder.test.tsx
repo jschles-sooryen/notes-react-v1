@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { render, waitFor, fireEvent } from '../../setupTests';
+import App from '../../App';
 import Folder from '../../components/Folder';
 
 describe('<Folder />', () => {
@@ -27,6 +28,24 @@ describe('<Folder />', () => {
     await waitFor(() => {
       expect(folder.getByRole('form')).toBeTruthy();
       expect(folder.getByDisplayValue('Folder')).toBeInTheDocument();
+    });
+  });
+
+  it('Deletes the selected folder upon clicking "Delete"', async () => {
+    const app = render(<App />);
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(3);
+    });
+
+    await fireEvent.click(app.getAllByLabelText('More')[0]);
+
+    await waitFor(() => {
+      fireEvent.click(app.getAllByText('Delete')[0]);
+    });
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(2);
     });
   });
 });
