@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 import { FC, ReactElement } from 'react';
 import createSagaMiddleware from 'redux-saga';
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
 import { render as rtlRender, RenderResult, cleanup } from '@testing-library/react';
 import { rest } from 'msw';
@@ -18,7 +17,10 @@ const domain = process.env.REACT_APP_API_SERVER;
 
 const createMockStore = () => {
   const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+  const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+  });
   sagaMiddleware.run(rootSaga);
   return store;
 };

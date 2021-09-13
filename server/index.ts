@@ -1,11 +1,13 @@
+/* eslint-disable import/first */
 import 'dotenv/config';
 import dotenv from 'dotenv';
+import path from 'path';
+
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import path from 'path';
 import db from './database';
 import routes from './routes';
 import Folder from './models/Folder';
