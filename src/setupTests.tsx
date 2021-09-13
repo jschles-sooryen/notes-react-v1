@@ -66,7 +66,7 @@ const handlers = [
   rest.get(
     `${domain}/api/folders/:id/notes`,
     (req, res, ctx) => {
-      const folderId = req.params.id;
+      const folderId = req.params.id || 1;
       return res(ctx.json({
         data:
           [

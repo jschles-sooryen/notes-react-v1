@@ -54,6 +54,7 @@ const Note: FC<NoteProps> = ({
 
   return (
     <div
+      data-testid={`note-${id}`}
       className={clsx(classes.root, { [classes.selected]: id === selectedNote })}
       onClick={handleOnClick}
     >
