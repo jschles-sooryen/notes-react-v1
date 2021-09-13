@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
 import { FC, ReactElement } from 'react';
-import createSagaMiddleware from 'redux-saga';
-import { configureStore } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
 import { render as rtlRender, RenderResult, cleanup } from '@testing-library/react';
 import { rest } from 'msw';
@@ -9,26 +7,15 @@ import { setupServer } from 'msw/node';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 
-import rootReducer from './store/reducers';
-import rootSaga from './store/sagas';
+import { createStoreWithSaga } from './store';
 import theme from './styles/theme';
 
 const domain = process.env.REACT_APP_API_SERVER;
 
-const createMockStore = () => {
-  const sagaMiddleware = createSagaMiddleware();
-  const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
-  });
-  sagaMiddleware.run(rootSaga);
-  return store;
-};
-
 const render = (
   ui: ReactElement,
   {
-    store = createMockStore(),
+    store = createStoreWithSaga(),
     ...renderOptions
   } = {},
 ): RenderResult => {

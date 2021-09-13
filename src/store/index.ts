@@ -1,13 +1,26 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from './reducers';
+import foldersReducer from './reducers/foldersReducer';
+import notesReducer from './reducers/notesReducer';
+import layoutReducer from './reducers/layoutReducer';
+import loadingReducer from './reducers/loadingReducer';
 import rootSaga from './sagas';
 
-const sagaMiddleware = createSagaMiddleware();
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
-});
-sagaMiddleware.run(rootSaga);
+export const createStoreWithSaga = (): EnhancedStore => {
+  const sagaMiddleware = createSagaMiddleware();
+  const store = configureStore({
+    reducer: {
+      folders: foldersReducer,
+      notes: notesReducer,
+      loading: loadingReducer,
+      layout: layoutReducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+  });
+  sagaMiddleware.run(rootSaga);
+  return store;
+};
+
+const store = createStoreWithSaga();
 
 export default store;
