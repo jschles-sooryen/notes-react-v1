@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux';
+import { AnyAction } from '@reduxjs/toolkit';
 import { Folder, Note } from '../types';
 import {
   FETCH_FOLDERS_SUCCESS,

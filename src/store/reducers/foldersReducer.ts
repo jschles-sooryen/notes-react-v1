@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux';
+import { AnyAction } from '@reduxjs/toolkit';
 import {
   CREATE_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,

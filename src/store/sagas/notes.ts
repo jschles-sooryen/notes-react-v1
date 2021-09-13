@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { AnyAction } from 'redux';
+import { AnyAction } from '@reduxjs/toolkit';
 import { put, select } from 'redux-saga/effects';
 import {
   fetchNotesSuccess,

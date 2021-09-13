@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux';
+import { AnyAction } from '@reduxjs/toolkit';
 import {
   FETCH_NOTES_SUCCESS,
   SET_SELECTED_NOTE,

@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux';
+import { AnyAction } from '@reduxjs/toolkit';
 import { SET_LAYOUT } from '../actions/types';
 import { LayoutState } from '../types';
 

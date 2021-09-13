@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux';
+import { AnyAction } from '@reduxjs/toolkit';
 import { put } from 'redux-saga/effects';
 import {
   createFolderSuccess,
