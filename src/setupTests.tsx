@@ -40,7 +40,7 @@ const render = (
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 };
 
-const server = setupServer(
+const handlers = [
   rest.get(
     `${domain}/api/folders`,
     (req, res, ctx) => (
@@ -63,16 +63,42 @@ const server = setupServer(
       }))
     ),
   ),
-  rest.delete(
-    `${domain}/api/folders/:id`,
+  rest.get(
+    `${domain}/api/folders/:id/notes`,
     (req, res, ctx) => {
-      console.log('TEST DELETE', req.params);
-      res(ctx.json({
-        message: 'deleted',
+      const folderId = req.params.id;
+      return res(ctx.json({
+        data:
+          [
+            {
+              id: 1,
+              name: 'Note 1',
+              description: 'Hi',
+              folderId,
+              createdAt: '2021-09-13T14:46:40.000Z',
+              updatedAt: '2021-09-13T14:46:40.000Z',
+            },
+            {
+              id: 2,
+              name: 'Note 2',
+              description: 'Hello',
+              folderId,
+              createdAt: '2021-09-13T14:46:47.000Z',
+              updatedAt: '2021-09-13T14:46:47.000Z',
+            },
+          ],
       }));
     },
   ),
-);
+  rest.delete(
+    `${domain}/api/folders/:id`,
+    (req, res, ctx) => res(ctx.json({
+      message: 'deleted',
+    })),
+  ),
+];
+
+const server = setupServer(...handlers);
 
 beforeAll(() => {
   cleanup();

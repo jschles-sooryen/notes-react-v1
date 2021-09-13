@@ -46,10 +46,14 @@ describe('<Header />', () => {
     // TODO
   });
 
-  // In progress
   it('Clicking delete button deletes selected folder if no note is selected', async () => {
     const app = render(<App />);
     const button = app.getByRole('button', { name: 'header-delete' });
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(3);
+    });
+
     await fireEvent.click(button);
 
     await waitFor(() => {
