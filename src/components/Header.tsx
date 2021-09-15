@@ -6,9 +6,9 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import {
   Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
 } from '@material-ui/icons';
-import {
-  setLayout, toggleCreateNote, setSelectedNote, deleteFolderInit, deleteNoteInit,
-} from '../store/actions';
+import { deleteFolderInit } from '../store/reducers/foldersReducer';
+import { toggleCreateNote, setSelectedNote, deleteNoteInit } from '../store/reducers/notesReducer';
+import { setLayout } from '../store/reducers/layoutReducer';
 import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({

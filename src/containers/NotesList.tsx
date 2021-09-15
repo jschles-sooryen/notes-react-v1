@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Note from '../components/Note';
-import { fetchNotesInit } from '../store/actions';
+import { fetchNotesInit } from '../store/reducers/notesReducer';
 import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({

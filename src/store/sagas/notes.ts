@@ -10,8 +10,8 @@ import {
   updateNoteFail,
   deleteNoteSuccess,
   deleteNoteFail,
-  loading,
-} from '../actions';
+} from '../reducers/notesReducer';
+import { loading } from '../reducers/loadingReducer';
 
 const domain = process.env.REACT_APP_API_SERVER;
 

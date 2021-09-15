@@ -9,28 +9,24 @@ import {
   fetchNotesSaga, createNoteSaga, updateNoteSaga, deleteNoteSaga,
 } from './notes';
 import {
-  FETCH_FOLDERS_INIT,
-  CREATE_FOLDER_INIT,
-  UPDATE_FOLDER_INIT,
-  DELETE_FOLDER_INIT,
-  FETCH_NOTES_INIT,
-  CREATE_NOTE_INIT,
-  UPDATE_NOTE_INIT,
-  DELETE_NOTE_INIT,
-} from '../actions/types';
+  fetchFoldersInit, createFolderInit, updateFolderInit, deleteFolderInit,
+} from '../reducers/foldersReducer';
+import {
+  fetchNotesInit, createNoteInit, updateNoteInit, deleteNoteInit,
+} from '../reducers/notesReducer';
 
 function* watchFolders() {
-  yield takeEvery(FETCH_FOLDERS_INIT, fetchFoldersSaga);
-  yield takeEvery(CREATE_FOLDER_INIT, createFolderSaga);
-  yield takeEvery(UPDATE_FOLDER_INIT, updateFolderSaga);
-  yield takeEvery(DELETE_FOLDER_INIT, deleteFolderSaga);
+  yield takeEvery(fetchFoldersInit.type, fetchFoldersSaga);
+  yield takeEvery(createFolderInit.type, createFolderSaga);
+  yield takeEvery(updateFolderInit.type, updateFolderSaga);
+  yield takeEvery(deleteFolderInit.type, deleteFolderSaga);
 }
 
 function* watchNotes() {
-  yield takeEvery(FETCH_NOTES_INIT, fetchNotesSaga);
-  yield takeEvery(CREATE_NOTE_INIT, createNoteSaga);
-  yield takeEvery(UPDATE_NOTE_INIT, updateNoteSaga);
-  yield takeEvery(DELETE_NOTE_INIT, deleteNoteSaga);
+  yield takeEvery(fetchNotesInit.type, fetchNotesSaga);
+  yield takeEvery(createNoteInit.type, createNoteSaga);
+  yield takeEvery(updateNoteInit.type, updateNoteSaga);
+  yield takeEvery(deleteNoteInit.type, deleteNoteSaga);
 }
 
 export default function* rootSaga() {

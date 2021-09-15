@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { toggleCreateNote, createNoteInit, updateNoteInit } from '../store/actions';
+import { toggleCreateNote, createNoteInit, updateNoteInit } from '../store/reducers/notesReducer';
 import { formatDate } from '../util/helpers';
 import { RootState, Note } from '../store/types';
 

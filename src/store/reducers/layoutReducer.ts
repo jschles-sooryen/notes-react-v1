@@ -1,16 +1,22 @@
-import { AnyAction } from '@reduxjs/toolkit';
-import { SET_LAYOUT } from '../actions/types';
-import { LayoutState } from '../types';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = 'column';
 
-function layoutReducer(state: LayoutState = initialState, action: AnyAction): LayoutState {
-  switch (action.type) {
-    case SET_LAYOUT:
-      return action.payload;
-    default:
+const layoutSlice = createSlice({
+  name: 'layout',
+  initialState,
+  reducers: {
+    setLayout(state, action) {
+      state = action.payload;
+      /*
+        Must return state when state is a primitive value.
+        https://stackoverflow.com/questions/62966863/a-case-reducer-on-a-non-draftable-value-must-not-return-undefined
+      */
       return state;
-  }
-}
+    },
+  },
+});
 
-export default layoutReducer;
+export const { setLayout } = layoutSlice.actions;
+
+export default layoutSlice.reducer;

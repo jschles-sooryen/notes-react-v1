@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatDate } from '../util/helpers';
-import { setSelectedNote } from '../store/actions';
+import { setSelectedNote } from '../store/reducers/notesReducer';
 import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({

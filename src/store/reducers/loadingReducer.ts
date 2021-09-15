@@ -1,15 +1,22 @@
-import { AnyAction } from '@reduxjs/toolkit';
-import { LOADING } from '../actions/types';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = false;
 
-function loadingReducer(state: boolean = initialState, action: AnyAction): boolean {
-  switch (action.type) {
-    case LOADING:
-      return !state;
-    default:
+const loadingSlice = createSlice({
+  name: 'layout',
+  initialState,
+  reducers: {
+    loading(state) {
+      state = !state;
+      /*
+        Must return state when state is a primitive value.
+        https://stackoverflow.com/questions/62966863/a-case-reducer-on-a-non-draftable-value-must-not-return-undefined
+      */
       return state;
-  }
-}
+    },
+  },
+});
 
-export default loadingReducer;
+export const { loading } = loadingSlice.actions;
+
+export default loadingSlice.reducer;

@@ -9,8 +9,8 @@ import {
   updateFolderFail,
   deleteFolderSuccess,
   deleteFolderFail,
-  loading,
-} from '../actions';
+} from '../reducers/foldersReducer';
+import { loading } from '../reducers/loadingReducer';
 
 const domain = process.env.REACT_APP_API_SERVER;
 
