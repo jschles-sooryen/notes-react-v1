@@ -1,5 +1,5 @@
 import { AnyAction } from '@reduxjs/toolkit';
-import { put } from 'redux-saga/effects';
+import * as Effects from 'redux-saga/effects';
 import {
   createFolderSuccess,
   createFolderFail,
@@ -11,14 +11,14 @@ import {
   deleteFolderFail,
 } from '../reducers/foldersReducer';
 import { loading } from '../reducers/loadingReducer';
+import api from '../../api';
 
-const domain = process.env.REACT_APP_API_SERVER;
+const { call, put } : any = Effects;
 
 export function* fetchFoldersSaga(): Generator<any, any, any> {
   yield put(loading());
   try {
-    const response = yield fetch(`${domain}/api/folders`);
-    const data = yield response.json();
+    const data = yield call(api.getFolders);
     yield put(fetchFoldersSuccess(data.data));
     yield put(loading());
   } catch (e) {
@@ -30,14 +30,7 @@ export function* fetchFoldersSaga(): Generator<any, any, any> {
 export function* createFolderSaga(action: AnyAction): Generator<any, any, any> {
   yield put(loading());
   try {
-    const response = yield fetch(`${domain}/api/folders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: action.payload.name }),
-    });
-    const data = yield response.json();
+    const data = yield call(api.createFolder, { name: action.payload.name });
     yield put(createFolderSuccess(data.data));
     yield put(loading());
   } catch (e) {
@@ -50,14 +43,7 @@ export function* updateFolderSaga(action: AnyAction): Generator<any, any, any> {
   const { name, id } = action.payload;
   yield put(loading());
   try {
-    const response = yield fetch(`${domain}/api/folders/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name }),
-    });
-    const data = yield response.json();
+    const data = yield call(api.updateFolder, { name }, id);
     yield put(updateFolderSuccess({ ...data.data, id }));
     yield put(loading());
   } catch (e) {
@@ -67,14 +53,10 @@ export function* updateFolderSaga(action: AnyAction): Generator<any, any, any> {
 }
 
 export function* deleteFolderSaga(action: AnyAction): Generator<any, any, any> {
+  const id = action.payload;
   yield put(loading());
   try {
-    yield fetch(`${domain}/api/folders/${action.payload}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    yield call(api.deleteFolder, id);
     yield put(deleteFolderSuccess(action.payload));
     yield put(loading());
   } catch (e) {
