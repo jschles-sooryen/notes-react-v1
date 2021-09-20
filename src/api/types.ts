@@ -1,4 +1,4 @@
-import { Folder } from '../store/types';
+import { Folder, Note } from '../store/types';
 
 export type GetFoldersResponseData = {
   data: Folder[];
@@ -16,7 +16,6 @@ export type CreateFolderResponseData = {
 };
 
 export type UpdateFolderRequestParams = {
-  id: number;
   name: string;
 };
 
@@ -28,5 +27,38 @@ export type UpdateFolderResponseData = {
 };
 
 export type DeleteFolderResponseData = {
+  message: 'deleted';
+};
+
+export type GetNotesResponseData = {
+  data: Note[];
+  message: 'success';
+};
+
+export type CreateNoteResponseData = {
+  data: Note;
+  id: number;
+  message: 'success';
+};
+
+export type CreateNoteRequestParams = {
+  name: string;
+  description: string;
+};
+
+export type UpdateNoteResponseData = {
+  data: {
+    name: string;
+    description: string;
+  };
+  message: 'success';
+};
+
+export type UpdateNoteRequestParams = {
+  name: string;
+  description: string;
+};
+
+export type DeleteNoteResponseData = {
   message: 'deleted';
 };

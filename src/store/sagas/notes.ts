@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { AnyAction } from '@reduxjs/toolkit';
-import { put, select } from 'redux-saga/effects';
+import * as Effects from 'redux-saga/effects';
 import {
   fetchNotesSuccess,
   fetchNotesFail,
@@ -12,22 +12,24 @@ import {
   deleteNoteFail,
 } from '../reducers/notesReducer';
 import { loading } from '../reducers/loadingReducer';
+import { RootState } from '../types';
+import api from '../../api';
 
-const domain = process.env.REACT_APP_API_SERVER;
+const { call, put, select } : any = Effects;
 
 function* getFolderId(): Generator<any, any, any> {
-  return yield select((state) => state.folders.selected);
+  return yield select((state: RootState) => state.folders.selected);
 }
 
 function* getNoteId(): Generator<any, any, any> {
-  return yield select((state) => state.notes.selected);
+  return yield select((state: RootState) => state.notes.selected);
 }
 
 export function* fetchNotesSaga(action: AnyAction): Generator<any, any, any> {
   yield put(loading());
   try {
-    const response = yield fetch(`${domain}/api/folders/${action.payload}/notes`);
-    const data = yield response.json();
+    const folderId = action.payload;
+    const data = yield call(api.getNotes, folderId);
     yield put(fetchNotesSuccess(data.data));
     yield put(loading());
   } catch (e) {
@@ -40,17 +42,11 @@ export function* createNoteSaga(action: AnyAction): Generator<any, any, any> {
   const folderId = yield getFolderId();
   yield put(loading());
   try {
-    const response = yield fetch(`${domain}/api/folders/${folderId}/notes`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: action.payload.name,
-        description: action.payload.description,
-      }),
-    });
-    const data = yield response.json();
+    const params = {
+      name: action.payload.name,
+      description: action.payload.description,
+    };
+    const data = yield call(api.createNote, params, folderId);
     yield put(createNoteSuccess(data.data));
     yield put(loading());
   } catch (e) {
@@ -64,17 +60,11 @@ export function* updateNoteSaga(action: AnyAction): Generator<any, any, any> {
   const noteId = yield getNoteId();
   yield put(loading());
   try {
-    const response = yield fetch(`${domain}/api/folders/${folderId}/notes/${noteId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: action.payload.name,
-        description: action.payload.description,
-      }),
-    });
-    const data = yield response.json();
+    const params = {
+      name: action.payload.name,
+      description: action.payload.description,
+    };
+    const data = yield call(api.updateNote, params, folderId, noteId);
     yield put(updateNoteSuccess({ ...data.data, id: noteId }));
     yield put(loading());
   } catch (e) {
@@ -89,12 +79,7 @@ export function* deleteNoteSaga(): Generator<any, any, any> {
 
   yield put(loading());
   try {
-    yield fetch(`${domain}/api/folders/${folderId}/notes/${noteId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    yield call(api.deleteNote, folderId, noteId);
     yield put(deleteNoteSuccess(noteId));
     yield put(loading());
   } catch (e) {
