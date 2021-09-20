@@ -13,7 +13,7 @@ import {
 import { loading } from '../reducers/loadingReducer';
 import api from '../../api';
 
-const { call, put } : any = Effects;
+const { call, put }: any = Effects;
 
 export function* fetchFoldersSaga(): Generator<any, any, any> {
   yield put(loading());
