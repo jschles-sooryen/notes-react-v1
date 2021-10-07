@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Folder from '../models/Folder';
+import { folderRequestSchema } from '../util/schemas';
 
 const foldersController = {
   getFolders: async (req: Request, res: Response) => {
@@ -15,6 +16,7 @@ const foldersController = {
   },
   createFolder: async (req: Request, res: Response) => {
     try {
+      folderRequestSchema.validate(req.body);
       const result = await Folder.create({ name: req.body.name });
       res.json({
         message: 'success',
@@ -30,6 +32,7 @@ const foldersController = {
       name: req.body.name,
     };
     try {
+      folderRequestSchema.validate(req.body);
       await Folder.update(data, {
         where: {
           id: req.params.id,

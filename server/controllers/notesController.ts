@@ -1,5 +1,7 @@
+/* eslint-disable radix */
 import { Request, Response } from 'express';
 import Note from '../models/Note';
+import { noteRequestSchema } from '../util/schemas';
 
 const notesController = {
   getNotes: async (req: Request, res: Response) => {
@@ -25,6 +27,7 @@ const notesController = {
     };
 
     try {
+      noteRequestSchema.validate(req.body);
       const result = await Note.create(data);
       res.json({
         message: 'success',
@@ -42,6 +45,7 @@ const notesController = {
     };
 
     try {
+      noteRequestSchema.validate(req.body);
       await Note.update(data, {
         where: {
           id: req.params.noteId,
