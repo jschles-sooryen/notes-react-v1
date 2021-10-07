@@ -10,7 +10,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import db from './database';
 import routes from './routes';
-import Folder from './models/Folder';
+// import Folder from './models/Folder';
 
 const app = express();
 app.use(cors());
@@ -30,20 +30,23 @@ const listen = () => {
 };
 
 const initialDBSetup = async () => {
-  const folders = await Folder.findAll();
+  // const folders = await Folder.findAll();
 
-  // Create default starting folder if no folders exist
-  if (!folders.length) {
-    await Folder.create({ name: 'New Folder' });
-  }
+  // // Create default starting folder if no folders exist
+  // if (!folders.length) {
+  //   await Folder.create({ name: 'New Folder' });
+  // }
 };
 
 const startServer = async () => {
   console.log('Starting Server...');
   try {
-    await db.sync({ force: process.env.NODE_ENV !== 'production' });
-    await initialDBSetup();
-    console.log('Server successfully connected to DB.');
+    // await db.sync({ force: process.env.NODE_ENV !== 'production' });
+    await db.connectToServer(() => {
+      console.log('Successfully connected to MongoDB.');
+    });
+    // await initialDBSetup();
+    // console.log('Server successfully connected to DB.');
     listen();
   } catch (e) {
     console.error('Error starting server: \n', e);

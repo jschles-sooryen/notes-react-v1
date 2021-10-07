@@ -1,17 +1,28 @@
-import { Sequelize } from 'sequelize';
+import { MongoClient, Db } from 'mongodb';
+import { ConnectionOptions } from 'tls';
 
-const sequelize = new Sequelize(
-  'react_notes',
-  process.env.DB_USER || '',
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
+const connectionString = process.env.ATLAS_URI as string;
+const client = new MongoClient(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+} as ConnectionOptions);
+
+let dbConnection: Db;
+
+export default {
+  connectToServer(callback: (...args: any[]) => void) {
+    client.connect((err, db) => {
+      if (err || !db) {
+        return callback(err);
+      }
+
+      dbConnection = db.db('notes');
+
+      return callback();
+    });
   },
-);
 
-sequelize.authenticate()
-  .then(() => console.log('DB Connection Authenticated'))
-  .catch((e) => console.error('DB Connection error: \n', e));
-
-export default sequelize;
+  getDb() {
+    return dbConnection;
+  },
+};
