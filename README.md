@@ -3,7 +3,7 @@
 This react app is designed to simulate the desktop version of the iOS Notes app. It includes the following features:
 
 - Create, read, update and delete folders from a database.
-- Create, read, update and delete folders from a database.
+- Create, read, update and delete notes from a database.
 
 ## Tech Stack
 
