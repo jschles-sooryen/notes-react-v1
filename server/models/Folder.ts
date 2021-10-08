@@ -1,31 +1,17 @@
-// import { DataTypes, Model, Optional } from 'sequelize';
-// import db from '../database';
-// import Note from './Note';
+import mongoose, { Schema } from 'mongoose';
 
-// interface FolderAttributes {
-//   id: number;
-//   name: string;
-// }
+const { String, ObjectId } = Schema.Types;
 
-// interface FolderCreationAttributes extends Optional<FolderAttributes, 'id'> {}
+const folderSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  notes: [
+    { type: ObjectId, ref: 'notes' },
+  ],
+});
 
-// interface FolderInstance
-//   extends Model<FolderAttributes, FolderCreationAttributes>,
-//     FolderAttributes {}
+const Folder = mongoose.model('folders', folderSchema);
 
-// const Folder = db.define<FolderInstance>('folders', {
-//   id: {
-//     type: DataTypes.INTEGER,
-//     autoIncrement: true,
-//     primaryKey: true,
-//   },
-//   name: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//   },
-// });
-
-// Folder.hasMany(Note, { foreignKey: 'folderId' });
-
-// export default Folder;
-export default {};
+export default Folder;

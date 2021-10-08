@@ -1,62 +1,54 @@
+/* eslint-disable no-underscore-dangle */
 import { Request, Response } from 'express';
 import Folder from '../models/Folder';
-import { folderRequestSchema } from '../util/schemas';
 
 const foldersController = {
   getFolders: async (req: Request, res: Response) => {
-    // try {
-    //   const results = await Folder.findAll();
-    //   res.json({
-    //     message: 'success',
-    //     data: results,
-    //   });
-    // } catch (e: any) {
-    //   res.status(400).json({ error: e.message });
-    // }
+    try {
+      const result = await Folder.find({});
+      res.json({
+        message: 'success',
+        data: result,
+      });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
   },
   createFolder: async (req: Request, res: Response) => {
-    // try {
-    //   folderRequestSchema.validate(req.body);
-    //   const result = await Folder.create({ name: req.body.name });
-    //   res.json({
-    //     message: 'success',
-    //     data: result,
-    //     id: result.id,
-    //   });
-    // } catch (e: any) {
-    //   res.status(400).json({ error: e.message });
-    // }
+    try {
+      const result = await new Folder({ name: req.body.name });
+      await result.save();
+      res.json({
+        message: 'success',
+        data: result,
+        id: result._id,
+      });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
   },
   updateFolder: async (req: Request, res: Response) => {
-    // const data = {
-    //   name: req.body.name,
-    // };
-    // try {
-    //   folderRequestSchema.validate(req.body);
-    //   await Folder.update(data, {
-    //     where: {
-    //       id: req.params.id,
-    //     },
-    //   });
-    //   res.json({
-    //     message: 'success',
-    //     data,
-    //   });
-    // } catch (e: any) {
-    //   res.status(400).json({ error: e.message });
-    // }
+    const data = {
+      name: req.body.name,
+    };
+    try {
+      const result = await Folder.findByIdAndUpdate(req.params.id, data, { new: true });
+      res.json({
+        message: 'success',
+        data: result,
+        id: result._id,
+      });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
   },
   deleteFolder: async (req: Request, res: Response) => {
-    // try {
-    //   await Folder.destroy({
-    //     where: {
-    //       id: req.params.id,
-    //     },
-    //   });
-    //   res.json({ message: 'deleted' });
-    // } catch (e: any) {
-    //   res.status(400).json({ error: e.message });
-    // }
+    try {
+      await Folder.findByIdAndDelete(req.params.id);
+      res.json({ message: 'deleted' });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
   },
 };
 

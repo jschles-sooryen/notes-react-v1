@@ -1,38 +1,22 @@
-// import { DataTypes, Model, Optional } from 'sequelize';
-// import db from '../database';
+import mongoose, { Schema } from 'mongoose';
 
-// interface NoteAttributes {
-//   id: number;
-//   name: string;
-//   description: string;
-//   folderId: number;
-// }
+const { String, ObjectId } = Schema.Types;
 
-// interface NoteCreationAttributes extends Optional<NoteAttributes, 'id'> {}
+const noteSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  folder: {
+    type: ObjectId,
+    ref: 'folders',
+  },
+});
 
-// interface NoteInstance
-//   extends Model<NoteAttributes, NoteCreationAttributes>,
-//     NoteAttributes {}
+const Note = mongoose.model('notes', noteSchema);
 
-// const Note = db.define<NoteInstance>('notes', {
-//   id: {
-//     type: DataTypes.INTEGER,
-//     autoIncrement: true,
-//     primaryKey: true,
-//   },
-//   name: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//   },
-//   description: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//   },
-//   folderId: {
-//     type: DataTypes.INTEGER,
-//     allowNull: false,
-//   },
-// });
-
-// export default Note;
-export default {};
+export default Note;

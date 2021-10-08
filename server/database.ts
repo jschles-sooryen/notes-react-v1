@@ -11,6 +11,7 @@ export default {
       await mongoose.connect(connectionString, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        dbName: 'notes-app',
       } as ConnectionOptions);
 
       dbConnection = mongoose.connection;
