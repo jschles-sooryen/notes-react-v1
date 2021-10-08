@@ -1,25 +1,24 @@
-import { MongoClient, Db } from 'mongodb';
+import mongoose, { Connection } from 'mongoose';
 import { ConnectionOptions } from 'tls';
 
 const connectionString = process.env.ATLAS_URI as string;
-const client = new MongoClient(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-} as ConnectionOptions);
 
-let dbConnection: Db;
+let dbConnection: Connection;
 
 export default {
-  connectToServer(callback: (...args: any[]) => void) {
-    client.connect((err, db) => {
-      if (err || !db) {
-        return callback(err);
-      }
+  async connectToServer() {
+    try {
+      await mongoose.connect(connectionString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      } as ConnectionOptions);
 
-      dbConnection = db.db('notes');
+      dbConnection = mongoose.connection;
 
-      return callback();
-    });
+      console.log('Succesfully connected to MongoDB.');
+    } catch (e) {
+      console.error('Error connecting to database: ', e);
+    }
   },
 
   getDb() {

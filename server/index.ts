@@ -42,9 +42,7 @@ const startServer = async () => {
   console.log('Starting Server...');
   try {
     // await db.sync({ force: process.env.NODE_ENV !== 'production' });
-    await db.connectToServer(() => {
-      console.log('Successfully connected to MongoDB.');
-    });
+    await db.connectToServer();
     // await initialDBSetup();
     // console.log('Server successfully connected to DB.');
     listen();
