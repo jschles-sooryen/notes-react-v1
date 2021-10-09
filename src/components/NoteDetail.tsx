@@ -34,7 +34,7 @@ interface NoteDetailProps {
 const NoteDetail: FC<NoteDetailProps> = ({ isNew }: NoteDetailProps) => {
   const dispatch = useDispatch();
   const { notes, selected } = useSelector((state: RootState) => state.notes);
-  const selectedNote = notes.find((note: Note) => note.id === selected);
+  const selectedNote = notes.find((note: Note) => note._id === selected);
   const description = selectedNote?.description;
   const updatedAt = selectedNote?.updated_at;
   const classes = useStyles();

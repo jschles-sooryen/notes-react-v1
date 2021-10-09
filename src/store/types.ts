@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 interface BaseAttributes {
-  id: number;
+  _id: string;
   name: string;
   created_at?: string;
   updated_at?: string;
@@ -9,18 +9,18 @@ interface BaseAttributes {
 export interface Folder extends BaseAttributes {}
 
 export interface Note extends BaseAttributes {
-  folderId: number;
+  folder: string;
   description: string;
 }
 
 export type FoldersState = {
   folders: Folder[];
-  selected: null | number;
+  selected: null | string;
 };
 
 export type NotesState = {
   notes: Note[],
-  selected: null | number;
+  selected: null | string;
   isCreatingNote: boolean;
 };
 

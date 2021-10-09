@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { AnyAction } from '@reduxjs/toolkit';
 import * as Effects from 'redux-saga/effects';
 import {
@@ -40,11 +41,12 @@ export function* createFolderSaga(action: AnyAction): Generator<any, any, any> {
 }
 
 export function* updateFolderSaga(action: AnyAction): Generator<any, any, any> {
-  const { name, id } = action.payload;
+  const { name, _id } = action.payload;
+  console.log('action payload', action);
   yield put(loading());
   try {
-    const data = yield call(api.updateFolder, { name }, id);
-    yield put(updateFolderSuccess({ ...data.data, id }));
+    const data = yield call(api.updateFolder, { name }, _id);
+    yield put(updateFolderSuccess({ ...data.data, _id }));
     yield put(loading());
   } catch (e) {
     yield put(loading());

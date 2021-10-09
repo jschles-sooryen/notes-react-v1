@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable radix */
 import { Request, Response } from 'express';
 import Note from '../models/Note';
 

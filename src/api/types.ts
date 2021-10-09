@@ -11,7 +11,7 @@ export type CreateFolderRequestParams = {
 
 export type CreateFolderResponseData = {
   data: Folder;
-  id: number;
+  _id: string;
   message: 'success';
 };
 
@@ -37,7 +37,7 @@ export type GetNotesResponseData = {
 
 export type CreateNoteResponseData = {
   data: Note;
-  id: number;
+  _id: string;
   message: 'success';
 };
 

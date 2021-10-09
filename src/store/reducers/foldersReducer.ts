@@ -13,7 +13,7 @@ const foldersSlice = createSlice({
     fetchFoldersInit() {},
     fetchFoldersSuccess(state, action) {
       state.folders = action.payload;
-      state.selected = state.selected || action.payload[0].id;
+      state.selected = state.selected || action.payload[0]._id;
     },
     fetchFoldersFail() {},
     createFolderInit: {
@@ -22,7 +22,7 @@ const foldersSlice = createSlice({
     },
     createFolderSuccess(state, action) {
       state.folders = state.folders.concat(action.payload);
-      state.selected = (state.folders[state.folders.length - 1]).id + 1;
+      state.selected = (state.folders[state.folders.length - 1])._id;
     },
     createFolderFail() {},
     updateFolderInit: {
@@ -31,7 +31,7 @@ const foldersSlice = createSlice({
     },
     updateFolderSuccess(state, action) {
       state.folders = (state.folders as Folder[]).map((folder: Folder) => {
-        if (action.payload.id === folder.id) {
+        if (action.payload._id === folder._id) {
           return { ...folder, name: action.payload.name };
         }
         return folder;
@@ -40,10 +40,10 @@ const foldersSlice = createSlice({
     updateFolderFail() {},
     deleteFolderInit: {
       reducer: () => {},
-      prepare: (id: number) => ({ payload: id }),
+      prepare: (id: string) => ({ payload: id }),
     },
     deleteFolderSuccess(state, action) {
-      state.folders = state.folders.filter((folder) => folder.id !== action.payload);
+      state.folders = state.folders.filter((folder) => folder._id !== action.payload);
     },
     deleteFolderFail() {},
     setSelectedFolder(state, action) {

@@ -13,7 +13,7 @@ const notesSlice = createSlice({
   reducers: {
     fetchNotesInit: {
       reducer: () => {},
-      prepare: (id: number) => ({ payload: id }),
+      prepare: (id: string) => ({ payload: id }),
     },
     fetchNotesSuccess(state, action) {
       state.notes = action.payload;
@@ -35,7 +35,7 @@ const notesSlice = createSlice({
     },
     updateNoteSuccess(state, action) {
       state.notes = state.notes.map((note: Note) => {
-        if (action.payload.id === note.id) {
+        if (action.payload.id === note._id) {
           return action.payload;
         }
         return note;
@@ -44,7 +44,7 @@ const notesSlice = createSlice({
     updateNoteFail() {},
     deleteNoteInit() {},
     deleteNoteSuccess(state, action) {
-      state.notes = state.notes.filter((notes) => notes.id !== action.payload);
+      state.notes = state.notes.filter((notes) => notes._id !== action.payload);
       state.selected = null;
     },
     deleteNoteFail() {},

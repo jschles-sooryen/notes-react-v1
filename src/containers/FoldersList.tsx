@@ -62,7 +62,7 @@ const FoldersList: FC = () => {
   return (
     <div className={classes.root}>
       <div>
-        {foldersList.map((folder) => <Folder key={folder.id} id={folder.id} name={folder.name} />)}
+        {foldersList.map((folder) => <Folder key={folder._id} id={folder._id} name={folder.name} />)}
         {isNewFolderOpen && (
           <FolderForm onCreate={handleOnCreate} onCancel={() => setIsNewFolderOpen(false)} />
         )}

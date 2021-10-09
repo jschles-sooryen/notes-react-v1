@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 interface NoteProps {
   name: string;
   description?: string;
-  id?: number;
+  id?: string;
   isPlaceholder?: boolean;
   updatedAt?: Date;
 }

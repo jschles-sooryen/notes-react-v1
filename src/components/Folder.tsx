@@ -1,7 +1,6 @@
 import { useState, useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
-import { string, number } from 'prop-types';
 import {
   IconButton, Button, Collapse, Divider,
 } from '@material-ui/core';
@@ -68,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface FolderProps {
   name: string;
-  id: number;
+  id: string;
 }
 
 const Folder: FC<FolderProps> = ({ name, id }: FolderProps) => {
@@ -101,7 +100,7 @@ const Folder: FC<FolderProps> = ({ name, id }: FolderProps) => {
 
   const handleOnUpdate = (data: { name: string, description: string }) => {
     setIsRenaming(false);
-    const newFolder = { ...data, id };
+    const newFolder = { ...data, _id: id };
     dispatch(updateFolderInit(newFolder));
   };
 
@@ -166,11 +165,6 @@ const Folder: FC<FolderProps> = ({ name, id }: FolderProps) => {
       <Divider />
     </div>
   );
-};
-
-Folder.propTypes = {
-  name: string.isRequired,
-  id: number.isRequired,
 };
 
 export default Folder;

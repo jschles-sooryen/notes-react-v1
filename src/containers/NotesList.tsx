@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react';
+import { useEffect, FC, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,7 +35,7 @@ const NotesList: FC = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    if (typeof selectedFolder === 'number') {
+    if (typeof selectedFolder === 'string') {
       dispatch(fetchNotesInit(selectedFolder));
     }
   }, [selectedFolder]);
@@ -50,12 +50,13 @@ const NotesList: FC = () => {
       </Collapse>
       {/* TODO: Sort by most recently created/updated */}
       {notes.map((note) => (
-        <Note
-          key={note.id}
-          id={note.id}
-          name={note.name}
-          description={note.description}
-        />
+        <Fragment key={note._id}>
+          <Note
+            id={note._id}
+            name={note.name}
+            description={note.description}
+          />
+        </Fragment>
       ))}
     </div>
   );

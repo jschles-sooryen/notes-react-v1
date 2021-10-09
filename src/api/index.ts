@@ -47,22 +47,22 @@ const api = {
   createFolder: <CreateFolderResponseData, CreateFolderRequestParams>(params: CreateFolderRequestParams): Promise<CreateFolderResponseData> => (
     makeApiRequest<CreateFolderResponseData, CreateFolderRequestParams>(`${domain}/api/folders`, 'POST', params)
   ),
-  updateFolder: <UpdateFolderResponseData, UpdateFolderRequestParams>(params: UpdateFolderRequestParams, id: number): Promise<UpdateFolderResponseData> => (
+  updateFolder: <UpdateFolderResponseData, UpdateFolderRequestParams>(params: UpdateFolderRequestParams, id: string): Promise<UpdateFolderResponseData> => (
     makeApiRequest<UpdateFolderResponseData, UpdateFolderRequestParams>(`${domain}/api/folders/${id}`, 'PATCH', params)
   ),
-  deleteFolder: <DeleteFolderResponseData>(id: number): Promise<DeleteFolderResponseData> => (
+  deleteFolder: <DeleteFolderResponseData>(id: string): Promise<DeleteFolderResponseData> => (
     makeApiRequest<DeleteFolderResponseData>(`${domain}/api/folders/${id}`, 'DELETE')
   ),
-  getNotes: <GetNotesResponseData>(folderId: number): Promise<GetNotesResponseData> => (
+  getNotes: <GetNotesResponseData>(folderId: string): Promise<GetNotesResponseData> => (
     makeApiRequest<GetNotesResponseData>(`${domain}/api/folders/${folderId}/notes`)
   ),
-  createNote: <CreateNoteResponseData, CreateNoteRequestParams>(params: CreateNoteRequestParams, folderId: number): Promise<CreateNoteResponseData> => (
+  createNote: <CreateNoteResponseData, CreateNoteRequestParams>(params: CreateNoteRequestParams, folderId: string): Promise<CreateNoteResponseData> => (
     makeApiRequest<CreateNoteResponseData, CreateNoteRequestParams>(`${domain}/api/folders/${folderId}/notes`, 'POST', params)
   ),
-  updateNote: <UpdateNoteResponseData, UpdateNoteRequestParams>(params: UpdateNoteRequestParams, folderId: number, noteId: number): Promise<UpdateNoteResponseData> => (
+  updateNote: <UpdateNoteResponseData, UpdateNoteRequestParams>(params: UpdateNoteRequestParams, folderId: string, noteId: string): Promise<UpdateNoteResponseData> => (
     makeApiRequest<UpdateNoteResponseData, UpdateNoteRequestParams>(`${domain}/api/folders/${folderId}/notes/${noteId}`, 'PATCH', params)
   ),
-  deleteNote: <DeleteNoteResponseData>(folderId: number, noteId: number): Promise<DeleteNoteResponseData> => (
+  deleteNote: <DeleteNoteResponseData>(folderId: string, noteId: string): Promise<DeleteNoteResponseData> => (
     makeApiRequest<DeleteNoteResponseData>(`${domain}/api/folders/${folderId}/notes/${noteId}`, 'DELETE')
   ),
 };
