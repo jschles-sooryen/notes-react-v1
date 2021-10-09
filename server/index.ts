@@ -10,7 +10,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import db from './database';
 import routes from './routes';
-// import Folder from './models/Folder';
+import Folder from './models/Folder';
 
 const app = express();
 app.use(cors());
@@ -30,21 +30,19 @@ const listen = () => {
 };
 
 const initialDBSetup = async () => {
-  // const folders = await Folder.findAll();
-
-  // // Create default starting folder if no folders exist
-  // if (!folders.length) {
-  //   await Folder.create({ name: 'New Folder' });
-  // }
+  const folders = await Folder.find({});
+  // Create default starting folder if no folders exist
+  if (!folders.length) {
+    const firstFolder = await new Folder({ name: 'New Folder' });
+    await firstFolder.save();
+  }
 };
 
 const startServer = async () => {
   console.log('Starting Server...');
   try {
-    // await db.sync({ force: process.env.NODE_ENV !== 'production' });
     await db.connectToServer();
-    // await initialDBSetup();
-    // console.log('Server successfully connected to DB.');
+    await initialDBSetup();
     listen();
   } catch (e) {
     console.error('Error starting server: \n', e);
