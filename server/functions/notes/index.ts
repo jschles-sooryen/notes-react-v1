@@ -40,7 +40,7 @@ const handler: Handler = async (event) => {
           const data = {
             name: reqBody.name,
             description: reqBody.description,
-            folder: params.id,
+            folder: reqBody.id,
           };
           const result = await new Note(data);
           await result.save();
