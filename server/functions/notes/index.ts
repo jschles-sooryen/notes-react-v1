@@ -4,8 +4,9 @@ import Note from '../../models/Note';
 import connectToDatabaseViaLamba from '../../util/connectToDatabaseViaLamba';
 
 const handler: Handler = async (event) => {
+  let response: any;
   try {
-    await connectToDatabaseViaLamba();
+    const connection = await connectToDatabaseViaLamba();
     const { httpMethod, queryStringParameters, body } = event;
     const reqBody = body as any;
     const params = queryStringParameters as any;
@@ -14,7 +15,7 @@ const handler: Handler = async (event) => {
       case 'GET':
         try {
           const result = await Note.find({ folder: params.id });
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'success',
@@ -22,13 +23,14 @@ const handler: Handler = async (event) => {
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       case 'POST':
         try {
           const data = {
@@ -38,7 +40,7 @@ const handler: Handler = async (event) => {
           };
           const result = await new Note(data);
           await result.save();
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'success',
@@ -47,13 +49,14 @@ const handler: Handler = async (event) => {
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       case 'PATCH':
         try {
           const data = {
@@ -67,7 +70,7 @@ const handler: Handler = async (event) => {
             { new: true },
           );
 
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'success',
@@ -75,42 +78,47 @@ const handler: Handler = async (event) => {
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       case 'DELETE':
         try {
           await Note.findByIdAndDelete(params.noteId);
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'deleted',
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       default:
-        return {
+        response = {
           statusCode: 404,
           body: JSON.stringify({ message: 'Restricted HTTP Method' }),
         };
     }
+    connection.close();
   } catch (e) {
-    return {
+    response = {
       statusCode: 404,
       body: JSON.stringify({ message: `Error: ${e}` }),
     };
   }
+
+  return response;
 };
 
 export { handler };

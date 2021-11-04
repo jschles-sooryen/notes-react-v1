@@ -4,8 +4,9 @@ import Folder from '../../models/Folder';
 import connectToDatabaseViaLamba from '../../util/connectToDatabaseViaLamba';
 
 const handler: Handler = async (event) => {
+  let response: any;
   try {
-    await connectToDatabaseViaLamba();
+    const connection = await connectToDatabaseViaLamba();
     const { httpMethod, queryStringParameters, body } = event;
     const reqBody = body as any;
     const params = queryStringParameters as any;
@@ -14,7 +15,7 @@ const handler: Handler = async (event) => {
       case 'GET':
         try {
           const result = await Folder.find({});
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'success',
@@ -22,18 +23,19 @@ const handler: Handler = async (event) => {
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       case 'POST':
         try {
           const result = await new Folder({ name: reqBody.name });
           await result.save();
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'success',
@@ -42,20 +44,21 @@ const handler: Handler = async (event) => {
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       case 'PATCH':
         try {
           const data = {
             name: reqBody.name,
           };
           const result = await Folder.findByIdAndUpdate(params.id, data, { new: true });
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'success',
@@ -64,42 +67,48 @@ const handler: Handler = async (event) => {
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       case 'DELETE':
         try {
           await Folder.findByIdAndDelete(params.id);
-          return {
+          response = {
             statusCode: 200,
             body: JSON.stringify({
               message: 'deleted',
             }),
           };
         } catch (e: any) {
-          return {
+          response = {
             statusCode: 400,
             body: JSON.stringify({
               error: e.message,
             }),
           };
         }
+        break;
       default:
-        return {
+        response = {
           statusCode: 404,
           body: JSON.stringify({ message: 'Restricted HTTP Method' }),
         };
     }
+    connection.close();
   } catch (e) {
-    return {
+    connection.close();
+    response = {
       statusCode: 404,
       body: JSON.stringify({ message: `Error: ${e}` }),
     };
   }
+
+  return response;
 };
 
 export { handler };
