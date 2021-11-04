@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { Handler } from '@netlify/functions';
+import mongoose from 'mongoose';
 import Folder from '../../models/Folder';
 import connectToDatabaseViaLamba from '../../util/connectToDatabaseViaLamba';
 
@@ -101,7 +102,7 @@ const handler: Handler = async (event) => {
     }
     connection.close();
   } catch (e) {
-    connection.close();
+    mongoose.connection.close();
     response = {
       statusCode: 404,
       body: JSON.stringify({ message: `Error: ${e}` }),
