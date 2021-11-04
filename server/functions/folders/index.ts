@@ -36,8 +36,10 @@ const handler: Handler = async (event) => {
         }
         break;
       case 'POST':
+        console.log('name', reqBody.name);
         try {
           const result = await new Folder({ name: reqBody.name });
+          console.log('result', result);
           await result.save();
           response = {
             statusCode: 200,
