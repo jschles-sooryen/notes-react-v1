@@ -9,7 +9,10 @@ const handler: Handler = async (event) => {
   try {
     await connectToDatabaseViaLamba();
     const { httpMethod, queryStringParameters, body } = event;
-    const reqBody = JSON.parse(body as any);
+    let reqBody;
+    if (body) {
+      reqBody = JSON.parse(body);
+    }
     const params = queryStringParameters as any;
 
     switch (httpMethod) {
