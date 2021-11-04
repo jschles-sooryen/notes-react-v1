@@ -42,28 +42,28 @@ export const makeApiRequest = async <T, U = void>(url: string, method?: string, 
 
 const api = {
   getFolders: <GetFoldersResponseData>(): Promise<GetFoldersResponseData> => (
-    makeApiRequest<GetFoldersResponseData>(`${domain}/api/folders`)
+    makeApiRequest<GetFoldersResponseData>(`${domain}/folders`)
   ),
   createFolder: <CreateFolderResponseData, CreateFolderRequestParams>(params: CreateFolderRequestParams): Promise<CreateFolderResponseData> => (
-    makeApiRequest<CreateFolderResponseData, CreateFolderRequestParams>(`${domain}/api/folders`, 'POST', params)
+    makeApiRequest<CreateFolderResponseData, CreateFolderRequestParams>(`${domain}/folders`, 'POST', params)
   ),
-  updateFolder: <UpdateFolderResponseData, UpdateFolderRequestParams>(params: UpdateFolderRequestParams, id: string): Promise<UpdateFolderResponseData> => (
-    makeApiRequest<UpdateFolderResponseData, UpdateFolderRequestParams>(`${domain}/api/folders/${id}`, 'PATCH', params)
+  updateFolder: <UpdateFolderResponseData, UpdateFolderRequestParams>(params: UpdateFolderRequestParams): Promise<UpdateFolderResponseData> => (
+    makeApiRequest<UpdateFolderResponseData, UpdateFolderRequestParams>(`${domain}/folders`, 'PATCH', params)
   ),
   deleteFolder: <DeleteFolderResponseData>(id: string): Promise<DeleteFolderResponseData> => (
-    makeApiRequest<DeleteFolderResponseData>(`${domain}/api/folders/${id}`, 'DELETE')
+    makeApiRequest<DeleteFolderResponseData>(`${domain}/folders?id=${id}`, 'DELETE')
   ),
   getNotes: <GetNotesResponseData>(folderId: string): Promise<GetNotesResponseData> => (
-    makeApiRequest<GetNotesResponseData>(`${domain}/api/folders/${folderId}/notes`)
+    makeApiRequest<GetNotesResponseData>(`${domain}/notes?id=${folderId}`)
   ),
-  createNote: <CreateNoteResponseData, CreateNoteRequestParams>(params: CreateNoteRequestParams, folderId: string): Promise<CreateNoteResponseData> => (
-    makeApiRequest<CreateNoteResponseData, CreateNoteRequestParams>(`${domain}/api/folders/${folderId}/notes`, 'POST', params)
+  createNote: <CreateNoteResponseData, CreateNoteRequestParams>(params: CreateNoteRequestParams): Promise<CreateNoteResponseData> => (
+    makeApiRequest<CreateNoteResponseData, CreateNoteRequestParams>(`${domain}/notes`, 'POST', params)
   ),
-  updateNote: <UpdateNoteResponseData, UpdateNoteRequestParams>(params: UpdateNoteRequestParams, folderId: string, noteId: string): Promise<UpdateNoteResponseData> => (
-    makeApiRequest<UpdateNoteResponseData, UpdateNoteRequestParams>(`${domain}/api/folders/${folderId}/notes/${noteId}`, 'PATCH', params)
+  updateNote: <UpdateNoteResponseData, UpdateNoteRequestParams>(params: UpdateNoteRequestParams): Promise<UpdateNoteResponseData> => (
+    makeApiRequest<UpdateNoteResponseData, UpdateNoteRequestParams>(`${domain}/notes`, 'PATCH', params)
   ),
-  deleteNote: <DeleteNoteResponseData>(folderId: string, noteId: string): Promise<DeleteNoteResponseData> => (
-    makeApiRequest<DeleteNoteResponseData>(`${domain}/api/folders/${folderId}/notes/${noteId}`, 'DELETE')
+  deleteNote: <DeleteNoteResponseData>(noteId: string): Promise<DeleteNoteResponseData> => (
+    makeApiRequest<DeleteNoteResponseData>(`${domain}/notes?id=${noteId}`, 'DELETE')
   ),
 };
 

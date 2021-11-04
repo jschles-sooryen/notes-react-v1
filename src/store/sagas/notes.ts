@@ -45,8 +45,9 @@ export function* createNoteSaga(action: AnyAction): Generator<any, any, any> {
     const params = {
       name: action.payload.name,
       description: action.payload.description,
+      id: folderId,
     };
-    const data = yield call(api.createNote, params, folderId);
+    const data = yield call(api.createNote, params);
     yield put(createNoteSuccess(data.data));
     yield put(loading());
   } catch (e) {
@@ -63,8 +64,10 @@ export function* updateNoteSaga(action: AnyAction): Generator<any, any, any> {
     const params = {
       name: action.payload.name,
       description: action.payload.description,
+      folderId,
+      noteId,
     };
-    const data = yield call(api.updateNote, params, folderId, noteId);
+    const data = yield call(api.updateNote, params);
     yield put(updateNoteSuccess({ ...data.data, id: noteId }));
     yield put(loading());
   } catch (e) {
@@ -74,12 +77,11 @@ export function* updateNoteSaga(action: AnyAction): Generator<any, any, any> {
 }
 
 export function* deleteNoteSaga(): Generator<any, any, any> {
-  const folderId = yield getFolderId();
   const noteId = yield getNoteId();
 
   yield put(loading());
   try {
-    yield call(api.deleteNote, folderId, noteId);
+    yield call(api.deleteNote, noteId);
     yield put(deleteNoteSuccess(noteId));
     yield put(loading());
   } catch (e) {

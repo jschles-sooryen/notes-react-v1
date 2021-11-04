@@ -17,6 +17,7 @@ export type CreateFolderResponseData = {
 
 export type UpdateFolderRequestParams = {
   name: string;
+  id: string;
 };
 
 export type UpdateFolderResponseData = {
@@ -44,6 +45,7 @@ export type CreateNoteResponseData = {
 export type CreateNoteRequestParams = {
   name: string;
   description: string;
+  id: string;
 };
 
 export type UpdateNoteResponseData = {
@@ -57,6 +59,8 @@ export type UpdateNoteResponseData = {
 export type UpdateNoteRequestParams = {
   name: string;
   description: string;
+  noteId: string;
+  folderId: string;
 };
 
 export type DeleteNoteResponseData = {

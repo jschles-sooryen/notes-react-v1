@@ -45,7 +45,7 @@ export function* updateFolderSaga(action: AnyAction): Generator<any, any, any> {
   console.log('action payload', action);
   yield put(loading());
   try {
-    const data = yield call(api.updateFolder, { name }, _id);
+    const data = yield call(api.updateFolder, { name, id: _id });
     yield put(updateFolderSuccess({ ...data.data, _id }));
     yield put(loading());
   } catch (e) {
