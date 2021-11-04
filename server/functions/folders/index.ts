@@ -12,6 +12,9 @@ const handler: Handler = async (event) => {
     const reqBody = body as any;
     const params = queryStringParameters as any;
 
+    console.log('reqBody', reqBody);
+    console.log('params', params);
+
     switch (httpMethod) {
       case 'GET':
         try {
