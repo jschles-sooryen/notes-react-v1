@@ -7,7 +7,7 @@ import connectToDatabaseViaLamba from '../../util/connectToDatabaseViaLamba';
 const handler: Handler = async (event) => {
   let response: any;
   try {
-    const connection = await connectToDatabaseViaLamba();
+    await connectToDatabaseViaLamba();
     const { httpMethod, queryStringParameters, body } = event;
     const reqBody = body as any;
     const params = queryStringParameters as any;
@@ -111,7 +111,7 @@ const handler: Handler = async (event) => {
           body: JSON.stringify({ message: 'Restricted HTTP Method' }),
         };
     }
-    connection.close();
+    mongoose.connection.close();
   } catch (e) {
     mongoose.connection.close();
     response = {
