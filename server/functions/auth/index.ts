@@ -88,11 +88,8 @@ const router = express.Router();
 
 router.get('/', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile'] }));
 
-router.get('/callback', (req, res) => {
-  console.log('Callback req', req);
-  res.json({
-    message: 'Callback',
-  });
+router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  res.redirect('/');
 });
 
 /* Attach request logger for AWS */
