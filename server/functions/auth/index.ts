@@ -25,9 +25,9 @@ import express from 'express';
 import serverless from 'serverless-http';
 import passport from 'passport';
 import cors from 'cors';
-import passportJwt from 'passport-jwt';
+// import passportJwt from 'passport-jwt';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-import { sign } from 'jsonwebtoken';
+// import { sign } from 'jsonwebtoken';
 // var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 passport.use(new GoogleStrategy({
