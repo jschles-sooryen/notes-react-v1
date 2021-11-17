@@ -6,11 +6,17 @@ interface BaseAttributes {
   updated_at?: string;
 }
 
-export interface Folder extends BaseAttributes {}
+export interface Folder extends BaseAttributes { }
 
 export interface Note extends BaseAttributes {
   folder: string;
   description: string;
+}
+
+export interface User {
+  _id: string;
+  email: string;
+  password: string; // ??
 }
 
 export type FoldersState = {
@@ -24,6 +30,10 @@ export type NotesState = {
   isCreatingNote: boolean;
 };
 
+export type AuthState = {
+  user: null | User;
+};
+
 export type LayoutState = 'column' | 'grid';
 
 export type RootState = {
@@ -31,4 +41,5 @@ export type RootState = {
   notes: NotesState;
   loading: boolean;
   layout: LayoutState;
+  auth: AuthState;
 };
