@@ -4,6 +4,7 @@ import foldersReducer from './reducers/foldersReducer';
 import notesReducer from './reducers/notesReducer';
 import layoutReducer from './reducers/layoutReducer';
 import loadingReducer from './reducers/loadingReducer';
+import authReducer from './reducers/authReducer';
 import rootSaga from './sagas';
 
 export const createStoreWithSaga = (): EnhancedStore => {
@@ -14,6 +15,7 @@ export const createStoreWithSaga = (): EnhancedStore => {
       notes: notesReducer,
       loading: loadingReducer,
       layout: layoutReducer,
+      auth: authReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
   });
