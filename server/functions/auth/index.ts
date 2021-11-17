@@ -1,3 +1,4 @@
+/* eslint-disable array-bracket-spacing */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable import/prefer-default-export */
 // import { Handler } from '@netlify/functions';
@@ -43,7 +44,7 @@ passport.use(new GoogleStrategy({
     console.log({ refreshToken });
     console.log({ profile });
 
-    return done(profile);
+    return done(null, profile);
   }));
 
 // passport.use(
@@ -86,7 +87,7 @@ const router = express.Router();
 //   });
 // });
 
-router.get('/', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile'] }));
+router.get('/', passport.authenticate('google', { scope: [/* 'https://www.googleapis.com/auth/userinfo.profile' */ 'profile', 'email'] }));
 
 router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
   res.redirect('/');
