@@ -32,7 +32,7 @@ import { sign } from 'jsonwebtoken';
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID as string,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-  callbackURL: `${process.env.REACT_APP_API_SERVER}/auth/callback`,
+  callbackURL: 'https://localhost:3000',
 },
   (accessToken, refreshToken, profile, done) => {
     // User.findOrCreate({ googleId: profile.id }, function (err, user) {
