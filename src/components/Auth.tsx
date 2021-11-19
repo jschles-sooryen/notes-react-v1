@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 // import TextInput from './TextInput';
+import GoogleLogin from 'react-google-login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+const domain = process.env.REACT_APP_API_SERVER as string;
+console.log('id', googleClientId);
+console.log('domain', domain);
+
 const Auth: FC = () => {
   const classes = useStyles();
   // const [authType, setAuthType] = useState('signin');
@@ -55,21 +61,46 @@ const Auth: FC = () => {
 
   // const headerText = authType === 'signin' ? 'Welcome! Please Sign In:' : 'Register a New Account:';
 
-  const openModal = () => {
-    fetch(`${process.env.REACT_APP_API_SERVER}/auth`)
-      .then((resp) => console.log('res', resp))
-      .catch((e) => console.error(e));
+  const responseGoogle = (response: any) => {
+    console.log('Google Response', response);
+    const tokenBlob = new Blob(
+      [JSON.stringify({ access_token: response.accessToken }, null, 2)],
+      { type: 'application/json' },
+    );
+
+    const options = {
+      method: 'POST',
+      body: tokenBlob,
+      mode: 'cors',
+      cache: 'default',
+    } as any;
+
+    console.log('tokenBlob', tokenBlob);
+    console.log('options', options);
+
+    fetch(`${domain}/auth`, options)
+      .then((r) => {
+        const token = r.headers.get('x-auth-token');
+        r.json().then((user) => {
+          console.log('token', token);
+          console.log('user', user);
+        });
+      })
+      .catch((e) => console.error('Error signing into Google: ', e));
   };
 
   return (
     <div className={classes.root}>
-      <div id="netlifyModal" />
-
       <Paper className={classes.authContainer}>
         <div className={classes.contentContainer}>
           <div>
             <div className={classes.buttonContainer}>
-              <Button fullWidth variant="contained" onClick={openModal}>Sign In With Google</Button>
+              <GoogleLogin
+                clientId={googleClientId}
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy="single_host_origin"
+              />
             </div>
           </div>
         </div>
