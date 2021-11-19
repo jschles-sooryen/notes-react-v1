@@ -39,8 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     margin: '0 auto',
-    width: '80%',
-    marginTop: theme.spacing(4),
+    textAlign: 'center',
     marginBottom: theme.spacing(2),
   },
   switchAuth: {
@@ -60,7 +59,6 @@ const Auth: FC = () => {
   // const headerText = authType === 'signin' ? 'Welcome! Please Sign In:' : 'Register a New Account:';
 
   const responseGoogle = (response: any) => {
-    console.log('Google Response', response);
     const tokenBlob = new Blob(
       [JSON.stringify({ id_token: response.accessToken }, null, 2)],
       { type: 'application/json' },
@@ -93,6 +91,7 @@ const Auth: FC = () => {
         <div className={classes.contentContainer}>
           <div>
             <div className={classes.buttonContainer}>
+              <h3>Welcome! Please Sign In:</h3>
               <GoogleLogin
                 clientId={googleClientId}
                 onSuccess={responseGoogle}
