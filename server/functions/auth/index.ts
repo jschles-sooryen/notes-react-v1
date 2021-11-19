@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable array-bracket-spacing */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable import/prefer-default-export */
@@ -25,54 +26,29 @@ import express from 'express';
 import serverless from 'serverless-http';
 import passport from 'passport';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import passportInit from '../../util/passport';
+import tokenUtils from '../../util/jwtToken';
 // import passportJwt from 'passport-jwt';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+// import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 // import { sign } from 'jsonwebtoken';
 // var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID as string,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-  callbackURL: `${process.env.REACT_APP_API_SERVER}/auth/callback`,
-},
-  (accessToken, refreshToken, profile, done) => {
-    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    //   return done(err, user);
-    // });
-    console.log('Google Auth Request');
-    console.log({ accessToken });
-    console.log({ refreshToken });
-    console.log({ profile });
+passportInit();
 
-    return done(null, profile);
-  }));
-
-// passport.use(
-//   new passportJwt.Strategy({
-//     jwtFromRequest(req) {
-//       if (!req.cookies) throw new Error(`Missing cookie-parser middleware`);
-//       return req.cookies.jwt;
-//     },
-//     secretOrKey: SECRET,
-//   },
-//     async ({ user: { email } }, done) => {
-//       try {
-//         // Here you'd typically load an existing user
-//         // and use their data to create the JWT.
-//         const jwt = authJwt(email);
-
-//         return done(null, { email, jwt });
-//       } catch (error) {
-//         return done(error);
-//       }
-//     }),
-// );
+const corsOption = {
+  origin: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  credentials: true,
+  exposedHeaders: ['x-auth-token'],
+};
 
 /* initialize express */
 const app = express();
 
 app.use(passport.initialize());
-app.use(cors());
+app.use(cors(corsOption));
+app.use(cookieParser());
 
 const router = express.Router();
 
@@ -87,11 +63,31 @@ const router = express.Router();
 //   });
 // });
 
-router.get('/', passport.authenticate('google', { scope: [/* 'https://www.googleapis.com/auth/userinfo.profile' */ 'profile', 'email'] }));
+// router.get('/', passport.authenticate('google', { scope: [/* 'https://www.googleapis.com/auth/userinfo.profile' */ 'profile', 'email'] }));
 
-router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/');
-});
+// router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+//   console.log('Callback');
+//   res.redirect('/');
+// });
+
+router.post(
+  // '/callback',
+  '/',
+  passport.authenticate('google-token', { session: false }),
+  (req: any, res: any, next) => {
+    if (!req.user) {
+      return res.status(401).send('User Not Authenticated');
+    }
+
+    req.auth = {
+      id: req.user.id,
+    };
+
+    next();
+  },
+  tokenUtils.generateToken,
+  tokenUtils.sendToken,
+);
 
 /* Attach request logger for AWS */
 // app.use(morgan(customLogger))
