@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC } from 'react';
 // import { useForm, Controller } from 'react-hook-form';
-import { Button, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 // import TextInput from './TextInput';
 import GoogleLogin from 'react-google-login';
@@ -51,8 +51,6 @@ const useStyles = makeStyles((theme) => ({
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 const domain = process.env.REACT_APP_API_SERVER as string;
-console.log('id', googleClientId);
-console.log('domain', domain);
 
 const Auth: FC = () => {
   const classes = useStyles();
@@ -64,7 +62,7 @@ const Auth: FC = () => {
   const responseGoogle = (response: any) => {
     console.log('Google Response', response);
     const tokenBlob = new Blob(
-      [JSON.stringify({ access_token: response.accessToken }, null, 2)],
+      [JSON.stringify({ id_token: response.accessToken }, null, 2)],
       { type: 'application/json' },
     );
 

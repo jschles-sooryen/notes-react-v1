@@ -4,20 +4,31 @@
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/indent */
 import passport from "passport";
-import { Strategy as GoogleTokenStrategy } from "passport-token-google";
+import mongoose from "mongoose";
+import GoogleTokenStrategy from "./strategy";
 import User from "../models/User";
 import config from "./config";
+import connectToDatabaseViaLamba from "./connectToDatabaseViaLamba";
 
 const passportInit = () => {
   console.log("Loading Passport");
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
+
   passport.use(
     new GoogleTokenStrategy(
       {
         clientID: config.googleAuth.clientID,
         clientSecret: config.googleAuth.clientSecret,
       },
-      (accessToken, refreshToken, profile, done) =>
-        User.findOne(
+      async (accessToken, refreshToken, profile, done) => {
+        await connectToDatabaseViaLamba();
+        await User.findOne(
           {
             "googleProvider.id": profile.id,
           },
@@ -26,6 +37,7 @@ const passportInit = () => {
             if (!user) {
               const newUser = new User({
                 email: profile.emails[0].value,
+                fullName: profile.displayName,
                 googleProvider: {
                   id: profile.id,
                   token: accessToken,
@@ -36,13 +48,16 @@ const passportInit = () => {
                 if (error) {
                   console.log(error);
                 }
+                mongoose.connection.close();
                 return done(error, savedUser);
               });
             } else {
+              mongoose.connection.close();
               return done(err, user);
             }
           }
-        )
+        ).clone();
+      }
     )
   );
 };

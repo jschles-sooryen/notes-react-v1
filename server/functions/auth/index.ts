@@ -26,6 +26,7 @@ import express from 'express';
 import serverless from 'serverless-http';
 import passport from 'passport';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import passportInit from '../../util/passport';
 import tokenUtils from '../../util/jwtToken';
@@ -48,6 +49,7 @@ const app = express();
 
 app.use(passport.initialize());
 app.use(cors(corsOption));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 const router = express.Router();
@@ -73,7 +75,7 @@ const router = express.Router();
 router.post(
   // '/callback',
   '/',
-  passport.authenticate('google-token', { session: false }),
+  passport.authenticate('google-token', { session: false, scope: ['profile'] }),
   (req: any, res: any, next) => {
     if (!req.user) {
       return res.status(401).send('User Not Authenticated');
