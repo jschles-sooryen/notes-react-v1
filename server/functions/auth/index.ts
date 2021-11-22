@@ -29,7 +29,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import passportInit from '../../util/passport';
-import tokenUtils from '../../util/jwtToken';
 // import passportJwt from 'passport-jwt';
 // import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 // import { sign } from 'jsonwebtoken';
@@ -54,55 +53,35 @@ app.use(cookieParser());
 
 const router = express.Router();
 
-/*  gzip responses */
-// router.use(compression())
-
-/* Setup protected routes */
-// router.get('/', (req, res) => {
-//   console.log('Auth Request');
-//   res.json({
-//     message: 'Authenticate Request',
-//   });
-// });
-
-// router.get('/', passport.authenticate('google', { scope: [/* 'https://www.googleapis.com/auth/userinfo.profile' */ 'profile', 'email'] }));
-
-// router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-//   console.log('Callback');
-//   res.redirect('/');
-// });
-
 router.post(
-  // '/callback',
   '/',
-  passport.authenticate('google-token', { session: false, scope: ['profile'] }),
+  passport.authenticate('google-token', { session: false, scope: ['email'] }),
   (req: any, res: any, next) => {
-    if (!req.user) {
+    console.log('cb req 2', req.authInfo);
+
+    if (!req.user || !req.authInfo) {
       return res.status(401).send('User Not Authenticated');
     }
 
     req.auth = {
       id: req.user.id,
+      accessToken: req.authInfo,
     };
 
     next();
   },
-  tokenUtils.generateToken,
-  tokenUtils.sendToken,
+  (req: any, res: any) => {
+    res.setHeader('x-auth-token', req.auth.accessToken);
+    return res
+      .status(200)
+      .send(JSON.stringify(req.user));
+  },
 );
 
-/* Attach request logger for AWS */
-// app.use(morgan(customLogger))
-
 /* Attach routes to express instance */
-const functionName = 'auth';
+// const functionName = 'auth';
 // const routerBasePath = (process.env.NODE_ENV === 'development') ? `/${functionName}` : `/.netlify/functions/${functionName}/`;
-app.use(`/.netlify/functions/${functionName}/`, router);
-
-/* Apply express middlewares */
-// router.use(cors())
-// router.use(bodyParser.json())
-// router.use(bodyParser.urlencoded({ extended: true }))
+app.use('/.netlify/functions/auth/', router);
 
 /* Export lambda ready express app */
 exports.handler = serverless(app);

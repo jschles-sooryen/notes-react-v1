@@ -108,6 +108,12 @@ const handler: Handler = async (event) => {
           };
         }
         break;
+      case 'OPTIONS':
+        response = {
+          statusCode: 200,
+          body: JSON.stringify({ message: 'Successful preflight call.' }),
+        };
+        break;
       default:
         response = {
           statusCode: 404,
@@ -122,6 +128,12 @@ const handler: Handler = async (event) => {
       body: JSON.stringify({ message: `Error: ${e}` }),
     };
   }
+
+  response.headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
+  };
 
   return response;
 };

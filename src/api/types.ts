@@ -66,3 +66,9 @@ export type UpdateNoteRequestParams = {
 export type DeleteNoteResponseData = {
   message: 'deleted';
 };
+
+export type SignInResponseData = {
+  email: string;
+  id: string;
+  folders: Folder[];
+};

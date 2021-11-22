@@ -27,6 +27,8 @@ const passportInit = () => {
         clientSecret: config.googleAuth.clientSecret,
       },
       async (accessToken, refreshToken, profile, done) => {
+        console.log("accessToken", accessToken);
+        console.log("refreshToken", refreshToken);
         await connectToDatabaseViaLamba();
         await User.findOne(
           {
@@ -49,11 +51,11 @@ const passportInit = () => {
                   console.log(error);
                 }
                 mongoose.connection.close();
-                return done(error, savedUser);
+                return done(error, savedUser, accessToken);
               });
             } else {
               mongoose.connection.close();
-              return done(err, user);
+              return done(err, user, accessToken);
             }
           }
         ).clone();

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable func-names */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable no-unused-vars */
@@ -69,15 +70,20 @@ GoogleTokenStrategy.prototype.authenticate = function (req, options) {
   options = options || {};
   const self = this;
 
-  if (req.query && req.query.error) {
+  if (
+    (req.query && req.query.error) ||
+    (!req.headers.authorization && !req.body.id_token)
+  ) {
     // TODO: Error information pertaining to OAuth 2.0 flows is encoded in the
     //       query parameters, and should be propagated to the application.
     return this.fail();
   }
 
-  const idToken = req.body
-    ? req.body.id_token || req.query.id_token || req.headers.id_token
-    : req.headers.id_token || req.query.id_token;
+  // const idToken = req.body
+  //   ? req.body.id_token || req.query.id_token || req.headers.id_token
+  //   : req.headers.id_token || req.query.id_token;
+  const idToken =
+    req?.body?.id_token || req.headers?.authorization.split(" ")[1];
   const refreshToken = req.body
     ? req.body.refresh_token ||
       req.query.refresh_token ||

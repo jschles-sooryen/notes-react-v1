@@ -1,6 +1,8 @@
+/* eslint-disable quote-props */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { number } from 'prop-types';
+import Cookies from 'js-cookie';
 import {
   GetFoldersResponseData,
   CreateFolderRequestParams,
@@ -14,28 +16,39 @@ import {
   UpdateNoteResponseData,
   UpdateNoteRequestParams,
   DeleteNoteResponseData,
+  SignInResponseData,
 } from './types';
 
 const domain = process.env.REACT_APP_API_SERVER;
 
-export const makeApiRequest = async <T, U = void>(url: string, method?: string, params?: U): Promise<T> => {
+export const makeApiRequest = async <T, U = void | Blob>(url: string, method?: string, params?: U): Promise<T> => {
   const httpMethod = method || 'GET';
+  const token = Cookies.get('access_token');
+  const isParamsBlob = params instanceof Blob;
 
   let response;
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': token || '',
+  };
 
   if (httpMethod === 'GET') {
-    response = await fetch(url);
+    response = await fetch(url, { headers });
   } else {
     response = await fetch(url, {
       method: httpMethod,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
+      headers,
+      body: isParamsBlob ? params : JSON.stringify(params),
     });
   }
 
   const responseData: T = await response.json();
+
+  if (url === `${domain}/auth`) {
+    console.log('Setting new access token');
+    const accessToken = response.headers.get('x-auth-token') as string;
+    Cookies.set('access_token', accessToken);
+  }
 
   return responseData;
 };
@@ -64,6 +77,9 @@ const api = {
   ),
   deleteNote: <DeleteNoteResponseData>(noteId: string): Promise<DeleteNoteResponseData> => (
     makeApiRequest<DeleteNoteResponseData>(`${domain}/notes?id=${noteId}`, 'DELETE')
+  ),
+  signIn: <SignInResponseData>(params: Blob): Promise<SignInResponseData> => (
+    makeApiRequest<SignInResponseData>(`${domain}/auth`, 'POST', params)
   ),
 };
 

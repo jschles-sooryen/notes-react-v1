@@ -16,7 +16,7 @@ export interface Note extends BaseAttributes {
 export interface User {
   _id: string;
   email: string;
-  password: string; // ??
+  // folders: Folder[]; ??
 }
 
 export type FoldersState = {
