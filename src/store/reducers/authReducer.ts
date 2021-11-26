@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 import { AuthState } from '../types';
 
 const initialState: AuthState = {
-  user: null,
+  user: Cookies.get('access_token') || '',
 };
 
 const authSlice = createSlice({
@@ -11,7 +12,7 @@ const authSlice = createSlice({
   reducers: {
     signInInit: {
       reducer: () => { },
-      prepare: (params: Blob) => ({ payload: params }),
+      prepare: (params?: Blob) => ({ payload: params || {} }),
     },
     signInSuccess(state, action) {
       // state.user = action.payload;

@@ -42,7 +42,6 @@ export function* createFolderSaga(action: AnyAction): Generator<any, any, any> {
 
 export function* updateFolderSaga(action: AnyAction): Generator<any, any, any> {
   const { name, _id } = action.payload;
-  console.log('action payload', action);
   yield put(loading());
   try {
     const data = yield call(api.updateFolder, { name, id: _id });
@@ -58,7 +57,7 @@ export function* deleteFolderSaga(action: AnyAction): Generator<any, any, any> {
   const id = action.payload;
   yield put(loading());
   try {
-    yield call(api.deleteFolder, id);
+    yield call(api.deleteFolder, { id });
     yield put(deleteFolderSuccess(action.payload));
     yield put(loading());
   } catch (e) {

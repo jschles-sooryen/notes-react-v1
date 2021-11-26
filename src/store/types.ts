@@ -31,7 +31,7 @@ export type NotesState = {
 };
 
 export type AuthState = {
-  user: null | User;
+  user: null | User | string;
 };
 
 export type LayoutState = 'column' | 'grid';

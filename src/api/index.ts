@@ -9,6 +9,7 @@ import {
   CreateFolderResponseData,
   UpdateFolderRequestParams,
   UpdateFolderResponseData,
+  DeleteFolderRequestParams,
   DeleteFolderResponseData,
   GetNotesResponseData,
   CreateNoteResponseData,
@@ -21,7 +22,7 @@ import {
 
 const domain = process.env.REACT_APP_API_SERVER;
 
-export const makeApiRequest = async <T, U = void | Blob>(url: string, method?: string, params?: U): Promise<T> => {
+export const makeApiRequest = async <T, U = void | Blob | any>(url: string, method?: string, params?: U): Promise<T> => {
   const httpMethod = method || 'GET';
   const token = Cookies.get('access_token');
   const isParamsBlob = params instanceof Blob;
@@ -29,7 +30,7 @@ export const makeApiRequest = async <T, U = void | Blob>(url: string, method?: s
   let response;
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': token || '',
+    'Authorization': `Bearer ${token}` || '',
   };
 
   if (httpMethod === 'GET') {
@@ -63,8 +64,8 @@ const api = {
   updateFolder: <UpdateFolderResponseData, UpdateFolderRequestParams>(params: UpdateFolderRequestParams): Promise<UpdateFolderResponseData> => (
     makeApiRequest<UpdateFolderResponseData, UpdateFolderRequestParams>(`${domain}/folders`, 'PATCH', params)
   ),
-  deleteFolder: <DeleteFolderResponseData>(id: string): Promise<DeleteFolderResponseData> => (
-    makeApiRequest<DeleteFolderResponseData>(`${domain}/folders?id=${id}`, 'DELETE')
+  deleteFolder: <DeleteFolderResponseData>(params: DeleteFolderRequestParams): Promise<DeleteFolderResponseData> => (
+    makeApiRequest<DeleteFolderResponseData>(`${domain}/folders`, 'DELETE', params)
   ),
   getNotes: <GetNotesResponseData>(folderId: string): Promise<GetNotesResponseData> => (
     makeApiRequest<GetNotesResponseData>(`${domain}/notes?id=${folderId}`)
@@ -78,7 +79,7 @@ const api = {
   deleteNote: <DeleteNoteResponseData>(noteId: string): Promise<DeleteNoteResponseData> => (
     makeApiRequest<DeleteNoteResponseData>(`${domain}/notes?id=${noteId}`, 'DELETE')
   ),
-  signIn: <SignInResponseData>(params: Blob): Promise<SignInResponseData> => (
+  signIn: <SignInResponseData>(params?: Blob): Promise<SignInResponseData> => (
     makeApiRequest<SignInResponseData>(`${domain}/auth`, 'POST', params)
   ),
 };

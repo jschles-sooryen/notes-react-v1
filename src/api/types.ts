@@ -27,6 +27,10 @@ export type UpdateFolderResponseData = {
   messsage: 'success';
 };
 
+export type DeleteFolderRequestParams = {
+  id: string;
+};
+
 export type DeleteFolderResponseData = {
   message: 'deleted';
 };

@@ -59,7 +59,7 @@ const Auth: FC = () => {
     console.log('resp', response);
     if (!response.error) {
       const tokenBlob = new Blob(
-        [JSON.stringify({ id_token: response.accessToken }, null, 2)],
+        [JSON.stringify({ id_token: response.tokenId }, null, 2)],
         { type: 'application/json' },
       );
       dispatch(signInInit(tokenBlob));

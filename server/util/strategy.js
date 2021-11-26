@@ -90,8 +90,6 @@ GoogleTokenStrategy.prototype.authenticate = function (req, options) {
       req.headers.refresh_token
     : req.headers.refresh_token || req.query.refresh_token;
 
-  console.log("idToken", idToken);
-
   self._loadUserProfile(idToken, (err, profile) => {
     if (err) {
       return self.fail(err);
@@ -130,7 +128,7 @@ GoogleTokenStrategy.prototype.authenticate = function (req, options) {
  * @api protected
  */
 GoogleTokenStrategy.prototype.userProfile = function (idToken, done) {
-  const profileUrl = `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${idToken}`;
+  const profileUrl = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`;
   this._oauth2.get(profileUrl, null, (err, body, res) => {
     if (err) {
       return done(new InternalOAuthError("failed to fetch user profile", err));

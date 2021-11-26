@@ -8,6 +8,7 @@ import passport from 'passport';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 import passportInit from '../../util/passport';
 import foldersController from '../../controllers/foldersController';
 
@@ -31,9 +32,12 @@ app.use(cookieParser());
 const router = express.Router();
 
 router.post(
-  '/',
-  passport.authenticate('google-token', { session: false, scope: ['email'] }),
+  '/auth',
+  passport.authenticate('google-token', { session: true, scope: ['email'] }),
   (req: any, res: any, next) => {
+    console.log('/AUTH');
+    mongoose.connection.close();
+
     if (!req.user || !req.authInfo) {
       return res.status(401).send('User Not Authenticated');
     }
@@ -53,12 +57,15 @@ router.post(
   },
 );
 
-router.get('/folders', foldersController.getFolders);
+router.get('/folders', passport.authenticate('google-token', { session: true, scope: ['email'] }), foldersController.getFolders);
+router.post('/folders', passport.authenticate('google-token', { session: true, scope: ['email'] }), foldersController.createFolder);
+router.patch('/folders', passport.authenticate('google-token', { session: true, scope: ['email'] }), foldersController.updateFolder);
+router.delete('/folders', passport.authenticate('google-token', { session: true, scope: ['email'] }), foldersController.deleteFolder);
 
 /* Attach routes to express instance */
 // const functionName = 'auth';
 // const routerBasePath = (process.env.NODE_ENV === 'development') ? `/${functionName}` : `/.netlify/functions/${functionName}/`;
-app.use('/.netlify/functions/auth/', router);
+app.use('/.netlify/functions/app/', router);
 
 /* Export lambda ready express app */
 exports.handler = serverless(app);

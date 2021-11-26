@@ -1,5 +1,5 @@
-import { useState, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect, FC } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Auth from './components/Auth';
@@ -8,6 +8,7 @@ import FoldersList from './containers/FoldersList';
 import NotesList from './containers/NotesList';
 import NoteDetail from './components/NoteDetail';
 import { RootState } from './store/types';
+import { signInInit } from './store/reducers/authReducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -31,12 +32,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 const App: FC = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [showFolders, setShowFolders] = useState(true);
   const { isCreatingNote, selected } = useSelector((state: RootState) => state.notes);
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const isLoggedIn = !!user;
+  const isLoggedIn = !!user && typeof user !== 'string';
+
+  useEffect(() => {
+    if (user && typeof user === 'string') {
+      dispatch(signInInit());
+    }
+  }, [user]);
 
   const renderSignedInContent = () => (
     <>

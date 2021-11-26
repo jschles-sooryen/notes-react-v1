@@ -7,6 +7,7 @@ import passport from "passport";
 import mongoose from "mongoose";
 import GoogleTokenStrategy from "./strategy";
 import User from "../models/User";
+import Folder from "../models/Folder";
 import config from "./config";
 import connectToDatabaseViaLamba from "./connectToDatabaseViaLamba";
 
@@ -27,38 +28,41 @@ const passportInit = () => {
         clientSecret: config.googleAuth.clientSecret,
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("accessToken", accessToken);
-        console.log("refreshToken", refreshToken);
         await connectToDatabaseViaLamba();
-        await User.findOne(
-          {
+        try {
+          const user = await User.findOne({
             "googleProvider.id": profile.id,
-          },
-          (err, user) => {
-            // no user was found, lets create a new one
-            if (!user) {
-              const newUser = new User({
-                email: profile.emails[0].value,
-                fullName: profile.displayName,
-                googleProvider: {
-                  id: profile.id,
-                  token: accessToken,
-                },
-              });
+          }).clone();
 
-              newUser.save((error, savedUser) => {
-                if (error) {
-                  console.log(error);
-                }
-                mongoose.connection.close();
-                return done(error, savedUser, accessToken);
-              });
-            } else {
-              mongoose.connection.close();
-              return done(err, user, accessToken);
-            }
+          if (!user) {
+            const newUser = await new User({
+              email: profile.emails[0].value,
+              fullName: profile.displayName,
+              googleProvider: {
+                id: profile.id,
+                // token: accessToken, ??
+              },
+            });
+
+            const savedUser = await newUser.save();
+
+            console.log("savedUser", savedUser);
+
+            const defaultFolder = await new Folder({
+              name: "New Folder",
+              user: savedUser._id,
+            });
+
+            await defaultFolder.save();
+
+            await mongoose.connection.close();
+            return done(null, savedUser, accessToken);
           }
-        ).clone();
+
+          return done(null, user, accessToken);
+        } catch (error) {
+          return done(error, null, accessToken);
+        }
       }
     )
   );
