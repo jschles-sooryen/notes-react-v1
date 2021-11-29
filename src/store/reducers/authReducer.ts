@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 import { AuthState } from '../types';
 
 const initialState: AuthState = {
-  user: Cookies.get('access_token') || '',
+  user: null,
+  accessToken: Cookies.get('access_token') || '',
 };
 
 const authSlice = createSlice({

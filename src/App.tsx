@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useState, useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Drawer } from '@material-ui/core';
@@ -7,6 +8,7 @@ import Header from './components/Header';
 import FoldersList from './containers/FoldersList';
 import NotesList from './containers/NotesList';
 import NoteDetail from './components/NoteDetail';
+import LoadingIndicator from './components/LoadingIndicator';
 import { RootState } from './store/types';
 import { signInInit } from './store/reducers/authReducer';
 
@@ -29,6 +31,11 @@ const useStyles = makeStyles(() => ({
   paper: {
     position: 'relative',
   },
+  loading: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+  },
 }));
 
 const App: FC = () => {
@@ -36,15 +43,22 @@ const App: FC = () => {
   const classes = useStyles();
   const [showFolders, setShowFolders] = useState(true);
   const { isCreatingNote, selected } = useSelector((state: RootState) => state.notes);
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { user, accessToken } = useSelector((state: RootState) => state.auth);
 
-  const isLoggedIn = !!user && typeof user !== 'string';
+  const isLoggedIn = !!user;
+  const isLoadingUserFromCookie = !isLoggedIn && accessToken;
 
   useEffect(() => {
-    if (user && typeof user === 'string') {
+    if (isLoadingUserFromCookie) {
       dispatch(signInInit());
     }
-  }, [user]);
+  }, [isLoadingUserFromCookie]);
+
+  const renderLoadingUser = () => (
+    <div className={classes.loading}>
+      <LoadingIndicator />
+    </div>
+  );
 
   const renderSignedInContent = () => (
     <>
@@ -79,7 +93,7 @@ const App: FC = () => {
         showFolders={showFolders}
       />
       <div className={classes.contentRoot}>
-        {isLoggedIn ? renderSignedInContent() : <Auth />}
+        {isLoadingUserFromCookie ? renderLoadingUser() : isLoggedIn ? renderSignedInContent() : <Auth />}
       </div>
     </div>
   );
