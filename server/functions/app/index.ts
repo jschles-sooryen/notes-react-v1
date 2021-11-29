@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import passportInit from '../../util/passport';
 import foldersController from '../../controllers/foldersController';
+import notesController from '../../controllers/notesController';
 
 passportInit();
 
@@ -61,6 +62,11 @@ router.get('/folders', passport.authenticate('google-token', { session: true, sc
 router.post('/folders', passport.authenticate('google-token', { session: true, scope: ['email'] }), foldersController.createFolder);
 router.patch('/folders', passport.authenticate('google-token', { session: true, scope: ['email'] }), foldersController.updateFolder);
 router.delete('/folders', passport.authenticate('google-token', { session: true, scope: ['email'] }), foldersController.deleteFolder);
+
+router.get('/notes', passport.authenticate('google-token', { session: true, scope: ['email'] }), notesController.getNotes);
+router.post('/notes', passport.authenticate('google-token', { session: true, scope: ['email'] }), notesController.createNote);
+router.patch('/notes', passport.authenticate('google-token', { session: true, scope: ['email'] }), notesController.updateNote);
+router.delete('/notes', passport.authenticate('google-token', { session: true, scope: ['email'] }), notesController.deleteNote);
 
 /* Attach routes to express instance */
 // const functionName = 'auth';

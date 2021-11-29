@@ -16,6 +16,7 @@ import {
   CreateNoteRequestParams,
   UpdateNoteResponseData,
   UpdateNoteRequestParams,
+  DeleteNoteRequestParams,
   DeleteNoteResponseData,
   SignInResponseData,
 } from './types';
@@ -76,8 +77,8 @@ const api = {
   updateNote: <UpdateNoteResponseData, UpdateNoteRequestParams>(params: UpdateNoteRequestParams): Promise<UpdateNoteResponseData> => (
     makeApiRequest<UpdateNoteResponseData, UpdateNoteRequestParams>(`${domain}/notes`, 'PATCH', params)
   ),
-  deleteNote: <DeleteNoteResponseData>(noteId: string): Promise<DeleteNoteResponseData> => (
-    makeApiRequest<DeleteNoteResponseData>(`${domain}/notes?id=${noteId}`, 'DELETE')
+  deleteNote: <DeleteNoteResponseData>(params: DeleteNoteRequestParams): Promise<DeleteNoteResponseData> => (
+    makeApiRequest<DeleteNoteResponseData>(`${domain}/notes`, 'DELETE', params)
   ),
   signIn: <SignInResponseData>(params?: Blob): Promise<SignInResponseData> => (
     makeApiRequest<SignInResponseData>(`${domain}/auth`, 'POST', params)

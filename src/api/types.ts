@@ -67,6 +67,10 @@ export type UpdateNoteRequestParams = {
   folderId: string;
 };
 
+export type DeleteNoteRequestParams = {
+  noteId: string;
+};
+
 export type DeleteNoteResponseData = {
   message: 'deleted';
 };
