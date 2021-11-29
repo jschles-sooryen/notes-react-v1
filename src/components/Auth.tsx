@@ -21,11 +21,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     width: '400px',
   },
-  contentContainer: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // alignItems: 'center',
-  },
   inputContainer: {
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
@@ -56,7 +51,6 @@ const Auth: FC = () => {
   const classes = useStyles();
 
   const handleGoogleResponse = (response: any) => {
-    console.log('resp', response);
     if (!response.error) {
       const tokenBlob = new Blob(
         [JSON.stringify({ id_token: response.tokenId }, null, 2)],
@@ -69,18 +63,16 @@ const Auth: FC = () => {
   return (
     <div className={classes.root}>
       <Paper className={classes.authContainer}>
-        <div className={classes.contentContainer}>
-          <div>
-            <div className={classes.buttonContainer}>
-              <h3>Welcome! Please Sign In:</h3>
-              <GoogleLogin
-                clientId={googleClientId}
-                onSuccess={handleGoogleResponse}
-                onFailure={handleGoogleResponse}
-                cookiePolicy="single_host_origin"
-                prompt="consent"
-              />
-            </div>
+        <div>
+          <div className={classes.buttonContainer}>
+            <h3>Welcome! Please Sign In:</h3>
+            <GoogleLogin
+              clientId={googleClientId}
+              onSuccess={handleGoogleResponse}
+              onFailure={handleGoogleResponse}
+              cookiePolicy="single_host_origin"
+              prompt="consent"
+            />
           </div>
         </div>
       </Paper>

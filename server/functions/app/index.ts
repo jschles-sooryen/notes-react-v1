@@ -36,7 +36,6 @@ router.post(
   '/auth',
   passport.authenticate('google-token', { session: true, scope: ['email'] }),
   (req: any, res: any, next) => {
-    console.log('/AUTH');
     mongoose.connection.close();
 
     if (!req.user || !req.authInfo) {

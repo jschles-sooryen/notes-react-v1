@@ -16,15 +16,18 @@ const authSlice = createSlice({
       prepare: (params?: Blob) => ({ payload: params || {} }),
     },
     signInSuccess(state, action) {
-      // state.user = action.payload;
       state.user = {
         email: action.payload.email,
         _id: action.payload._id,
       };
     },
+    signOut(state) {
+      state.user = null;
+      state.accessToken = '';
+    },
   },
 });
 
-export const { signInInit, signInSuccess } = authSlice.actions;
+export const { signInInit, signInSuccess, signOut } = authSlice.actions;
 
 export default authSlice.reducer;

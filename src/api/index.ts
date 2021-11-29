@@ -47,7 +47,6 @@ export const makeApiRequest = async <T, U = void | Blob | any>(url: string, meth
   const responseData: T = await response.json();
 
   if (url === `${domain}/auth`) {
-    console.log('Setting new access token');
     const accessToken = response.headers.get('x-auth-token') as string;
     Cookies.set('access_token', accessToken);
   }

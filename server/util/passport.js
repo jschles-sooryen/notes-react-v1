@@ -12,7 +12,6 @@ import config from "./config";
 import connectToDatabaseViaLamba from "./connectToDatabaseViaLamba";
 
 const passportInit = () => {
-  console.log("Loading Passport");
   passport.serializeUser((user, done) => {
     done(null, user);
   });
@@ -45,8 +44,6 @@ const passportInit = () => {
             });
 
             const savedUser = await newUser.save();
-
-            console.log("savedUser", savedUser);
 
             const defaultFolder = await new Folder({
               name: "New Folder",

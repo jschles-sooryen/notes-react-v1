@@ -1,14 +1,17 @@
 import { FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
+import Cookies from 'js-cookie';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, ButtonGroup } from '@material-ui/core';
 import {
   Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
 } from '@material-ui/icons';
+import { GoogleLogout } from 'react-google-login';
 import { deleteFolderInit } from '../store/reducers/foldersReducer';
 import { toggleCreateNote, setSelectedNote, deleteNoteInit } from '../store/reducers/notesReducer';
 import { setLayout } from '../store/reducers/layoutReducer';
+import { signOut } from '../store/reducers/authReducer';
 import { RootState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,12 +45,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  innerFlexRight: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 interface HeaderProps {
   onToggleFolders(): void;
   showFolders: boolean;
 }
+
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
 const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) => {
   const dispatch = useDispatch();
@@ -56,6 +65,9 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
   const isCreatingNote = useSelector((state: RootState) => state.notes.isCreatingNote);
   const selectedNote = useSelector((state: RootState) => state.notes.selected);
   const selectedFolder = useSelector((state: RootState) => state.folders.selected);
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const isLoggedIn = !!user;
 
   const handleLayoutClick = (_: any, type: string) => {
     dispatch(setLayout(type));
@@ -79,102 +91,119 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
     }
   };
 
+  const handleLogout = () => {
+    Cookies.remove('access_token');
+    dispatch(signOut());
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.flexContainer}>
         <div className={classes.innerFlexLeft}>
           <h1>React Notes App V1</h1>
-          <ButtonGroup
-            classes={{
-              root: classes.buttonGroupRoot,
-            }}
-          >
-            <Button
-              aria-label="column"
-              onClick={(e) => handleLayoutClick(e, 'column')}
-              classes={{
-                root: clsx(classes.button, { [classes.selectedButton]: layout === 'column' }),
-              }}
-            >
-              <Reorder />
-            </Button>
+          {isLoggedIn ? (
+            <>
+              <ButtonGroup
+                classes={{
+                  root: classes.buttonGroupRoot,
+                }}
+              >
+                <Button
+                  aria-label="column"
+                  onClick={(e) => handleLayoutClick(e, 'column')}
+                  classes={{
+                    root: clsx(classes.button, { [classes.selectedButton]: layout === 'column' }),
+                  }}
+                >
+                  <Reorder />
+                </Button>
 
-            <Button
-              aria-label="grid"
-              onClick={(e) => handleLayoutClick(e, 'grid')}
-              classes={{
-                root: clsx(classes.button, { [classes.selectedButton]: layout === 'grid' }),
-              }}
-            >
-              <Apps />
-            </Button>
-          </ButtonGroup>
+                <Button
+                  aria-label="grid"
+                  onClick={(e) => handleLayoutClick(e, 'grid')}
+                  classes={{
+                    root: clsx(classes.button, { [classes.selectedButton]: layout === 'grid' }),
+                  }}
+                >
+                  <Apps />
+                </Button>
+              </ButtonGroup>
 
-          <ButtonGroup
-            classes={{
-              root: classes.buttonGroupRoot,
-            }}
-          >
-            <Button
-              aria-label="toggle-folders"
-              onClick={onToggleFolders}
-              classes={{
-                root: clsx(classes.button, { [classes.selectedButton]: !showFolders }),
-              }}
-            >
-              <VerticalSplit />
-            </Button>
-          </ButtonGroup>
+              <ButtonGroup
+                classes={{
+                  root: classes.buttonGroupRoot,
+                }}
+              >
+                <Button
+                  aria-label="toggle-folders"
+                  onClick={onToggleFolders}
+                  classes={{
+                    root: clsx(classes.button, { [classes.selectedButton]: !showFolders }),
+                  }}
+                >
+                  <VerticalSplit />
+                </Button>
+              </ButtonGroup>
 
-          {/* TODO: Show all attachments in folder */}
-          <ButtonGroup
-            classes={{
-              root: classes.buttonGroupRoot,
-            }}
-          >
-            <Button
-              onClick={() => {}}
-              classes={{
-                root: clsx(classes.button, { [classes.selectedButton]: false }),
-              }}
-            >
-              <AttachFile />
-            </Button>
-          </ButtonGroup>
+              <ButtonGroup
+                classes={{
+                  root: classes.buttonGroupRoot,
+                }}
+              >
+                <Button
+                  onClick={() => {}}
+                  classes={{
+                    root: clsx(classes.button, { [classes.selectedButton]: false }),
+                  }}
+                >
+                  <AttachFile />
+                </Button>
+              </ButtonGroup>
 
-          {/* TODO: Delete selected folder or selected note */}
-          <ButtonGroup
-            classes={{
-              root: classes.buttonGroupRoot,
-            }}
-          >
-            <Button
-              aria-label="header-delete"
-              onClick={handleDeleteClick}
-              classes={{
-                root: classes.button,
-              }}
-            >
-              <Delete />
-            </Button>
-          </ButtonGroup>
+              <ButtonGroup
+                classes={{
+                  root: classes.buttonGroupRoot,
+                }}
+              >
+                <Button
+                  aria-label="header-delete"
+                  onClick={handleDeleteClick}
+                  classes={{
+                    root: classes.button,
+                  }}
+                >
+                  <Delete />
+                </Button>
+              </ButtonGroup>
 
-          <ButtonGroup
-            classes={{
-              root: classes.buttonGroupRoot,
-            }}
-          >
-            <Button
-              aria-label="create-note"
-              onClick={handleCreateNoteClick}
-              classes={{
-                root: clsx(classes.button, { [classes.selectedButton]: isCreatingNote }),
-              }}
-            >
-              <Create />
-            </Button>
-          </ButtonGroup>
+              <ButtonGroup
+                classes={{
+                  root: classes.buttonGroupRoot,
+                }}
+              >
+                <Button
+                  aria-label="create-note"
+                  onClick={handleCreateNoteClick}
+                  classes={{
+                    root: clsx(classes.button, { [classes.selectedButton]: isCreatingNote }),
+                  }}
+                >
+                  <Create />
+                </Button>
+              </ButtonGroup>
+            </>
+          ) : null}
         </div>
+
+        {isLoggedIn ? (
+          <div className={classes.innerFlexRight}>
+            <GoogleLogout
+              clientId={googleClientId}
+              buttonText="Sign Out"
+              onLogoutSuccess={handleLogout}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );
