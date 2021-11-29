@@ -8,12 +8,14 @@ import {
 import {
   fetchNotesSaga, createNoteSaga, updateNoteSaga, deleteNoteSaga,
 } from './notes';
+import { signInSaga } from './auth';
 import {
   fetchFoldersInit, createFolderInit, updateFolderInit, deleteFolderInit,
 } from '../reducers/foldersReducer';
 import {
   fetchNotesInit, createNoteInit, updateNoteInit, deleteNoteInit,
 } from '../reducers/notesReducer';
+import { signInInit } from '../reducers/authReducer';
 
 function* watchFolders() {
   yield takeEvery(fetchFoldersInit.type, fetchFoldersSaga);
@@ -29,6 +31,10 @@ function* watchNotes() {
   yield takeEvery(deleteNoteInit.type, deleteNoteSaga);
 }
 
+function* watchAuth() {
+  yield takeEvery(signInInit.type, signInSaga);
+}
+
 export default function* rootSaga() {
-  yield all([watchFolders(), watchNotes()]);
+  yield all([watchFolders(), watchNotes(), watchAuth()]);
 }

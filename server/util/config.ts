@@ -5,4 +5,5 @@ export default {
     callbackURL: `${process.env.REACT_APP_API_SERVER}/auth/callback`,
   },
   jwtSecret: process.env.JWT_SECRET,
+  cookieSecure: process.env.NODE_ENV !== 'development',
 };

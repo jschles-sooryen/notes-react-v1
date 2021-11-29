@@ -9,8 +9,6 @@ const connectToDatabaseViaLamba = async () => {
     useUnifiedTopology: true,
     dbName: 'notes-app',
   } as ConnectionOptions);
-
-  console.log('DB Connected');
 };
 
 export default connectToDatabaseViaLamba;

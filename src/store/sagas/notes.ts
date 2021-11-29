@@ -15,7 +15,7 @@ import { loading } from '../reducers/loadingReducer';
 import { RootState } from '../types';
 import api from '../../api';
 
-const { call, put, select } : any = Effects;
+const { call, put, select }: any = Effects;
 
 function* getFolderId(): Generator<any, any, any> {
   return yield select((state: RootState) => state.folders.selected);
@@ -81,7 +81,7 @@ export function* deleteNoteSaga(): Generator<any, any, any> {
 
   yield put(loading());
   try {
-    yield call(api.deleteNote, noteId);
+    yield call(api.deleteNote, { noteId });
     yield put(deleteNoteSuccess(noteId));
     yield put(loading());
   } catch (e) {

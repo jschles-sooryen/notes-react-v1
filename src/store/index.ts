@@ -17,7 +17,7 @@ export const createStoreWithSaga = (): EnhancedStore => {
       layout: layoutReducer,
       auth: authReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false, serializableCheck: false }).concat(sagaMiddleware),
   });
   sagaMiddleware.run(rootSaga);
   return store;

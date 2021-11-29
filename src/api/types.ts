@@ -27,6 +27,10 @@ export type UpdateFolderResponseData = {
   messsage: 'success';
 };
 
+export type DeleteFolderRequestParams = {
+  id: string;
+};
+
 export type DeleteFolderResponseData = {
   message: 'deleted';
 };
@@ -63,6 +67,16 @@ export type UpdateNoteRequestParams = {
   folderId: string;
 };
 
+export type DeleteNoteRequestParams = {
+  noteId: string;
+};
+
 export type DeleteNoteResponseData = {
   message: 'deleted';
+};
+
+export type SignInResponseData = {
+  email: string;
+  id: string;
+  folders: Folder[];
 };

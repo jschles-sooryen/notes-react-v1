@@ -4,45 +4,63 @@
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/indent */
 import passport from "passport";
-import { Strategy as GoogleTokenStrategy } from "passport-token-google";
+import mongoose from "mongoose";
+import GoogleTokenStrategy from "./strategy";
 import User from "../models/User";
+import Folder from "../models/Folder";
 import config from "./config";
+import connectToDatabaseViaLamba from "./connectToDatabaseViaLamba";
 
 const passportInit = () => {
-  console.log("Loading Passport");
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
+
   passport.use(
     new GoogleTokenStrategy(
       {
         clientID: config.googleAuth.clientID,
         clientSecret: config.googleAuth.clientSecret,
       },
-      (accessToken, refreshToken, profile, done) =>
-        User.findOne(
-          {
+      async (accessToken, refreshToken, profile, done) => {
+        await connectToDatabaseViaLamba();
+        try {
+          const user = await User.findOne({
             "googleProvider.id": profile.id,
-          },
-          (err, user) => {
-            // no user was found, lets create a new one
-            if (!user) {
-              const newUser = new User({
-                email: profile.emails[0].value,
-                googleProvider: {
-                  id: profile.id,
-                  token: accessToken,
-                },
-              });
+          }).clone();
 
-              newUser.save((error, savedUser) => {
-                if (error) {
-                  console.log(error);
-                }
-                return done(error, savedUser);
-              });
-            } else {
-              return done(err, user);
-            }
+          if (!user) {
+            const newUser = await new User({
+              email: profile.emails[0].value,
+              fullName: profile.displayName,
+              googleProvider: {
+                id: profile.id,
+                // token: accessToken, ??
+              },
+            });
+
+            const savedUser = await newUser.save();
+
+            const defaultFolder = await new Folder({
+              name: "New Folder",
+              user: savedUser._id,
+            });
+
+            await defaultFolder.save();
+
+            await mongoose.connection.close();
+            return done(null, savedUser, accessToken);
           }
-        )
+
+          return done(null, user, accessToken);
+        } catch (error) {
+          return done(error, null, accessToken);
+        }
+      }
     )
   );
 };
