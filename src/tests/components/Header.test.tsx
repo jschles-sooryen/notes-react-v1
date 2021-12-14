@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
-import { render, waitFor, fireEvent } from '../../setupTests';
+import {
+  render, waitFor, waitForElementToBeRemoved, fireEvent,
+} from '../../setupTests';
 import App from '../../App';
 import Header from '../../components/Header';
 
@@ -63,4 +65,18 @@ describe('<Header />', () => {
       expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(2);
     });
   });
+
+  // Not possible with react-google-login Logout
+  // it('Clicking sign out button signs outs the user and returns them to the sign in screen', async () => {
+  //   const header = render(<Header onToggleFolders={() => {}} showFolders />);
+  //   const button = header.container.querySelector('div[class*=innerFlexRight] > button') as HTMLElement;
+
+  //   expect(button).toBeInTheDocument();
+
+  //   await fireEvent.click(button);
+
+  //   await waitFor(() => {
+  //     expect(button).not.toBeInTheDocument();
+  //   });
+  // });
 });

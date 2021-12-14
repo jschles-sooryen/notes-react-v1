@@ -1,9 +1,10 @@
 import { render } from '../../setupTests';
-import Auth from '../../components/Auth';
+import App from '../../App';
 
 describe('<Auth />', () => {
   it('Renders successfully without error', () => {
-    const auth = render(<Auth />, false);
-    expect(auth.container).toBeTruthy();
+    const app = render(<App />, false);
+    expect(app.container).toBeTruthy();
+    expect(app.getByText('Welcome! Please Sign In:')).toBeInTheDocument();
   });
 });
