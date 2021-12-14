@@ -97,6 +97,12 @@ const handlers = [
       message: 'deleted',
     })),
   ),
+  rest.delete(
+    `${domain}/notes`,
+    (req, res, ctx) => res(ctx.json({
+      message: 'deleted',
+    })),
+  ),
   rest.post(
     `${domain}/auth`,
     (req, res, ctx) => res(ctx.json({

@@ -31,7 +31,22 @@ describe('<Header />', () => {
   });
 
   it('Clicking delete button deletes note if note is selected', async () => {
-    // TODO
+    const app = render(<App />);
+    const button = app.getByRole('button', { name: 'header-delete' });
+
+    await waitFor(() => {
+      // 2 Notes plus Note component used as form
+      expect(app.getAllByTestId('note', { exact: false }).length).toEqual(3);
+    });
+
+    const note = app.getByTestId('note-1');
+    await fireEvent.click(note);
+    await fireEvent.click(button);
+
+    await waitFor(() => {
+      // 1 Note plus Note component used as form
+      expect(app.getAllByTestId('note', { exact: false }).length).toEqual(2);
+    });
   });
 
   it('Clicking delete button deletes selected folder if no note is selected', async () => {
