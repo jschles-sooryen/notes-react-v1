@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
+import omit from 'lodash/omit';
 import TextInput from './TextInput';
 
 type FolderData = {
@@ -61,7 +62,8 @@ const FolderForm: FC<FolderFormProps> = ({
         name="name"
         render={({ field }) => (
           <TextInput
-            {...field}
+            innerRef={field.ref}
+            {...omit(field, ['ref'])}
             autoFocus
             onKeyDown={handleKeyDown}
             onBlur={handleBlur}
