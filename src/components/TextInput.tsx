@@ -16,8 +16,11 @@ const useStyles = makeStyles(() => ({
 
 const TextInput: FC<StandardTextFieldProps | any> = (props: StandardTextFieldProps | any) => {
   const classes = useStyles();
+  const { ref } = props;
+
   return (
     <TextField
+      innerRef={ref}
       {...props}
       InputProps={{
         classes: { root: classes.root, underline: classes.underline, focused: classes.underline },
