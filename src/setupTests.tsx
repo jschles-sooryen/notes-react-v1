@@ -8,17 +8,29 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 
 import { createStoreWithSaga } from './store';
+import { signInSuccess } from './store/reducers/authReducer';
 import theme from './styles/theme';
 
 const domain = process.env.REACT_APP_API_SERVER;
+console.log('domain ', domain);
 
 const render = (
   ui: ReactElement,
+  isAuth = true,
   {
     store = createStoreWithSaga(),
     ...renderOptions
   } = {},
 ): RenderResult => {
+  if (isAuth) {
+    store.dispatch(signInSuccess({
+      email: 'john@encora.com',
+      _id: 'abcd12345',
+    }));
+    console.log('store w/ auth', store.getState());
+  } else {
+    console.log('store w/o auth', store.getState());
+  }
   const Wrapper: FC = ({ children }) => (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -31,21 +43,24 @@ const render = (
 
 const handlers = [
   rest.get(
-    `${domain}/api/folders`,
+    `${domain}/folders`,
     (req, res, ctx) => (
       res(ctx.json({
         data:
           [
             {
-              id: 1,
+              _id: '1',
+              user: 'abcd12345',
               name: 'Folder 1',
             },
             {
-              id: 2,
+              _id: '2',
+              user: 'abcd12345',
               name: 'Folder 2',
             },
             {
-              id: 3,
+              _id: '3',
+              user: 'abcd12345',
               name: 'Folder 3',
             },
           ],
@@ -53,25 +68,25 @@ const handlers = [
     ),
   ),
   rest.get(
-    `${domain}/api/folders/:id/notes`,
+    `${domain}/notes`,
     (req, res, ctx) => {
       const folderId = req.params.id;
       return res(ctx.json({
         data:
           [
             {
-              id: 1,
+              _id: '1',
               name: 'Note 1',
               description: 'Hi',
-              folderId,
+              folder: folderId,
               createdAt: '2021-09-13T14:46:40.000Z',
               updatedAt: '2021-09-13T14:46:40.000Z',
             },
             {
-              id: 2,
+              _id: '2',
               name: 'Note 2',
               description: 'Hello',
-              folderId,
+              folder: folderId,
               createdAt: '2021-09-13T14:46:47.000Z',
               updatedAt: '2021-09-13T14:46:47.000Z',
             },
@@ -80,7 +95,7 @@ const handlers = [
     },
   ),
   rest.delete(
-    `${domain}/api/folders/:id`,
+    `${domain}/folders`,
     (req, res, ctx) => res(ctx.json({
       message: 'deleted',
     })),

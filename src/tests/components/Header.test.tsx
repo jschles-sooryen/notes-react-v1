@@ -9,18 +9,6 @@ describe('<Header />', () => {
     expect(header.container).toBeTruthy();
   });
 
-  it('Changes the app layout when clicking a layout button', async () => {
-    const header = render(<Header onToggleFolders={() => {}} showFolders />);
-    const columnButton = header.getByRole('button', { name: 'column' });
-    const gridButton = header.getByRole('button', { name: 'grid' });
-    await fireEvent.click(gridButton);
-
-    await waitFor(() => {
-      expect(gridButton.className.includes('selectedButton')).toBeTruthy();
-      expect(!columnButton.className.includes('selectedButton')).toBeTruthy();
-    });
-  });
-
   it('Shows and hides folders section when clicking "Toggle Folders" button', async () => {
     const fn = jest.fn();
     const header = render(<Header onToggleFolders={fn} showFolders />);
