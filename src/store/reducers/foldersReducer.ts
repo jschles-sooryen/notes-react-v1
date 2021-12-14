@@ -49,6 +49,7 @@ const foldersSlice = createSlice({
     setSelectedFolder(state, action) {
       state.selected = action.payload;
     },
+    resetFolders: () => initialState,
   },
 });
 
@@ -66,6 +67,7 @@ export const {
   deleteFolderSuccess,
   deleteFolderFail,
   setSelectedFolder,
+  resetFolders,
 } = foldersSlice.actions;
 
 export default foldersSlice.reducer;

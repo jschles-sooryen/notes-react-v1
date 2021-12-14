@@ -4,13 +4,12 @@ import clsx from 'clsx';
 import Cookies from 'js-cookie';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, ButtonGroup } from '@material-ui/core';
-import {
-  Reorder, Apps, VerticalSplit, AttachFile, Delete, Create,
-} from '@material-ui/icons';
+import { VerticalSplit, Delete, Create } from '@material-ui/icons';
 import { GoogleLogout } from 'react-google-login';
-import { deleteFolderInit } from '../store/reducers/foldersReducer';
-import { toggleCreateNote, setSelectedNote, deleteNoteInit } from '../store/reducers/notesReducer';
-import { setLayout } from '../store/reducers/layoutReducer';
+import { deleteFolderInit, resetFolders } from '../store/reducers/foldersReducer';
+import {
+  toggleCreateNote, setSelectedNote, deleteNoteInit, resetNotes,
+} from '../store/reducers/notesReducer';
 import { signOut } from '../store/reducers/authReducer';
 import { RootState } from '../store/types';
 
@@ -61,17 +60,12 @@ const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const layout = useSelector((state: RootState) => state.layout);
   const isCreatingNote = useSelector((state: RootState) => state.notes.isCreatingNote);
   const selectedNote = useSelector((state: RootState) => state.notes.selected);
   const selectedFolder = useSelector((state: RootState) => state.folders.selected);
   const user = useSelector((state: RootState) => state.auth.user);
 
   const isLoggedIn = !!user;
-
-  const handleLayoutClick = (_: any, type: string) => {
-    dispatch(setLayout(type));
-  };
 
   const handleCreateNoteClick = () => {
     if (!isCreatingNote) {
@@ -94,6 +88,8 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
   const handleLogout = () => {
     Cookies.remove('access_token');
     dispatch(signOut());
+    dispatch(resetFolders());
+    dispatch(resetNotes());
   };
 
   return (
@@ -109,32 +105,6 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
                 }}
               >
                 <Button
-                  aria-label="column"
-                  onClick={(e) => handleLayoutClick(e, 'column')}
-                  classes={{
-                    root: clsx(classes.button, { [classes.selectedButton]: layout === 'column' }),
-                  }}
-                >
-                  <Reorder />
-                </Button>
-
-                <Button
-                  aria-label="grid"
-                  onClick={(e) => handleLayoutClick(e, 'grid')}
-                  classes={{
-                    root: clsx(classes.button, { [classes.selectedButton]: layout === 'grid' }),
-                  }}
-                >
-                  <Apps />
-                </Button>
-              </ButtonGroup>
-
-              <ButtonGroup
-                classes={{
-                  root: classes.buttonGroupRoot,
-                }}
-              >
-                <Button
                   aria-label="toggle-folders"
                   onClick={onToggleFolders}
                   classes={{
@@ -142,21 +112,6 @@ const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) 
                   }}
                 >
                   <VerticalSplit />
-                </Button>
-              </ButtonGroup>
-
-              <ButtonGroup
-                classes={{
-                  root: classes.buttonGroupRoot,
-                }}
-              >
-                <Button
-                  onClick={() => {}}
-                  classes={{
-                    root: clsx(classes.button, { [classes.selectedButton]: false }),
-                  }}
-                >
-                  <AttachFile />
                 </Button>
               </ButtonGroup>
 
