@@ -27,9 +27,6 @@ const render = (
       email: 'john@encora.com',
       _id: 'abcd12345',
     }));
-    console.log('store w/ auth', store.getState());
-  } else {
-    console.log('store w/o auth', store.getState());
   }
   const Wrapper: FC = ({ children }) => (
     <ThemeProvider theme={theme}>
@@ -98,6 +95,13 @@ const handlers = [
     `${domain}/folders`,
     (req, res, ctx) => res(ctx.json({
       message: 'deleted',
+    })),
+  ),
+  rest.post(
+    `${domain}/auth`,
+    (req, res, ctx) => res(ctx.json({
+      email: 'john@encora.com',
+      _id: 'abcd12345',
     })),
   ),
 ];
