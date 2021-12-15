@@ -11,7 +11,9 @@ import {
   toggleCreateNote, setSelectedNote, deleteNoteInit, resetNotes,
 } from '../store/reducers/notesReducer';
 import { signOut } from '../store/reducers/authReducer';
-import { RootState } from '../store/types';
+import { selectUser } from '../store/selectors/auth';
+import { selectSelectedNote, selectIsCreatingNote } from '../store/selectors/notes';
+import { selectSelectedFolder } from '../store/selectors/folders';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,10 +62,10 @@ const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 const Header: FC<HeaderProps> = ({ onToggleFolders, showFolders }: HeaderProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const isCreatingNote = useSelector((state: RootState) => state.notes.isCreatingNote);
-  const selectedNote = useSelector((state: RootState) => state.notes.selected);
-  const selectedFolder = useSelector((state: RootState) => state.folders.selected);
-  const user = useSelector((state: RootState) => state.auth.user);
+  const isCreatingNote = useSelector(selectIsCreatingNote);
+  const selectedNote = useSelector(selectSelectedNote);
+  const selectedFolder = useSelector(selectSelectedFolder);
+  const user = useSelector(selectUser);
 
   const isLoggedIn = !!user;
 

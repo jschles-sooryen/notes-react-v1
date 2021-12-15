@@ -4,7 +4,8 @@ import { Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Note from '../components/Note';
 import { fetchNotesInit } from '../store/reducers/notesReducer';
-import { RootState } from '../store/types';
+import { selectNotes } from '../store/selectors/notes';
+import { selectSelectedFolder } from '../store/selectors/folders';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 const NotesList: FC = () => {
   const dispatch = useDispatch();
-  const { notes, isCreatingNote } = useSelector((state: RootState) => state.notes);
-  const selectedFolder = useSelector((state: RootState) => state.folders.selected);
+  const { notes, isCreatingNote } = useSelector(selectNotes);
+  const selectedFolder = useSelector(selectSelectedFolder);
   const classes = useStyles();
 
   useEffect(() => {

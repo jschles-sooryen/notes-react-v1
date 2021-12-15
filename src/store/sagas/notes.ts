@@ -12,17 +12,18 @@ import {
   deleteNoteFail,
 } from '../reducers/notesReducer';
 import { loading } from '../reducers/loadingReducer';
-import { RootState } from '../types';
+import { selectSelectedNote } from '../selectors/notes';
+import { selectSelectedFolder } from '../selectors/folders';
 import api from '../../api';
 
 const { call, put, select }: any = Effects;
 
 function* getFolderId(): Generator<any, any, any> {
-  return yield select((state: RootState) => state.folders.selected);
+  return yield select(selectSelectedFolder);
 }
 
 function* getNoteId(): Generator<any, any, any> {
-  return yield select((state: RootState) => state.notes.selected);
+  return yield select(selectSelectedNote);
 }
 
 export function* fetchNotesSaga(action: AnyAction): Generator<any, any, any> {

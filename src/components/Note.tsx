@@ -5,7 +5,7 @@ import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatDate } from '../util/helpers';
 import { setSelectedNote } from '../store/reducers/notesReducer';
-import { RootState } from '../store/types';
+import { selectSelectedNote } from '../store/selectors/notes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +40,7 @@ const Note: FC<NoteProps> = ({
 }: NoteProps) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const selectedNote = useSelector((state: RootState) => state.notes.selected);
+  const selectedNote = useSelector(selectSelectedNote);
 
   const date = formatDate(updatedAt);
 

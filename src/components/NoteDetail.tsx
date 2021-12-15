@@ -5,7 +5,8 @@ import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { toggleCreateNote, createNoteInit, updateNoteInit } from '../store/reducers/notesReducer';
 import { formatDate } from '../util/helpers';
-import { RootState, Note } from '../store/types';
+import { Note } from '../store/types';
+import { selectNotes } from '../store/selectors/notes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ interface NoteDetailProps {
 
 const NoteDetail: FC<NoteDetailProps> = ({ isNew }: NoteDetailProps) => {
   const dispatch = useDispatch();
-  const { notes, selected } = useSelector((state: RootState) => state.notes);
+  const { notes, selected } = useSelector(selectNotes);
   const selectedNote = notes.find((note: Note) => note._id === selected);
   const description = selectedNote?.description;
   const updatedAt = selectedNote?.updated_at;

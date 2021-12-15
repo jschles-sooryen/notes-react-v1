@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Folder from '../components/Folder';
 import FolderForm from '../components/FolderForm';
 import { fetchFoldersInit, createFolderInit, setSelectedFolder } from '../store/reducers/foldersReducer';
-import { RootState } from '../store/types';
+import { selectFolders } from '../store/selectors/folders';
+import { selectLoading } from '../store/selectors/loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
 const FoldersList: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { folders, loading } = useSelector((state: RootState) => state);
+  const folders = useSelector(selectFolders);
+  const loading = useSelector(selectLoading);
   const foldersList = folders.folders;
   const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
 

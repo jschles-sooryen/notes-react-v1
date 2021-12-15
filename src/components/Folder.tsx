@@ -9,7 +9,7 @@ import { MoreHorizRounded, Edit, Delete } from '@material-ui/icons';
 import FolderForm from './FolderForm';
 import { setSelectedFolder, updateFolderInit, deleteFolderInit } from '../store/reducers/foldersReducer';
 import { fetchNotesInit, setSelectedNote } from '../store/reducers/notesReducer';
-import { RootState } from '../store/types';
+import { selectSelectedFolder } from '../store/selectors/folders';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,7 +73,7 @@ interface FolderProps {
 const Folder: FC<FolderProps> = ({ name, id }: FolderProps) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const selectedFolder = useSelector((state: RootState) => state.folders.selected);
+  const selectedFolder = useSelector(selectSelectedFolder);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
 

@@ -9,8 +9,9 @@ import FoldersList from './containers/FoldersList';
 import NotesList from './containers/NotesList';
 import NoteDetail from './components/NoteDetail';
 import LoadingIndicator from './components/LoadingIndicator';
-import { RootState } from './store/types';
 import { signInInit } from './store/reducers/authReducer';
+import { selectNotes } from './store/selectors/notes';
+import { selectAuth } from './store/selectors/auth';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,8 +43,8 @@ const App: FC = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [showFolders, setShowFolders] = useState(true);
-  const { isCreatingNote, selected } = useSelector((state: RootState) => state.notes);
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { isCreatingNote, selected } = useSelector(selectNotes);
+  const { user, accessToken } = useSelector(selectAuth);
 
   const isLoggedIn = !!user;
   const isLoadingUserFromCookie = !isLoggedIn && accessToken;
