@@ -8,7 +8,7 @@ const notesController = {
   getNotes: async (req: Request, res: Response) => {
     await connectToDatabaseViaLamba();
     try {
-      const result = await Note.find({ folder: req.params.id });
+      const result = await Note.find({ folder: req.query.id });
       res.json({
         message: 'success',
         data: result,
@@ -23,7 +23,7 @@ const notesController = {
     const data = {
       name: req.body.name,
       description: req.body.description,
-      folder: req.params.id,
+      folder: req.body.id,
     };
 
     try {
