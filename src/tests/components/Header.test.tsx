@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import {
-  render, waitFor, waitForElementToBeRemoved, fireEvent,
+  render, waitFor, fireEvent,
 } from '../../setupTests';
 import App from '../../App';
 import Header from '../../components/Header';

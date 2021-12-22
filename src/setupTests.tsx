@@ -12,7 +12,8 @@ import { signInSuccess } from './store/reducers/authReducer';
 import theme from './styles/theme';
 
 const domain = process.env.REACT_APP_API_SERVER;
-console.log('domain ', domain);
+
+jest.mock('js-cookie', () => ({ get: () => 'fr' }));
 
 const render = (
   ui: ReactElement,

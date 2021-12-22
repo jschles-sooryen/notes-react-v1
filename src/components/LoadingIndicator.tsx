@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
 const LoadingIndicator: FC = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="loading">
       <CircularProgress />
     </div>
   );
