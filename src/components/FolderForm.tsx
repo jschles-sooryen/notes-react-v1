@@ -67,6 +67,9 @@ const FolderForm: FC<FolderFormProps> = ({
             autoFocus
             onKeyDown={handleKeyDown}
             onBlur={handleBlur}
+            inputProps={{
+              'data-testid': 'f-form',
+            }}
           />
         )}
       />

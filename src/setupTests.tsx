@@ -9,11 +9,12 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import { createStoreWithSaga } from './store';
 import { signInSuccess } from './store/reducers/authReducer';
+import { UpdateFolderRequestParams } from './api/types';
 import theme from './styles/theme';
 
 const domain = process.env.REACT_APP_API_SERVER;
 
-jest.mock('js-cookie', () => ({ get: () => 'fr' }));
+jest.mock('js-cookie', () => ({ get: () => 'fr', remove: () => {}, set: () => {} }));
 
 const render = (
   ui: ReactElement,
@@ -91,6 +92,15 @@ const handlers = [
           ],
       }));
     },
+  ),
+  rest.patch(
+    `${domain}/folders`,
+    (req, res, ctx) => res(ctx.json({
+      data: {
+        name: (req.body as any).name,
+      },
+      messsage: 'success',
+    })),
   ),
   rest.delete(
     `${domain}/folders`,

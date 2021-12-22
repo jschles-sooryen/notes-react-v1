@@ -51,7 +51,7 @@
     "start": "react-scripts start",
     "server": "webpack && node --experimental-modules --es-module-specifier-resolution=node ./dist/server.js",
     "build": "react-scripts build",
-    "test": "react-scripts test --verbose --watchAll",
+    "test": "react-scripts test --verbose --watchAll --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

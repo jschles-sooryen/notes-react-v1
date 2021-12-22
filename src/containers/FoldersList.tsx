@@ -7,7 +7,6 @@ import Folder from '../components/Folder';
 import FolderForm from '../components/FolderForm';
 import { fetchFoldersInit, createFolderInit, setSelectedFolder } from '../store/reducers/foldersReducer';
 import { selectFolders } from '../store/selectors/folders';
-import { selectLoading } from '../store/selectors/loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +38,6 @@ const FoldersList: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const folders = useSelector(selectFolders);
-  const loading = useSelector(selectLoading);
   const foldersList = folders.folders;
   const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
 
@@ -57,12 +55,8 @@ const FoldersList: FC = () => {
     dispatch(setSelectedFolder(null));
   };
 
-  if (loading) {
-    // return <LoadingIndicator />;
-  }
-
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="f-list">
       <div>
         {foldersList.map((folder) => <Folder key={folder._id} id={folder._id} name={folder.name} />)}
         {isNewFolderOpen && (

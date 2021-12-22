@@ -48,4 +48,53 @@ describe('<Folder />', () => {
       expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(2);
     });
   });
+
+  it('Selecting a folder while another folder is showing options closes the options of the previously selected folder', async () => {
+    const app = render(<App />);
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(3);
+    });
+
+    await fireEvent.click(app.getAllByLabelText('More')[0]);
+    await fireEvent.click(app.getAllByLabelText('More')[1]);
+
+    await waitFor(() => {
+      expect(app.getByTestId('folder-1').querySelector('.MuiCollapse-hidden')).toBeTruthy();
+    });
+  });
+
+  it('Updates folder name upon entering a new folder name in the folder form', async () => {
+    const app = render(<App />);
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(3);
+    });
+
+    await fireEvent.click(app.getAllByLabelText('More')[0]);
+
+    await waitFor(() => {
+      fireEvent.click(app.getAllByText('Rename')[0]);
+    });
+
+    await waitFor(() => {
+      expect(app.getByRole('form')).toBeTruthy();
+    });
+
+    const folderForm = app.getByTestId('f-form');
+
+    fireEvent.focus(folderForm);
+
+    await fireEvent.input(folderForm, {
+      target: {
+        value: 'Folder 1 Updated',
+      },
+    });
+
+    await fireEvent.blur(folderForm);
+
+    await waitFor(() => {
+      expect(app.getByText('Folder 1 Updated')).toBeInTheDocument();
+    });
+  });
 });

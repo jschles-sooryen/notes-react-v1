@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { render } from '../../setupTests';
+import { render, fireEvent, waitFor } from '../../setupTests';
 import App from '../../App';
 
 describe('<App />', () => {
@@ -12,5 +12,15 @@ describe('<App />', () => {
     const app = render(<App />, false);
     expect(app.container).toBeTruthy();
     expect(app.getByTestId('loading')).toBeInTheDocument();
+  });
+
+  it('Shows and hides folders section when clicking "Toggle Folders" button', async () => {
+    const app = render(<App />);
+    const button = app.getByRole('button', { name: 'toggle-folders' });
+    const foldersSection = app.getByTestId('f-list');
+    await fireEvent.click(button);
+    await waitFor(() => {
+      expect(foldersSection).not.toBeInTheDocument();
+    });
   });
 });
