@@ -45,7 +45,7 @@ const NotesList: FC = () => {
     <div className={classes.root}>
       <Collapse in={isCreatingNote}>
         <Note
-          name="New Folder"
+          name="New Note"
           isPlaceholder
         />
       </Collapse>

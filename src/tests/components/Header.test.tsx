@@ -66,6 +66,19 @@ describe('<Header />', () => {
     });
   });
 
+  it('Clicking delete button while creating note cancels note creation', async () => {
+    const app = render(<App />);
+    const deleteButton = app.getByRole('button', { name: 'header-delete' });
+    const createNoteButton = app.getByRole('button', { name: 'create-note' });
+
+    await fireEvent.click(createNoteButton);
+    await fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(app.getByTestId('n-form')).not.toBeInTheDocument();
+    });
+  });
+
   // Not possible with react-google-login Logout
   // it('Clicking sign out button signs outs the user and returns them to the sign in screen', async () => {
   //   const header = render(<Header onToggleFolders={() => {}} showFolders />);

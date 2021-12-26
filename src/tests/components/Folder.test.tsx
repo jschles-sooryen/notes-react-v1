@@ -64,6 +64,39 @@ describe('<Folder />', () => {
     });
   });
 
+  it('Creates a new folder after opening folder form via "New Folder" button and entering folder name', async () => {
+    const app = render(<App />);
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(3);
+    });
+
+    const button = app.getByRole('button', { name: 'New Folder' });
+
+    await fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(app.getByRole('form')).toBeTruthy();
+    });
+
+    const folderForm = app.getByTestId('f-form');
+
+    fireEvent.focus(folderForm);
+
+    await fireEvent.input(folderForm, {
+      target: {
+        value: 'Test Folder',
+      },
+    });
+
+    await fireEvent.keyDown(folderForm, { keyCode: 13 });
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(4);
+      expect(app.getByText('Test Folder')).toBeInTheDocument();
+    });
+  });
+
   it('Updates folder name upon entering a new folder name in the folder form', async () => {
     const app = render(<App />);
 
@@ -95,6 +128,36 @@ describe('<Folder />', () => {
 
     await waitFor(() => {
       expect(app.getByText('Folder 1 Updated')).toBeInTheDocument();
+    });
+  });
+
+  // Uses 121 in Folder.tsx and 42-44 in FolderForm.tsx but not showing in coverage
+  it('Cancels update if user clicks off folder form without changing folder name', async () => {
+    const app = render(<App />);
+
+    await waitFor(() => {
+      expect(app.getAllByTestId('folder', { exact: false }).length).toEqual(3);
+    });
+
+    await fireEvent.click(app.getAllByLabelText('More')[0]);
+
+    await waitFor(() => {
+      fireEvent.click(app.getAllByText('Rename')[0]);
+    });
+
+    await waitFor(() => {
+      expect(app.getByRole('form')).toBeTruthy();
+    });
+
+    const folderForm = app.getByTestId('f-form');
+
+    fireEvent.focus(folderForm);
+
+    await fireEvent.blur(folderForm);
+
+    await waitFor(() => {
+      expect(app.getByText('Folder 1')).toBeInTheDocument();
+      expect(folderForm).not.toBeInTheDocument();
     });
   });
 });

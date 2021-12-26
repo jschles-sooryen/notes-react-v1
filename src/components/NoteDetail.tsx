@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 import { useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
@@ -90,6 +91,9 @@ const NoteDetail: FC<NoteDetailProps> = ({ isNew }: NoteDetailProps) => {
                 root: classes.textarea,
                 notchedOutline: classes.outline,
               },
+            }}
+            inputProps={{
+              'data-testid': 'n-form',
             }}
           />
         )}

@@ -9,7 +9,6 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import { createStoreWithSaga } from './store';
 import { signInSuccess } from './store/reducers/authReducer';
-import { UpdateFolderRequestParams } from './api/types';
 import theme from './styles/theme';
 
 const domain = process.env.REACT_APP_API_SERVER;
@@ -92,6 +91,17 @@ const handlers = [
           ],
       }));
     },
+  ),
+  rest.post(
+    `${domain}/folders`,
+    (req, res, ctx) => res(ctx.json({
+      data: {
+        name: (req.body as any).name,
+        _id: '4',
+      },
+      _id: '4',
+      messsage: 'success',
+    })),
   ),
   rest.patch(
     `${domain}/folders`,

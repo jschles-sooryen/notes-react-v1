@@ -23,4 +23,13 @@ describe('<App />', () => {
       expect(foldersSection).not.toBeInTheDocument();
     });
   });
+
+  it('Shows note form when clicking "Create Note" button', async () => {
+    const app = render(<App />);
+    const button = app.getByRole('button', { name: 'create-note' });
+    await fireEvent.click(button);
+    await waitFor(() => {
+      expect(app.getByTestId('n-form')).toBeInTheDocument();
+    });
+  });
 });
