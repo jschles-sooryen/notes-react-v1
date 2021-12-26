@@ -103,11 +103,34 @@ const handlers = [
       messsage: 'success',
     })),
   ),
+  rest.post(
+    `${domain}/notes`,
+    (req, res, ctx) => res(ctx.json({
+      data: {
+        name: (req.body as any).name,
+        description: (req.body as any).description,
+        _id: '3',
+        folder: '1',
+      },
+      _id: '3',
+      messsage: 'success',
+    })),
+  ),
   rest.patch(
     `${domain}/folders`,
     (req, res, ctx) => res(ctx.json({
       data: {
         name: (req.body as any).name,
+      },
+      messsage: 'success',
+    })),
+  ),
+  rest.patch(
+    `${domain}/notes`,
+    (req, res, ctx) => res(ctx.json({
+      data: {
+        name: (req.body as any).name,
+        description: (req.body as any).description,
       },
       messsage: 'success',
     })),

@@ -72,10 +72,17 @@ describe('<Header />', () => {
     const createNoteButton = app.getByRole('button', { name: 'create-note' });
 
     await fireEvent.click(createNoteButton);
+
+    await waitFor(() => {
+      expect(app.getByTestId('n-form')).toBeTruthy();
+    });
+
+    const noteForm = app.getByTestId('n-form');
+
     await fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(app.getByTestId('n-form')).not.toBeInTheDocument();
+      expect(noteForm).not.toBeInTheDocument();
     });
   });
 
