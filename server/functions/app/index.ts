@@ -9,6 +9,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
+import helmet from 'helmet';
 import passportInit from '../../util/passport';
 import foldersController from '../../controllers/foldersController';
 import notesController from '../../controllers/notesController';
@@ -29,6 +30,23 @@ app.use(passport.initialize());
 app.use(cors(corsOption));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'default-src': 'self',
+        'script-src': [
+          'google',
+          '*.google',
+          '*.google.com',
+          '*.googleapis.com',
+          "'unsafe-inline'",
+        ],
+      },
+    },
+  }),
+);
 
 const router = express.Router();
 
